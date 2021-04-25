@@ -1,0 +1,110 @@
+{
+  "departments": ["dep1", "dep2", "dep3"],
+  "cars": [
+    {
+      "id": "0000000000001",
+      "brand": "brand1",
+      "model": "model1",
+      "department": "dep1",
+      "record": {
+        "fuel": 30,
+        "isLocked": true,
+        "position": { "lat": 51.5022586400148, "lng": -0.07750920480192881 }
+      }
+    },
+    {
+      "id": "0000000000002",
+      "brand": "brand2",
+      "model": "model2",
+      "department": "dep2",
+      "record": {
+        "fuel": 15,
+        "isLocked": true,
+        "position": { "lat": 51.494518613920846, "lng": -0.0859886386183284 }
+      }
+    },
+    {
+      "id": "0000000000003",
+      "brand": "brand3",
+      "model": "model3",
+      "department": "dep3",
+      "record": {
+        "fuel": 43,
+        "isLocked": true,
+        "position": { "lat": 51.49493625745362, "lng": -0.10049647502009097 }
+      }
+    },
+    {
+      "id": "0000000000004",
+      "brand": "brand4",
+      "model": "model4",
+      "department": "dep2",
+      "record": {
+        "fuel": 22,
+        "isLocked": true,
+        "position": { "lat": 51.499310319544776, "lng": -0.10614052409855249 }
+      }
+    }
+  ],
+  "trips": [
+    {
+      "id": 1,
+      "records": [
+        {
+          "id": 1,
+          "fuel": 30,
+          "isLocked": true,
+          "position": { "lat": 51.504887393164715, "lng": -0.0899301488223281 }
+        },
+        {
+          "id": 2,
+          "fuel": 30,
+          "isLocked": true,
+          "position": { "lat": 51.50479789261055, "lng": -0.09034984555797322 }
+        },
+        {
+          "id": 3,
+          "fuel": 30,
+          "isLocked": true,
+          "position": { "lat": 51.50467836929367, "lng": -0.09124053113658494 }
+        },
+        {
+          "id": 4,
+          "fuel": 30,
+          "isLocked": true,
+          "position": { "lat": 51.50468231156, "lng": -0.09278360375045037 }
+        },
+        {
+          "id": 5,
+          "fuel": 30,
+          "isLocked": true,
+          "position": { "lat": 51.5048745363112, "lng": -0.0956337152399667 }
+        },
+        {
+          "id": 6,
+          "fuel": 29,
+          "isLocked": true,
+          "position": { "lat": 51.507645785281724, "lng": -0.09475673035185707 }
+        },
+        {
+          "id": 7,
+          "fuel": 29,
+          "isLocked": true,
+          "position": { "lat": 51.51074397178646, "lng": -0.09300541980547417 }
+        },
+        {
+          "id": 8,
+          "fuel": 29,
+          "isLocked": true,
+          "position": { "lat": 51.50959247720105, "lng": -0.08705564878822793 }
+        },
+        {
+          "id": 9,
+          "fuel": 29,
+          "isLocked": true,
+          "position": { "lat": 51.50571022062453, "lng": -0.08855212125820967 }
+        }
+      ]
+    }
+  ]
+}
