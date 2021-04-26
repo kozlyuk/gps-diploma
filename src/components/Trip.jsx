@@ -1,19 +1,28 @@
 import React from "react";
-import { Polyline, CircleMarker } from "react-leaflet";
+import { Polyline, CircleMarker, Popup } from "react-leaflet";
 
 export const Trip = ({ trip }) => {
   if (!trip) return null;
-  const positions = trip.records.map((record) => record.position);
+  const positions = trip.records.map((record) => [
+    record.position.lat,
+    record.position.lng,
+  ]);
+  console.log(trip.records[0].position);
   return (
     <>
       {trip.records.map((record) => (
         <CircleMarker
           key={record.id.toString()}
-          position={record.position}
-          radius={5}
-        />
+          center={record.position}
+          radius={15}
+        >
+          <Popup>
+            Fuel: {record.fuel} <br/>
+            Is locked: {record.isLocked ? "Yes" : "No"}
+          </Popup>
+        </CircleMarker>
       ))}
-      <Polyline positions={positions} />
+      <Polyline positions={positions} pathOptions={{color: 'yellow'}}/>
     </>
   );
 };

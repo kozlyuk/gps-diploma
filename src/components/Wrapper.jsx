@@ -4,6 +4,7 @@ import { observer } from "mobx-react";
 
 import { StoreContext } from "../store/StoreContext";
 import { MarkerWrapper } from "./MarkerWrapper";
+import { Trip } from "./Trip";
 
 const SetUpAnimatedPane = () => {
   const map = useMapEvent("click", (e) => {
@@ -16,17 +17,17 @@ const SetUpAnimatedPane = () => {
 
 export const Wrapper = observer(() => {
   const pos = [51.505, -0.09];
-  const { cars, updateCars } = React.useContext(StoreContext);
+  const { cars, updateCars, data } = React.useContext(StoreContext);
 
   React.useEffect(() => {
     const update = setInterval(() => {
       let newData = [...cars];
-      newData.forEach(e => e.record.position.lat += 0.001)
-      updateCars(newData)
+      newData.forEach((e) => (e.record.position.lat += 0.001));
+      updateCars(newData);
     }, 5000);
     return () => clearInterval(update);
   }, [cars, updateCars]);
-  
+
   return (
     <>
       <MapContainer center={pos} minZoom={8} zoom={10}>
@@ -37,6 +38,9 @@ export const Wrapper = observer(() => {
         <SetUpAnimatedPane />
         {cars.map((car) => (
           <MarkerWrapper key={car.id} car={car} />
+        ))}
+        {data.trips.map((trip) => (
+          <Trip key={trip.id} trip={trip} />
         ))}
       </MapContainer>
     </>
