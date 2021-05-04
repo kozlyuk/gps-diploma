@@ -11,17 +11,21 @@ import mock from "../mock.json";
 class AppStore {
   _data = {};
   _cars = [];
+  _departments = [];
   constructor() {
     makeObservable(this, {
       _data: observable,
       _cars: observable,
+      _departments: observable,
       data: computed,
       cars: computed,
+      departments: computed,
       updateData: action,
       updateCars: action
     });
     this._data = mock;
     this._cars = mock.cars;
+    this._departments = mock.departments;
   }
   
   updateData = (newData) => {
@@ -34,6 +38,10 @@ class AppStore {
   
   get cars(){
     return this._cars;
+  }
+
+  get departments(){
+    return this._departments;
   }
   
   get data(){
