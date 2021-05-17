@@ -36,9 +36,11 @@ export const Wrapper = observer(() => {
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
         <SetUpAnimatedPane />
+
         {cars.map((car) => (
           <MarkerWrapper key={car.id} car={car} />
         ))}
+
         {data.trips.map((trip) => (
           <Trip key={trip.id} trip={trip} />
         ))}

@@ -8,7 +8,11 @@ import { StoreContext } from "./store/StoreContext";
 const App = () => {
   return (
     <StoreContext.Provider value={store}>
-      <div style={{display: "flex"}}>
+      <div
+        style={{
+          display: "flex",
+        }}
+      >
         <SideMenu />
         <Wrapper />
       </div>
