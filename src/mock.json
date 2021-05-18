@@ -49,6 +49,7 @@
   "trips": [
     {
       "id": 1,
+      "name": "some trip name",
       "records": [
         {
           "id": 1,

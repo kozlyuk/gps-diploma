@@ -1,5 +1,5 @@
 import React from "react";
-import { useMapEvent, MapContainer, TileLayer } from "react-leaflet";
+import { useMapEvent, MapContainer, TileLayer, ZoomControl } from "react-leaflet";
 import { observer } from "mobx-react";
 
 import { StoreContext } from "../store/StoreContext";
@@ -30,11 +30,12 @@ export const Wrapper = observer(() => {
 
   return (
     <>
-      <MapContainer center={pos} minZoom={8} zoom={10}>
+      <MapContainer center={pos} minZoom={8} zoom={10} zoomControl={false}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
+        <ZoomControl position="topright"/>
         <SetUpAnimatedPane />
 
         {cars.map((car) => (

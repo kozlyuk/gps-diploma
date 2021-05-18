@@ -1,6 +1,16 @@
 import React from "react";
-import { makeStyles, List, Drawer, Button } from "@material-ui/core";
-import { Menu, ChevronLeft } from "@material-ui/icons";
+import {
+  makeStyles,
+  List,
+  Drawer,
+  Button,
+  Tabs,
+  Tab,
+  ListItem,
+  ListItemText,
+  Box,
+} from "@material-ui/core";
+import { Menu, ChevronLeft, DriveEta, TripOrigin } from "@material-ui/icons";
 import { StoreContext } from "../../store/StoreContext";
 import { CollapseItem } from "./CollapseItem";
 
@@ -12,19 +22,30 @@ const useStyles = makeStyles((theme) => ({
   drawerButton: {
     zIndex: 401,
     position: "absolute",
-    left: 15,
-    top: 80,
+    left: 20,
+    top: 20,
     backgroundColor: "#fff",
   },
   drawerBackButton: {
-    justifyContent: "flex-end"
-  }
+    justifyContent: "flex-end",
+  },
 }));
 
 export const SideMenu = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const { cars, departments } = React.useContext(StoreContext);
+  const [value, setValue] = React.useState(0);
+  const { cars, departments, trips } = React.useContext(StoreContext);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const TabPanel = (props) => {
+    const { children, value, index } = props;
+
+    return <div>{value === index && <Box> {children} </Box>}</div>;
+  };
 
   const items = departments.map((dep, i) => (
     <CollapseItem
@@ -34,17 +55,43 @@ export const SideMenu = () => {
     />
   ));
 
+  const tripsItems = trips.map((trip) => (
+    <ListItem
+      key={trip.id}
+      button
+      onClick={() => console.log("show this trip")}
+    >
+      <ListItemText primary={trip.name} />
+    </ListItem>
+  ));
+
   return (
     <>
-      <Button className={classes.drawerButton} onClick={() => setOpen(true)}>
+      <Button
+        variant="contained"
+        className={classes.drawerButton}
+        onClick={() => setOpen(true)}
+      >
         <Menu />
       </Button>
       <div className={classes.root} style={{ width: open ? "auto" : 0 }}>
         <Drawer open={open} variant="persistent" style={{ height: "100vh" }}>
-          <Button onClick={() => setOpen(false)} className={classes.drawerBackButton}>
+          <Button
+            onClick={() => setOpen(false)}
+            className={classes.drawerBackButton}
+          >
             <ChevronLeft />
           </Button>
-          <List>{items}</List>
+          <Tabs value={value} onChange={handleChange}>
+            <Tab icon={<DriveEta htmlColor="#555" />} value={0} />
+            <Tab icon={<TripOrigin htmlColor="#555" />} value={1} />
+          </Tabs>
+          <TabPanel value={value} index={0}>
+            <List>{items}</List>
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <List>{tripsItems}</List>
+          </TabPanel>
         </Drawer>
       </div>
     </>
