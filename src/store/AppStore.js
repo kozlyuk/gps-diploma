@@ -13,18 +13,23 @@ class AppStore {
   _cars = [];
   _trips = [];
   _departments = [];
+  _showTrips = [];
   constructor() {
     makeObservable(this, {
       _data: observable,
       _cars: observable,
       _departments: observable,
       _trips: observable,
+      _showTrips: observable,
       data: computed,
       cars: computed,
       departments: computed,
       trips: computed,
+      showTrips: computed,
       updateData: action,
-      updateCars: action
+      updateCars: action,
+      addToShowTrips: action,
+      removeFromShowTrips: action
     });
     this._data = mock;
     this._cars = mock.cars;
@@ -39,6 +44,16 @@ class AppStore {
   updateCars = (newData) => {
     this._cars = newData;
   }
+
+  
+  addToShowTrips = (tripID) => {
+    if(!this._showTrips.includes(tripID))
+      this._showTrips.push(tripID);
+  }
+
+  removeFromShowTrips = (tripID) => {
+    this._showTrips = this._showTrips.filter(id => id !== tripID);
+  }
   
   get cars(){
     return this._cars;
@@ -46,6 +61,10 @@ class AppStore {
 
   get departments(){
     return this._departments;
+  }
+
+  get showTrips(){
+    return this._trips.filter(trip => this._showTrips.includes(trip.id));
   }
 
   get trips(){

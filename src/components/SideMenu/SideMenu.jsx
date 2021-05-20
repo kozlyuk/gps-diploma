@@ -6,13 +6,12 @@ import {
   Button,
   Tabs,
   Tab,
-  ListItem,
-  ListItemText,
   Box,
 } from "@material-ui/core";
 import { Menu, ChevronLeft, DriveEta, TripOrigin } from "@material-ui/icons";
 import { StoreContext } from "../../store/StoreContext";
 import { CollapseItem } from "./CollapseItem";
+import { TripItem } from "./TripItem";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,13 +55,7 @@ export const SideMenu = () => {
   ));
 
   const tripsItems = trips.map((trip) => (
-    <ListItem
-      key={trip.id}
-      button
-      onClick={() => console.log("show this trip")}
-    >
-      <ListItemText primary={trip.name} />
-    </ListItem>
+    <TripItem key={trip.id.toString()} trip={trip} />
   ));
 
   return (

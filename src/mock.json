@@ -106,6 +106,66 @@
           "position": { "lat": 51.50571022062453, "lng": -0.08855212125820967 }
         }
       ]
+    }, 
+    {
+      "id": 2,
+      "name": "some trip name 2",
+      "records": [
+        {
+          "id": 1,
+          "fuel": 18,
+          "isLocked": true,
+          "position": { "lat": 51.532887393162215, "lng": -0.139301488223281 }
+        },
+        {
+          "id": 2,
+          "fuel": 18,
+          "isLocked": true,
+          "position": { "lat": 51.53379789211055, "lng": -0.55034984555797322 }
+        },
+        {
+          "id": 3,
+          "fuel": 18,
+          "isLocked": true,
+          "position": { "lat": 51.55467836329367, "lng": -0.54124053113658494 }
+        },
+        {
+          "id": 4,
+          "fuel": 18,
+          "isLocked": true,
+          "position": { "lat": 51.50658251156, "lng": -0.34278360375045037 }
+        },
+        {
+          "id": 5,
+          "fuel": 17,
+          "isLocked": true,
+          "position": { "lat": 51.54358745673112, "lng": -0.0555337152399667 }
+        },
+        {
+          "id": 6,
+          "fuel": 17,
+          "isLocked": true,
+          "position": { "lat": 51.632645788281724, "lng": -0.03245673035185707 }
+        },
+        {
+          "id": 7,
+          "fuel": 17,
+          "isLocked": true,
+          "position": { "lat": 51.31344397178611, "lng": -0.55300541980547417 }
+        },
+        {
+          "id": 8,
+          "fuel": 17,
+          "isLocked": true,
+          "position": { "lat": 51.44349247720144, "lng": -0.34705564878822793 }
+        },
+        {
+          "id": 9,
+          "fuel": 17,
+          "isLocked": true,
+          "position": { "lat": 51.34311033062453, "lng": -0.54855212125820967 }
+        }
+      ]
     }
   ]
 }

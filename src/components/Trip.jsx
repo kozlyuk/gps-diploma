@@ -7,7 +7,7 @@ export const Trip = ({ trip }) => {
     record.position.lat,
     record.position.lng,
   ]);
-  console.log(trip.records[0].position);
+
   return (
     <>
       {trip.records.map((record) => (

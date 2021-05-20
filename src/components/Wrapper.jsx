@@ -17,7 +17,7 @@ const SetUpAnimatedPane = () => {
 
 export const Wrapper = observer(() => {
   const pos = [51.505, -0.09];
-  const { cars, updateCars, data } = React.useContext(StoreContext);
+  const { cars, updateCars, showTrips } = React.useContext(StoreContext);
 
   React.useEffect(() => {
     const update = setInterval(() => {
@@ -42,7 +42,7 @@ export const Wrapper = observer(() => {
           <MarkerWrapper key={car.id} car={car} />
         ))}
 
-        {data.trips.map((trip) => (
+        {showTrips.map((trip) => (
           <Trip key={trip.id} trip={trip} />
         ))}
       </MapContainer>
