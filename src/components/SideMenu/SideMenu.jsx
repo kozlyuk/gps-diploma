@@ -7,6 +7,7 @@ import {
   Tabs,
   Tab,
   Box,
+  Paper,
 } from "@material-ui/core";
 import { Menu, ChevronLeft, DriveEta, TripOrigin } from "@material-ui/icons";
 import { StoreContext } from "../../store/StoreContext";
@@ -75,10 +76,12 @@ export const SideMenu = () => {
           >
             <ChevronLeft />
           </Button>
-          <Tabs value={value} onChange={handleChange}>
-            <Tab icon={<DriveEta htmlColor="#555" />} value={0} />
-            <Tab icon={<TripOrigin htmlColor="#555" />} value={1} />
-          </Tabs>
+          <Paper>
+            <Tabs value={value} onChange={handleChange}>
+              <Tab icon={<DriveEta htmlColor="#555" />} value={0} />
+              <Tab icon={<TripOrigin htmlColor="#555" />} value={1} />
+            </Tabs>
+          </Paper>
           <TabPanel value={value} index={0}>
             <List>{items}</List>
           </TabPanel>

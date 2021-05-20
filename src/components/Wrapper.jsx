@@ -17,7 +17,7 @@ const SetUpAnimatedPane = () => {
 
 export const Wrapper = observer(() => {
   const pos = [51.505, -0.09];
-  const { cars, updateCars, showTrips } = React.useContext(StoreContext);
+  const { cars, updateCars, showTrips, showCars } = React.useContext(StoreContext);
 
   React.useEffect(() => {
     const update = setInterval(() => {
@@ -38,7 +38,7 @@ export const Wrapper = observer(() => {
         <ZoomControl position="topright"/>
         <SetUpAnimatedPane />
 
-        {cars.map((car) => (
+        {showCars.map((car) => (
           <MarkerWrapper key={car.id} car={car} />
         ))}
 

@@ -2,7 +2,11 @@ import React from "react";
 import { ListItem, ListItemText, makeStyles } from "@material-ui/core";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { StoreContext } from "../../store/StoreContext";
+
 const useStyles = makeStyles((theme) => ({
+  nested: {
+    paddingLeft: theme.spacing(4),
+  },
   item: {
     display: "flex",
     flexDirection: "row",
@@ -11,21 +15,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const TripItem = ({ trip }) => {
+export const CarItem = ({ car }) => {
   const classes = useStyles();
+
   const [show, setShow] = React.useState(false);
-  const { addToShowTrips, removeFromShowTrips } =
+  const { addToShowCars, removeFromShowCars } =
     React.useContext(StoreContext);
 
   const onClick = () => {
-    if (show) removeFromShowTrips(trip.id);
-    else addToShowTrips(trip.id);
+    if (show) removeFromShowCars(car.id);
+    else addToShowCars(car.id);
     setShow((prev) => !prev);
   };
+
   return (
     <div className={classes.item}>
       <ListItem button onClick={onClick}>
-        <ListItemText primary={trip.name} />
+        <ListItemText primary={car.id} />
         <div>
           {show ? (
             <Visibility htmlColor="green" />
