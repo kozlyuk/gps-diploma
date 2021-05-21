@@ -9,6 +9,8 @@ class AppStore {
   _departments = [];
   _showTrips = [];
   _showCars = [];
+  _showHistory = [];
+  _searchHistory = [];
   constructor() {
     makeObservable(this, {
       _data: observable,
@@ -17,24 +19,31 @@ class AppStore {
       _trips: observable,
       _showTrips: observable,
       _showCars: observable,
+      _showHistory: observable,
+      _searchHistory: observable,
       data: computed,
       cars: computed,
       departments: computed,
       trips: computed,
       showTrips: computed,
       showCars: computed,
+      showHistory: computed,
+      searchHistory: computed,
       updateData: action,
       updateCars: action,
       addToShowTrips: action,
       removeFromShowTrips: action,
       addToShowCars: action,
       removeFromShowCars: action,
+      addToShowHistory: action,
+      removeFromShowHistory: action,
+      addToSearchHistory: action,
     });
     this._data = mock;
     this._cars = mock.cars;
     this._departments = mock.departments;
     this._trips = mock.trips;
-    this._showCars = mock.cars.map(car => car.id);
+    this._showCars = mock.cars.map((car) => car.id);
   }
 
   updateData = (newData) => {
@@ -46,7 +55,7 @@ class AppStore {
   };
 
   addToShowTrips = (tripID) => {
-    if (!this._showTrips.includes(tripID)) this._showTrips.push(tripID);
+    if (!this._showTrips.includes(tripID)) this._showTrips.unshift(tripID);
   };
 
   removeFromShowTrips = (tripID) => {
@@ -54,11 +63,23 @@ class AppStore {
   };
 
   addToShowCars = (carID) => {
-    if (!this._showCars.includes(carID)) this._showCars.push(carID);
+    if (!this._showCars.includes(carID)) this._showCars.unshift(carID);
   };
 
   removeFromShowCars = (carID) => {
     this._showCars = this._showCars.filter((id) => id !== carID);
+  };
+
+  addToShowHistory = (itemID) => {
+    if (!this._showHistory.includes(itemID)) this._showHistory.unshift(itemID);
+  };
+
+  removeFromShowHistory = (itemID) => {
+    this._showHistory = this._showHistory.filter((id) => id !== itemID);
+  };
+
+  addToSearchHistory = (item) => {
+    if (!this._searchHistory.includes(item)) this._searchHistory.unshift(item);
   };
 
   get cars() {
@@ -79,6 +100,14 @@ class AppStore {
 
   get trips() {
     return this._trips;
+  }
+
+  get searchHistory() {
+    return this._searchHistory;
+  }
+
+  get showHistory() {
+    return this._searchHistory.filter((item) => this._showHistory.includes(item.id));
   }
 
   get data() {

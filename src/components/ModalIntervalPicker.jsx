@@ -1,6 +1,7 @@
 import React from "react";
 import { Modal, makeStyles, TextField, Button } from "@material-ui/core";
 import { Close, Explore } from "@material-ui/icons";
+import { StoreContext } from "../store/StoreContext";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -9,7 +10,6 @@ const useStyles = makeStyles((theme) => ({
     top: "25%",
     left: "35%",
     backgroundColor: "#fff",
-    border: "2px solid #000",
     textAlign: "center",
   },
   closeWrapper: {
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
     width: 200,
-    marginBottom: 20
+    marginBottom: 20,
   },
   container: {
     display: "flex",
@@ -44,8 +44,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const ModalIntervalPicker = ({ open, handleClose }) => {
+export const ModalIntervalPicker = ({ open, handleClose, carId }) => {
   const classes = useStyles();
+
+  const { addToSearchHistory } = React.useContext(StoreContext);
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    const startTime = event.target.elements.start_time.value;
+    const endTime = event.target.elements.end_time.value;
+    const url = `url/api/?car_id=${carId}&start_time=${startTime}&end_time=${endTime}`;
+    console.log(url);
+    handleClose();
+    const data = {
+      id: Date.now(),
+      records: [],
+      startTime,
+      endTime,
+    };
+    addToSearchHistory(data);
+  };
   return (
     <div>
       <Modal open={open} onClose={handleClose}>
@@ -56,11 +74,12 @@ export const ModalIntervalPicker = ({ open, handleClose }) => {
             </div>
           </div>
           <div>
-            <form className={classes.container}>
+            <form className={classes.container} onSubmit={onSubmit}>
               <div>
                 <TextField
                   label="Start date time"
                   type="datetime-local"
+                  name="start_time"
                   className={classes.textField}
                   InputLabelProps={{
                     shrink: true,
@@ -69,6 +88,7 @@ export const ModalIntervalPicker = ({ open, handleClose }) => {
                 <TextField
                   label="End date time"
                   type="datetime-local"
+                  name="end_time"
                   className={classes.textField}
                   InputLabelProps={{
                     shrink: true,

@@ -29,7 +29,7 @@ export const Wrapper = observer(() => {
       updateCars(newData);
     }, 5000);
     return () => clearInterval(update);
-  }, [cars, updateCars]);
+  }, [cars, updateCars, showCars]);
 
   return (
     <>

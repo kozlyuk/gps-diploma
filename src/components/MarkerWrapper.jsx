@@ -37,6 +37,7 @@ export const MarkerWrapper = ({ car }) => {
       <ModalIntervalPicker
         open={openPicker}
         handleClose={() => setOpenPicker(false)}
+        carId={car.id}
       />
     </Marker>
   );

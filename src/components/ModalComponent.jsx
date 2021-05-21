@@ -10,7 +10,6 @@ const useStyles = makeStyles({
     top: "25%",
     left: "35%",
     backgroundColor: "#fff",
-    border: "2px solid #000",
     textAlign: "center",
   },
   closeWrapper: {

@@ -9,10 +9,18 @@ import {
   Box,
   Paper,
 } from "@material-ui/core";
-import { Menu, ChevronLeft, DriveEta, TripOrigin } from "@material-ui/icons";
+import {
+  Menu,
+  ChevronLeft,
+  DriveEta,
+  TripOrigin,
+  History,
+} from "@material-ui/icons";
+import { observer } from "mobx-react";
 import { StoreContext } from "../../store/StoreContext";
 import { CollapseItem } from "./CollapseItem";
 import { TripItem } from "./TripItem";
+import { HistoryItem } from "./HistoryItem";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,13 +37,17 @@ const useStyles = makeStyles((theme) => ({
   drawerBackButton: {
     justifyContent: "flex-end",
   },
+  tab: {
+    minWidth: "100px",
+  },
 }));
 
-export const SideMenu = () => {
+export const SideMenu = observer(() => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(0);
-  const { cars, departments, trips } = React.useContext(StoreContext);
+  const { cars, departments, trips, searchHistory } =
+    React.useContext(StoreContext);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -59,6 +71,10 @@ export const SideMenu = () => {
     <TripItem key={trip.id.toString()} trip={trip} />
   ));
 
+  const historyItems = searchHistory.map((item) => (
+    <HistoryItem key={item.id.toString()} item={item} />
+  ));
+
   return (
     <>
       <Button
@@ -78,8 +94,21 @@ export const SideMenu = () => {
           </Button>
           <Paper>
             <Tabs value={value} onChange={handleChange}>
-              <Tab icon={<DriveEta htmlColor="#555" />} value={0} />
-              <Tab icon={<TripOrigin htmlColor="#555" />} value={1} />
+              <Tab
+                className={classes.tab}
+                icon={<DriveEta htmlColor="#555" />}
+                value={0}
+              />
+              <Tab
+                className={classes.tab}
+                icon={<TripOrigin htmlColor="#555" />}
+                value={1}
+              />
+              <Tab
+                className={classes.tab}
+                icon={<History htmlColor="#555" />}
+                value={2}
+              />
             </Tabs>
           </Paper>
           <TabPanel value={value} index={0}>
@@ -88,8 +117,11 @@ export const SideMenu = () => {
           <TabPanel value={value} index={1}>
             <List>{tripsItems}</List>
           </TabPanel>
+          <TabPanel value={value} index={2}>
+            <List>{historyItems}</List>
+          </TabPanel>
         </Drawer>
       </div>
     </>
   );
-};
+});
