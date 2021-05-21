@@ -22,7 +22,10 @@ export const Wrapper = observer(() => {
   React.useEffect(() => {
     const update = setInterval(() => {
       let newData = [...cars];
-      newData.forEach((e) => (e.record.position.lat += 0.001));
+      newData.forEach((car) => {
+        if(showCars.includes(car))
+          car.record.position.lat += 0.001
+      });
       updateCars(newData);
     }, 5000);
     return () => clearInterval(update);
