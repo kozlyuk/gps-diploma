@@ -9,7 +9,7 @@ import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import { CarItem } from "./CarItem";
 
 export const CollapseItem = ({ items, title }) => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
 
   const handleClick = () => {
     setOpen(!open);

@@ -1,6 +1,7 @@
 import React from "react";
 import { ListItem, ListItemText, makeStyles } from "@material-ui/core";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
+
 import { StoreContext } from "../../store/StoreContext";
 const useStyles = makeStyles((theme) => ({
   item: {
@@ -13,9 +14,9 @@ const useStyles = makeStyles((theme) => ({
 
 export const TripItem = ({ trip }) => {
   const classes = useStyles();
-  const [show, setShow] = React.useState(false);
-  const { addToShowTrips, removeFromShowTrips } =
+  const { addToShowTrips, removeFromShowTrips, showTrips } =
     React.useContext(StoreContext);
+  const [show, setShow] = React.useState(showTrips.includes(trip));
 
   const onClick = () => {
     if (show) removeFromShowTrips(trip.id);

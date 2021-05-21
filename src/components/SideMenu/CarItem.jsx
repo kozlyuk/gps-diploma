@@ -17,10 +17,9 @@ const useStyles = makeStyles((theme) => ({
 
 export const CarItem = ({ car }) => {
   const classes = useStyles();
-
-  const [show, setShow] = React.useState(false);
-  const { addToShowCars, removeFromShowCars } =
+  const { addToShowCars, removeFromShowCars, showCars } =
     React.useContext(StoreContext);
+  const [show, setShow] = React.useState(showCars.includes(car));
 
   const onClick = () => {
     if (show) removeFromShowCars(car.id);
