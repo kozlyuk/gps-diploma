@@ -55,7 +55,7 @@ export const ModalIntervalPicker = ({ open, handleClose }) => {
     const endTime = event.target.elements.end_time.value;
     const idsQuery = showCars.reduce((acc, curr, i) => (`${acc}${i !== 0 ? "&" : ""}id=${curr.id}`), "");
     const url = `${process.env.REACT_APP_BACKEND_URL}/api/cars/tracking/?${idsQuery}&start_time=${startTime}&end_time=${endTime}`;
-    console.log(url);
+    console.log("post for interval: ", url);
     handleClose();
     const data = {
       id: Date.now(),

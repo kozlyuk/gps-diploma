@@ -1,5 +1,10 @@
 import React from "react";
-import { useMapEvent, MapContainer, TileLayer, ZoomControl } from "react-leaflet";
+import {
+  useMapEvent,
+  MapContainer,
+  TileLayer,
+  ZoomControl,
+} from "react-leaflet";
 import { observer } from "mobx-react";
 
 import { StoreContext } from "../store/StoreContext";
@@ -17,14 +22,20 @@ const SetUpAnimatedPane = () => {
 
 export const Wrapper = observer(() => {
   const pos = [51.505, -0.09];
-  const { cars, updateCars, showTrips, showCars } = React.useContext(StoreContext);
+  const { cars, updateCars, showTrips, showCars } =
+    React.useContext(StoreContext);
 
   React.useEffect(() => {
     const update = setInterval(() => {
+      const idsQuery = showCars.reduce(
+        (acc, curr, i) => `${acc}${i !== 0 ? "&" : ""}id=${curr.id}`,
+        ""
+      );
+      const queryUrl = `${process.env.REACT_APP_BACKEND_URL}/api/cars/?${idsQuery}`;
+      console.log("get for updating car location: ", queryUrl);
       let newData = [...cars];
       newData.forEach((car) => {
-        if(showCars.includes(car))
-          car.record.position.lat += 0.001
+        if (showCars.includes(car)) car.record.position.lat += 0.001;
       });
       updateCars(newData);
     }, 5000);
@@ -38,7 +49,7 @@ export const Wrapper = observer(() => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
-        <ZoomControl position="topright"/>
+        <ZoomControl position="topright" />
         <SetUpAnimatedPane />
 
         {showCars.map((car) => (
