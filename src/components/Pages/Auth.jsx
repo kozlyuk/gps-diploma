@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import { GoogleLogin } from "react-google-login";
 
 const clientID =
-  "724780879461-oqn1c43hd6ieaknoo9rqns5picm8jpoh.apps.googleusercontent.com";
+  `${process.env.REACT_APP_GOOGLE_CLIEND_ID}.apps.googleusercontent.com`;
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -46,18 +46,18 @@ export const Auth = () => {
     <div className={classes.wrapper}>
       <form className={classes.form}>
         <FormControl className={classes.input}>
-          <InputLabel htmlFor="my-input">Email address</InputLabel>
+          <InputLabel htmlFor="email">Email address</InputLabel>
           <Input
-            id="my-input"
+            id="email"
             type="email"
             aria-describedby="my-helper-text"
             required
           />
         </FormControl>
         <FormControl className={classes.input}>
-          <InputLabel htmlFor="my-input">Password</InputLabel>
+          <InputLabel htmlFor="pass">Password</InputLabel>
           <Input
-            id="my-input"
+            id="pass"
             type="password"
             aria-describedby="my-helper-text"
             required
