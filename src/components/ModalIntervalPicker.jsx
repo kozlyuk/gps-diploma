@@ -47,23 +47,32 @@ const useStyles = makeStyles((theme) => ({
 export const ModalIntervalPicker = ({ open, handleClose }) => {
   const classes = useStyles();
 
-  const { addToSearchHistory, showCars } = React.useContext(StoreContext);
+  const {
+    addToSearchHistory,
+    showCars,
+    userStore: { userId },
+  } = React.useContext(StoreContext);
 
   const onSubmit = (event) => {
     event.preventDefault();
     const startTime = event.target.elements.start_time.value;
     const endTime = event.target.elements.end_time.value;
-    const idsQuery = showCars.reduce((acc, curr, i) => (`${acc}${i !== 0 ? "&" : ""}id=${curr.id}`), "");
+    const idsQuery = showCars.reduce(
+      (acc, curr, i) => `${acc}${i !== 0 ? "&" : ""}id=${curr.id}`,
+      ""
+    );
     const url = `${process.env.REACT_APP_BACKEND_URL}/api/cars/tracking/?${idsQuery}&start_time=${startTime}&end_time=${endTime}`;
     console.log("post for interval: ", url);
     handleClose();
     const data = {
       id: Date.now(),
-      ids: showCars.map(car => car.id),
+      ids: showCars.map((car) => car.id),
       records: [],
       startTime,
       endTime,
+      userId,
     };
+    console.log("search data: ", data);
     addToSearchHistory(data);
   };
   return (

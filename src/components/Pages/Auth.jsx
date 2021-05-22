@@ -9,9 +9,9 @@ import {
 import { PersonAdd } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { GoogleLogin } from "react-google-login";
+import { StoreContext } from "../../store/StoreContext";
 
-const clientID =
-  `${process.env.REACT_APP_GOOGLE_CLIEND_ID}.apps.googleusercontent.com`;
+const clientID = `${process.env.REACT_APP_GOOGLE_CLIEND_ID}.apps.googleusercontent.com`;
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -26,10 +26,9 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 30
+    marginBottom: 30,
   },
-  input: {
-  },
+  input: {},
   submitButton: {
     marginTop: 25,
   },
@@ -38,8 +37,21 @@ const useStyles = makeStyles((theme) => ({
 export const Auth = () => {
   const classes = useStyles();
 
+  const {
+    userStore: { setUserData },
+  } = React.useContext(StoreContext);
+
   const responseGoogle = (response) => {
     console.log(response);
+    if (response.error) return;
+    const user = {
+      id: response.googleId,
+      token: response.accessToken,
+      email: response.profileObj.email,
+      phoneNumber: "+380970000000",
+      name: response.profileObj.name,
+    };
+    setUserData(user);
   };
 
   return (

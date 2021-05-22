@@ -1,6 +1,7 @@
 import { makeObservable, observable, computed, action } from "mobx";
 
 import mock from "../mock.json";
+import UserStore from "./UserStore";
 
 class AppStore {
   _data = {};
@@ -11,8 +12,10 @@ class AppStore {
   _showCars = [];
   _showHistory = [];
   _searchHistory = [];
+  userStore = null;
   constructor() {
     makeObservable(this, {
+      userStore: observable,
       _data: observable,
       _cars: observable,
       _departments: observable,
@@ -44,6 +47,7 @@ class AppStore {
     this._departments = mock.departments;
     this._trips = mock.trips;
     this._showCars = mock.cars.map((car) => car.id);
+    this.userStore = new UserStore();
   }
 
   updateData = (newData) => {
@@ -107,7 +111,9 @@ class AppStore {
   }
 
   get showHistory() {
-    return this._searchHistory.filter((item) => this._showHistory.includes(item.id));
+    return this._searchHistory.filter((item) =>
+      this._showHistory.includes(item.id)
+    );
   }
 
   get data() {
