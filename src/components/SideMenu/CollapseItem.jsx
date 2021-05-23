@@ -1,17 +1,15 @@
 import React from "react";
-import {
-  Collapse,
-  List,
-  ListItem,
-  ListItemText,
-} from "@material-ui/core";
+import { Collapse, List, ListItem, ListItemText } from "@material-ui/core";
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
-import { CarItem } from "./CarItem";
+import { CarItem } from "./";
+import { StoreContext } from "../../store/StoreContext";
 
-export const CollapseItem = ({ items, title }) => {
-  const [open, setOpen] = React.useState(true);
+export const CollapseItem = ({ items, title, show, id }) => {
+  const [open, setOpen] = React.useState(show);
+  const { changeShowDepartment } = React.useContext(StoreContext);
 
   const handleClick = () => {
+    changeShowDepartment(id, !open);
     setOpen(!open);
   };
 

@@ -28,17 +28,19 @@ export const CarItem = ({ car }) => {
   };
 
   return (
-    <div className={classes.item}>
-      <ListItem button onClick={onClick}>
-        <ListItemText primary={car.id} />
-        <div>
-          {show ? (
-            <Visibility htmlColor="green" />
-          ) : (
-            <VisibilityOff htmlColor="blue" />
-          )}
-        </div>
-      </ListItem>
+    <div className={classes.nested}>
+      <div className={classes.item}>
+        <ListItem button onClick={onClick}>
+          <ListItemText primary={car.id} />
+          <div>
+            {show ? (
+              <Visibility htmlColor="green" />
+            ) : (
+              <VisibilityOff htmlColor="blue" />
+            )}
+          </div>
+        </ListItem>
+      </div>
     </div>
   );
 };

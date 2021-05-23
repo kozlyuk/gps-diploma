@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import { SideMenu } from "./components/SideMenu/SideMenu";
+import { SideMenu } from "./components/SideMenu";
 import { Wrapper } from "./components/Wrapper";
 import store from "./store/AppStore";
 import { StoreContext } from "./store/StoreContext";

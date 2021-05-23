@@ -1,5 +1,9 @@
 {
-  "departments": ["dep1", "dep2", "dep3"],
+  "departments": [
+    { "id": 1, "name": "dep1" },
+    { "id": 2, "name": "dep2" },
+    { "id": 3, "name": "dep3" }
+  ],
   "cars": [
     {
       "id": "0000000000001",
@@ -106,7 +110,7 @@
           "position": { "lat": 51.50571022062453, "lng": -0.08855212125820967 }
         }
       ]
-    }, 
+    },
     {
       "id": 2,
       "name": "some trip name 2",

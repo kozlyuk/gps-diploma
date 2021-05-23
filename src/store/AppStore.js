@@ -41,10 +41,11 @@ class AppStore {
       addToShowHistory: action,
       removeFromShowHistory: action,
       addToSearchHistory: action,
+      changeShowDepartment: action,
     });
     this._data = mock;
     this._cars = mock.cars;
-    this._departments = mock.departments;
+    this._departments = mock.departments.map((el) => ({ ...el, show: true }));
     this._trips = mock.trips;
     this._showCars = mock.cars.map((car) => car.id);
     this.userStore = new UserStore();
@@ -84,6 +85,11 @@ class AppStore {
 
   addToSearchHistory = (item) => {
     if (!this._searchHistory.includes(item)) this._searchHistory.unshift(item);
+  };
+
+  changeShowDepartment = (id, value) => {
+    const index = this._departments.findIndex((dep) => dep.id === id);
+    if (index !== -1) this._departments[index].show = value;
   };
 
   get cars() {

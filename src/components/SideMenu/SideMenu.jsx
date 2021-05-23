@@ -8,6 +8,7 @@ import {
   Tab,
   Box,
   Paper,
+  Typography,
 } from "@material-ui/core";
 import {
   Menu,
@@ -18,9 +19,7 @@ import {
 } from "@material-ui/icons";
 import { observer } from "mobx-react";
 import { StoreContext } from "../../store/StoreContext";
-import { CollapseItem } from "./CollapseItem";
-import { TripItem } from "./TripItem";
-import { HistoryItem } from "./HistoryItem";
+import { CollapseItem, TripItem, HistoryItem } from "./";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -59,11 +58,13 @@ export const SideMenu = observer(() => {
     return <div>{value === index && <Box> {children} </Box>}</div>;
   };
 
-  const items = departments.map((dep, i) => (
+  const items = departments.map((dep) => (
     <CollapseItem
-      key={i}
-      title={dep}
-      items={cars.filter((car) => car.department === dep)}
+      key={dep.id.toString()}
+      id={dep.id}
+      title={dep.name}
+      items={cars.filter((car) => car.department === dep.name)}
+      show={dep.show}
     />
   ));
 
@@ -118,7 +119,13 @@ export const SideMenu = observer(() => {
             <List>{tripsItems}</List>
           </TabPanel>
           <TabPanel value={value} index={2}>
-            <List>{historyItems}</List>
+            {historyItems.length ? (
+              <List>{historyItems}</List>
+            ) : (
+              <Typography variant="h6" align="center">
+                No data
+              </Typography>
+            )}
           </TabPanel>
         </Drawer>
       </div>

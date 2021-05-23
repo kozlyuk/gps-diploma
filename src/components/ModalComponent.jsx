@@ -1,7 +1,6 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, Modal } from "@material-ui/core";
 import { Close, CheckCircleOutline, CancelOutlined } from "@material-ui/icons";
-import { Modal } from "@material-ui/core";
 
 const useStyles = makeStyles({
   modal: {
