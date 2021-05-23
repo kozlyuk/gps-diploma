@@ -7,6 +7,7 @@ import { Wrapper } from "./components/Wrapper";
 import store from "./store/AppStore";
 import { StoreContext } from "./store/StoreContext";
 import { Auth } from "./components/Pages/Auth";
+import { AuthenticatedRoute } from "./components/AuthenticatedRoute";
 
 const App = () => {
   return (
@@ -16,7 +17,7 @@ const App = () => {
           <Route path="/" exact>
             <Auth />
           </Route>
-          <Route path="/app">
+          <AuthenticatedRoute path="/app">
             <div
               style={{
                 display: "flex",
@@ -25,7 +26,7 @@ const App = () => {
               <SideMenu />
               <Wrapper />
             </div>
-          </Route>
+          </AuthenticatedRoute>
         </Switch>
       </Router>
     </StoreContext.Provider>

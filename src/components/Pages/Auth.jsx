@@ -7,7 +7,7 @@ import {
   Button,
 } from "@material-ui/core";
 import { PersonAdd } from "@material-ui/icons";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { GoogleLogin } from "react-google-login";
 import { StoreContext } from "../../store/StoreContext";
 
@@ -37,6 +37,8 @@ const useStyles = makeStyles((theme) => ({
 export const Auth = () => {
   const classes = useStyles();
 
+  const history = useHistory();
+
   const {
     userStore: { setUserData },
   } = React.useContext(StoreContext);
@@ -52,6 +54,7 @@ export const Auth = () => {
       name: response.profileObj.name,
     };
     setUserData(user);
+    history.push("/app");
   };
 
   return (
