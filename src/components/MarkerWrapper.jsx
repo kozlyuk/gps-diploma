@@ -1,22 +1,23 @@
 import React from "react";
 import { Marker, Popup, Tooltip } from "react-leaflet";
 import { Button } from "@material-ui/core";
-import { ModalComponent } from "./ModalComponent";
-import { ModalIntervalPicker } from "./ModalIntervalPicker";
+import { StoreContext } from "../store/StoreContext";
 
 export const MarkerWrapper = ({ car }) => {
-  const [open, setOpen] = React.useState(false);
-  const [openPicker, setOpenPicker] = React.useState(false);
   const popup = React.useRef();
   const position = [car.record.position.lat, car.record.position.lng];
 
+  const {
+    modalStore: { setShowIntervalModal, setCarInfo },
+  } = React.useContext(StoreContext);
+
   const modalClick = () => {
-    setOpen(true);
+    setCarInfo(car);
     //  hide popup after open modal window
     popup.current._closeButton.click();
   };
   const showIntervalModal = () => {
-    setOpenPicker(true);
+    setShowIntervalModal(true);
     popup.current._closeButton.click();
   };
 
@@ -29,16 +30,6 @@ export const MarkerWrapper = ({ car }) => {
           <Button onClick={showIntervalModal}>Show interval</Button>
         </div>
       </Popup>
-      <ModalComponent
-        open={open}
-        handleClose={() => setOpen(false)}
-        carInfo={car}
-      />
-      <ModalIntervalPicker
-        open={openPicker}
-        handleClose={() => setOpenPicker(false)}
-        carId={car.id}
-      />
     </Marker>
   );
 };

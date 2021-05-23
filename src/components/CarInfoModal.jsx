@@ -26,8 +26,9 @@ const useStyles = makeStyles({
   },
 });
 
-export const ModalComponent = ({ open, handleClose, carInfo }) => {
+export const CarInfoModal = ({ open, handleClose, carInfo }) => {
   const classes = useStyles();
+  if (carInfo === null) return null;
   return (
     <div>
       <Modal open={open} onClose={handleClose}>

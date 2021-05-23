@@ -10,6 +10,9 @@ import { observer } from "mobx-react";
 import { StoreContext } from "../store/StoreContext";
 import { MarkerWrapper } from "./MarkerWrapper";
 import { Trip } from "./Trip";
+import { ModalIntervalPicker } from "./ModalIntervalPicker";
+import { CarInfoModal } from "./CarInfoModal";
+
 
 const SetUpAnimatedPane = () => {
   const map = useMapEvent("click", (e) => {
@@ -22,8 +25,13 @@ const SetUpAnimatedPane = () => {
 
 export const Wrapper = observer(() => {
   const pos = [51.505, -0.09];
-  const { cars, updateCars, showTrips, showCars } =
-    React.useContext(StoreContext);
+  const {
+    cars,
+    updateCars,
+    showTrips,
+    showCars,
+    modalStore: { setShowIntervalModal, showIntervalModal, carInfo, setCarInfo },
+  } = React.useContext(StoreContext);
 
   React.useEffect(() => {
     const update = setInterval(() => {
@@ -60,6 +68,17 @@ export const Wrapper = observer(() => {
           <Trip key={trip.id} trip={trip} />
         ))}
       </MapContainer>
+
+      <ModalIntervalPicker
+        open={showIntervalModal}
+        handleClose={() => setShowIntervalModal(false)}
+      />
+
+      <CarInfoModal
+        open={carInfo !== null}
+        handleClose={() => setCarInfo(null)}
+        carInfo={carInfo}
+      />
     </>
   );
 });
