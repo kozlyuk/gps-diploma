@@ -6,7 +6,6 @@ import {
   Button,
   Tabs,
   Tab,
-  Box,
   Paper,
   Typography,
 } from "@material-ui/core";
@@ -20,6 +19,7 @@ import {
 import { observer } from "mobx-react";
 import { StoreContext } from "../../store/StoreContext";
 import { CollapseItem, TripItem, HistoryItem } from "./";
+import { TabPanel } from "../TabPanel";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,12 +50,6 @@ export const SideMenu = observer(() => {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-  };
-
-  const TabPanel = (props) => {
-    const { children, value, index } = props;
-
-    return <div>{value === index && <Box> {children} </Box>}</div>;
   };
 
   const items = departments.map((dep) => (
