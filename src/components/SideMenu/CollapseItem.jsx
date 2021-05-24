@@ -15,8 +15,8 @@ export const CollapseItem = ({ items, title, show, id }) => {
 
   return (
     <>
-      <ListItem button onClick={handleClick}>
-        <ListItemText primary={title} />
+      <ListItem button onClick={handleClick} style={{paddingTop: 0, paddingBottom: 0}}>
+        <ListItemText primary={title} primaryTypographyProps={{ style: { fontSize: 12 } }} />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
       <Collapse in={open} timeout="auto" unmountOnExit>

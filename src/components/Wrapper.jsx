@@ -10,8 +10,8 @@ import { observer } from "mobx-react";
 import { StoreContext } from "../store/StoreContext";
 import { MarkerWrapper } from "./MarkerWrapper";
 import { Trip } from "./Trip";
-import { ModalIntervalPicker } from "./ModalIntervalPicker";
-import { CarInfoModal } from "./CarInfoModal";
+import { ModalIntervalPicker } from "./Modals/ModalIntervalPicker";
+import { CarInfoModal } from "./Modals/CarInfoModal";
 
 
 const SetUpAnimatedPane = () => {

@@ -119,16 +119,19 @@ export const SideMenu = observer(() => {
                 className={classes.tab}
                 icon={<DriveEta htmlColor="#555" />}
                 value={0}
+                title="Cars"
               />
               <Tab
                 className={classes.tab}
                 icon={<TripOrigin htmlColor="#555" />}
                 value={1}
+                title="Trips"
               />
               <Tab
                 className={classes.tab}
                 icon={<History htmlColor="#555" />}
                 value={2}
+                title="Search History"
               />
             </Tabs>
           </Paper>

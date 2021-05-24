@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, makeStyles, TextField, Button } from "@material-ui/core";
 import { Close, Explore } from "@material-ui/icons";
-import { StoreContext } from "../store/StoreContext";
+import { StoreContext } from "../../store/StoreContext";
 
 const useStyles = makeStyles((theme) => ({
   modal: {

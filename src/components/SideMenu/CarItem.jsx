@@ -30,8 +30,11 @@ export const CarItem = ({ car }) => {
   return (
     <div className={classes.nested}>
       <div className={classes.item}>
-        <ListItem button onClick={onClick}>
-          <ListItemText primary={car.id} />
+        <ListItem button onClick={onClick} style={{paddingTop: 0, paddingBottom: 0}}>
+          <ListItemText
+            primary={car.id}
+            primaryTypographyProps={{ style: { fontSize: 12 } }}
+          />
           <div>
             {show ? (
               <Visibility htmlColor="green" />

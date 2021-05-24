@@ -15,18 +15,19 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "flex-end",
+    width: "100%"
   },
 
   formControl: {
     margin: theme.spacing(1),
-    minWidth: 120,
+    minWidth: 100,
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
   resetButton: {
-    marginRight: 10,
-    marginBottom: 5
+    minWidth: 40,
+    marginBottom: 5,
   },
 }));
 
@@ -84,7 +85,7 @@ export const Filter = ({ filters, values, onSetFilterValue }) => {
             ))}
           </Select>
         </FormControl>
-        <Button className={classes.resetButton} onClick={reset}>
+        <Button className={classes.resetButton} onClick={reset} title="Reset filter">
           <RotateLeft />
         </Button>
       </div>
