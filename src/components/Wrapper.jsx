@@ -52,7 +52,7 @@ export const Wrapper = observer(() => {
 
   return (
     <>
-      <MapContainer center={pos} minZoom={8} zoom={10} zoomControl={false}>
+      <MapContainer center={pos} minZoom={5} zoom={10} zoomControl={false}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

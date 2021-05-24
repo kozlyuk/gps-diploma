@@ -20,6 +20,7 @@ import { observer } from "mobx-react";
 import { StoreContext } from "../../store/StoreContext";
 import { CollapseItem, TripItem, HistoryItem } from "./";
 import { TabPanel } from "../TabPanel";
+import { Filter } from "./Filter";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,20 +48,45 @@ export const SideMenu = observer(() => {
   const [value, setValue] = React.useState(0);
   const { cars, departments, trips, searchHistory } =
     React.useContext(StoreContext);
+  const [currentCars, setCurrentCars] = React.useState(cars);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const items = departments.map((dep) => (
-    <CollapseItem
-      key={dep.id.toString()}
-      id={dep.id}
-      title={dep.name}
-      items={cars.filter((car) => car.department === dep.name)}
-      show={dep.show}
-    />
-  ));
+  const onSetFilterValue = (filter, value) => {
+    if (filter === "" || value === "") setCurrentCars(cars);
+    else setCurrentCars(cars.filter((car) => car[filter] === value));
+  };
+
+  const filters = [...Object.keys(cars[0])];
+  filters.splice(filters.indexOf("record"), 1);
+  filters.splice(filters.indexOf("id"), 1);
+  const values = filters.reduce((acc, filter) => {
+    const arr = [];
+    cars.forEach((car) => {
+      if (!arr.includes(car[filter])) arr.push(car[filter]);
+    });
+    return {
+      ...acc,
+      [filter]: arr,
+    };
+  }, {});
+
+  const items = departments.map((dep) => {
+    const itemList = currentCars.filter((car) => car.department === dep.name);
+    if (itemList.length === 0) return null;
+
+    return (
+      <CollapseItem
+        key={dep.id.toString()}
+        id={dep.id}
+        title={dep.name}
+        items={itemList}
+        show={dep.show}
+      />
+    );
+  });
 
   const tripsItems = trips.map((trip) => (
     <TripItem key={trip.id.toString()} trip={trip} />
@@ -107,6 +133,11 @@ export const SideMenu = observer(() => {
             </Tabs>
           </Paper>
           <TabPanel value={value} index={0}>
+            <Filter
+              filters={filters}
+              values={values}
+              onSetFilterValue={onSetFilterValue}
+            />
             <List>{items}</List>
           </TabPanel>
           <TabPanel value={value} index={1}>
