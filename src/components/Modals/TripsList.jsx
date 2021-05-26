@@ -7,8 +7,8 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
-import { StoreContext } from "../../store/StoreContext";
 import { observer } from "mobx-react";
+import { StoreContext } from "../../store/StoreContext";
 
 const useStyles = makeStyles({
   modal: {

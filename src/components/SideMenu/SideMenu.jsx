@@ -20,8 +20,7 @@ import { observer } from "mobx-react";
 import { StoreContext } from "../../store/StoreContext";
 import { CollapseItem, TripItem, HistoryItem } from "./";
 import { TabPanel } from "../TabPanel";
-import { Filter } from "./Filter";
-import { Footer } from "./Footer";
+import { Filter, Footer } from "./";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,6 +46,10 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     height: "100%",
     paddingBottom: 30,
+  },
+  itemsList: {
+    maxHeight: 300,
+    overflowY: "auto",
   },
 }));
 
@@ -151,7 +154,7 @@ export const SideMenu = observer(() => {
                   />
                 </Tabs>
               </Paper>
-              <TabPanel value={value} index={0}>
+              <TabPanel value={value} index={0} className={classes.itemsList}>
                 <Filter
                   filters={filters}
                   values={values}
@@ -159,10 +162,10 @@ export const SideMenu = observer(() => {
                 />
                 <List>{items}</List>
               </TabPanel>
-              <TabPanel value={value} index={1}>
+              <TabPanel value={value} index={1} className={classes.itemsList}>
                 <List>{tripsItems}</List>
               </TabPanel>
-              <TabPanel value={value} index={2}>
+              <TabPanel value={value} index={2} className={classes.itemsList}>
                 {historyItems.length ? (
                   <List>{historyItems}</List>
                 ) : (
