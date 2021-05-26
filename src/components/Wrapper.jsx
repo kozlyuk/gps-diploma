@@ -12,7 +12,6 @@ import { MarkerWrapper } from "./MarkerWrapper";
 import { Trip } from "./Trip";
 import { ModalIntervalPicker } from "./Modals/ModalIntervalPicker";
 import { CarInfoModal } from "./Modals/CarInfoModal";
-import { TripList } from "./Modals/TripsList";
 
 const SetUpAnimatedPane = () => {
   const map = useMapEvent("click", (e) => {
@@ -84,7 +83,6 @@ export const Wrapper = observer(() => {
         handleClose={() => setCarInfo(null)}
         carInfo={carInfo}
       />
-      <TripList />
     </>
   );
 });

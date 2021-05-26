@@ -1,6 +1,6 @@
 import React from "react";
 import { List, ListItem, ListItemText } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
+import { useHistory, useRouteMatch } from "react-router-dom";
 import { StoreContext } from "../../store/StoreContext";
 
 export const Footer = () => {
@@ -10,6 +10,7 @@ export const Footer = () => {
   } = React.useContext(StoreContext);
 
   const history = useHistory();
+  const { url } = useRouteMatch();
 
   const Logout = () => {
     resetUserData();
@@ -18,6 +19,7 @@ export const Footer = () => {
 
   const showTrips = () => {
     setShowTripsModal(true);
+    history.push(`${url}/trips`);
   };
 
   return (
