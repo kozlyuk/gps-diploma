@@ -1,0 +1,30 @@
+import React from "react";
+import { List, ListItem, ListItemText } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
+import { StoreContext } from "../../store/StoreContext";
+
+export const Footer = () => {
+  const {
+    userStore: { resetUserData },
+  } = React.useContext(StoreContext);
+
+  const history = useHistory();
+
+  const Logout = () => {
+    resetUserData();
+    history.push("/");
+  };
+
+  return (
+    <>
+      <List>
+        <ListItem button>
+          <ListItemText primary="All trips" />
+        </ListItem>
+        <ListItem button onClick={Logout}>
+          <ListItemText primary="Log out" />
+        </ListItem>
+      </List>
+    </>
+  );
+};

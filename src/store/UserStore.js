@@ -19,6 +19,7 @@ class UserStore {
       token: computed,
       email: computed,
       setUserData: action,
+      resetUserData: action,
     });
   }
 
@@ -49,6 +50,14 @@ class UserStore {
     this._token = token;
     this._phoneNumber = phoneNumber;
     this._name = name;
+  };
+
+  resetUserData = () => {
+    this._userId = null;
+    this._email = null;
+    this._token = null;
+    this._phoneNumber = null;
+    this._name = null;
   };
 }
 

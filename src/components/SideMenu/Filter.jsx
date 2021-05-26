@@ -77,6 +77,7 @@ export const Filter = ({ filters, values, onSetFilterValue }) => {
             value={value}
             onChange={handleChange}
             name="value"
+            disabled={filter === ""}
           >
             {values[filter]?.map((v, i) => (
               <MenuItem key={i} value={v}>

@@ -21,6 +21,7 @@ import { StoreContext } from "../../store/StoreContext";
 import { CollapseItem, TripItem, HistoryItem } from "./";
 import { TabPanel } from "../TabPanel";
 import { Filter } from "./Filter";
+import { Footer } from "./Footer";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,6 +40,13 @@ const useStyles = makeStyles((theme) => ({
   },
   tab: {
     minWidth: "100px",
+  },
+  drawerContainer: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    height: "100%",
+    paddingBottom: 30,
   },
 }));
 
@@ -106,55 +114,68 @@ export const SideMenu = observer(() => {
         <Menu />
       </Button>
       <div className={classes.root} style={{ width: open ? "auto" : 0 }}>
-        <Drawer open={open} variant="persistent" style={{ height: "100vh" }}>
+        <Drawer
+          open={open}
+          variant="persistent"
+          style={{
+            height: "100vh",
+          }}
+        >
           <Button
             onClick={() => setOpen(false)}
             className={classes.drawerBackButton}
           >
             <ChevronLeft />
           </Button>
-          <Paper>
-            <Tabs value={value} onChange={handleChange}>
-              <Tab
-                className={classes.tab}
-                icon={<DriveEta htmlColor="#555" />}
-                value={0}
-                title="Cars"
-              />
-              <Tab
-                className={classes.tab}
-                icon={<TripOrigin htmlColor="#555" />}
-                value={1}
-                title="Trips"
-              />
-              <Tab
-                className={classes.tab}
-                icon={<History htmlColor="#555" />}
-                value={2}
-                title="Search History"
-              />
-            </Tabs>
-          </Paper>
-          <TabPanel value={value} index={0}>
-            <Filter
-              filters={filters}
-              values={values}
-              onSetFilterValue={onSetFilterValue}
-            />
-            <List>{items}</List>
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            <List>{tripsItems}</List>
-          </TabPanel>
-          <TabPanel value={value} index={2}>
-            {historyItems.length ? (
-              <List>{historyItems}</List>
-            ) : (
-              <Typography variant="h6" align="center">
-                No data
-              </Typography>
-            )}
-          </TabPanel>
+          <div className={classes.drawerContainer}>
+            <div>
+              <Paper>
+                <Tabs value={value} onChange={handleChange}>
+                  <Tab
+                    className={classes.tab}
+                    icon={<DriveEta htmlColor="#555" />}
+                    value={0}
+                    title="Cars"
+                  />
+                  <Tab
+                    className={classes.tab}
+                    icon={<TripOrigin htmlColor="#555" />}
+                    value={1}
+                    title="Trips"
+                  />
+                  <Tab
+                    className={classes.tab}
+                    icon={<History htmlColor="#555" />}
+                    value={2}
+                    title="Search History"
+                  />
+                </Tabs>
+              </Paper>
+              <TabPanel value={value} index={0}>
+                <Filter
+                  filters={filters}
+                  values={values}
+                  onSetFilterValue={onSetFilterValue}
+                />
+                <List>{items}</List>
+              </TabPanel>
+              <TabPanel value={value} index={1}>
+                <List>{tripsItems}</List>
+              </TabPanel>
+              <TabPanel value={value} index={2}>
+                {historyItems.length ? (
+                  <List>{historyItems}</List>
+                ) : (
+                  <Typography variant="h6" align="center">
+                    No data
+                  </Typography>
+                )}
+              </TabPanel>
+            </div>
+            <div>
+              <Footer />
+            </div>
+          </div>
         </Drawer>
       </div>
     </>
