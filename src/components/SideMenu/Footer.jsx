@@ -6,6 +6,7 @@ import { StoreContext } from "../../store/StoreContext";
 export const Footer = () => {
   const {
     userStore: { resetUserData },
+    modalStore: { setShowTripsModal },
   } = React.useContext(StoreContext);
 
   const history = useHistory();
@@ -15,10 +16,14 @@ export const Footer = () => {
     history.push("/");
   };
 
+  const showTrips = () => {
+    setShowTripsModal(true);
+  };
+
   return (
     <>
       <List>
-        <ListItem button>
+        <ListItem button onClick={showTrips}>
           <ListItemText primary="All trips" />
         </ListItem>
         <ListItem button onClick={Logout}>
