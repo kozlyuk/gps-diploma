@@ -13,10 +13,10 @@ const App = () => {
     <StoreContext.Provider value={store}>
       <Router>
         <Switch>
-          <Route path="/" exact>
+          <Route path="/auth" exact>
             <Auth />
           </Route>
-          <AuthenticatedRoute path="/app">
+          <AuthenticatedRoute path="/">
             <Main />
           </AuthenticatedRoute>
         </Switch>

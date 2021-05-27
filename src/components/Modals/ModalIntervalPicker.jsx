@@ -51,6 +51,7 @@ export const ModalIntervalPicker = ({ open, handleClose }) => {
     addToSearchHistory,
     showCars,
     userStore: { userId },
+    modalStore: { setShowIntervalResultsModal },
   } = React.useContext(StoreContext);
 
   const onSubmit = (event) => {
@@ -74,6 +75,35 @@ export const ModalIntervalPicker = ({ open, handleClose }) => {
     };
     console.log("search data: ", data);
     addToSearchHistory(data);
+    const pos = { lat: 51.55467836329367, lng: -0.54124053113658494 };
+    const results = [
+      showCars.map((car) => ({
+        id: car.id,
+        records: [
+          {
+            lat: pos.lat + (Math.random() % 10),
+            lng: pos.lng + (Math.random() % 1),
+          },
+          {
+            lat: pos.lat + (Math.random() % 2),
+            lng: pos.lng + (Math.random() % 5),
+          },
+          {
+            lat: pos.lat + (Math.random() % 5),
+            lng: pos.lng + (Math.random() % 3),
+          },
+          {
+            lat: pos.lat + (Math.random() % 3),
+            lng: pos.lng + (Math.random() % 8),
+          },
+          {
+            lat: pos.lat + (Math.random() % 1),
+            lng: pos.lng + (Math.random() % 7),
+          },
+        ],
+      })),
+    ];
+    setShowIntervalResultsModal(true, results);
   };
   return (
     <div>

@@ -54,7 +54,7 @@ export const Auth = () => {
 
   const setupUserAndRedirect = (user) => {
     setUserData(user);
-    history.push("/app");
+    history.push("/");
   };
 
   const responseGoogle = (response) => {

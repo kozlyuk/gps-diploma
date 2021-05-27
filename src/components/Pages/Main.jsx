@@ -19,7 +19,7 @@ export const Main = () => {
           <Wrapper />
         </div>
       </Route>
-      <Route path={`${path}/trips`}>
+      <Route path={'/trips'}>
         <TripsList />
       </Route>
     </Switch>

@@ -50,6 +50,12 @@ const useStyles = makeStyles((theme) => ({
   itemsList: {
     maxHeight: 300,
     overflowY: "auto",
+    "&::-webkit-scrollbar": {
+      width: 5,
+    }, 
+    "&::-webkit-scrollbar-thumb" : {
+      backgroundColor: "#555",    /* color of the scroll thumb */
+    }
   },
 }));
 
