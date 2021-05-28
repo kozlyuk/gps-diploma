@@ -97,7 +97,15 @@ export const DateFilter = ({ onFilter }) => {
                   }}
                   onChange={onChange}
                   value={start}
-                  inputProps={{ max: new Date(Date.now()).toString() }}
+                  InputProps={{
+                    inputProps: {
+                      max: `${new Date(Date.now())
+                        .toISOString()
+                        .slice(0, 10)}T${new Date(Date.now())
+                        .toLocaleTimeString()
+                        .slice(0, 5)}`,
+                    },
+                  }}
                 />
                 <TextField
                   label="End date time"
@@ -110,7 +118,15 @@ export const DateFilter = ({ onFilter }) => {
                   value={end}
                   onChange={onChange}
                   disabled={start === ""}
-                  inputProps={{ max: new Date(Date.now()) }}
+                  InputProps={{
+                    inputProps: {
+                      max: `${new Date(Date.now())
+                        .toISOString()
+                        .slice(0, 10)}T${new Date(Date.now())
+                        .toLocaleTimeString()
+                        .slice(0, 5)}`,
+                    },
+                  }}
                 />
               </div>
               <div>

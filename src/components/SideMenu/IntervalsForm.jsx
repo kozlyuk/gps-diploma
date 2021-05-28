@@ -141,7 +141,15 @@ export const IntervalsForm = () => {
               }}
               onChange={onChange}
               value={startDate}
-              inputProps={{ max: new Date(Date.now()).toString() }}
+              InputProps={{
+                inputProps: {
+                  max: `${new Date(Date.now())
+                    .toISOString()
+                    .slice(0, 10)}T${new Date(Date.now())
+                    .toLocaleTimeString()
+                    .slice(0, 5)}`,
+                },
+              }}
             />
             <TextField
               label="End date time"
@@ -154,7 +162,15 @@ export const IntervalsForm = () => {
               value={endDate}
               onChange={onChange}
               disabled={startDate === ""}
-              inputProps={{ max: new Date(Date.now()) }}
+              InputProps={{
+                inputProps: {
+                  max: `${new Date(Date.now())
+                    .toISOString()
+                    .slice(0, 10)}T${new Date(Date.now())
+                    .toLocaleTimeString()
+                    .slice(0, 5)}`,
+                },
+              }}
             />
           </div>
           <div>
