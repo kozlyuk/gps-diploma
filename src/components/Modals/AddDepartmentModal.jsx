@@ -1,10 +1,8 @@
 import React from "react";
-import {
-  makeStyles,
-  Modal,
-} from "@material-ui/core";
+import { makeStyles, Modal } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 import { DepartmentForm } from "../Forms/DepartmentForm";
+import { StoreContext } from "../../store/StoreContext";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -50,12 +48,15 @@ const useStyles = makeStyles((theme) => ({
 export const AddDepartmentModal = ({ show, onClose }) => {
   const classes = useStyles();
 
+  const { addDepartment } = React.useContext(StoreContext);
+
   const onSubmit = (event) => {
     event.preventDefault();
     const name = event.target.elements.department_name.value;
     console.log(name);
     event.target.reset();
     onClose();
+    addDepartment({ id: Date.now(), name });
   };
 
   return (

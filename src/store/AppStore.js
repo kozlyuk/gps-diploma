@@ -48,6 +48,7 @@ class AppStore {
       addToSearchHistory: action,
       changeShowDepartment: action,
       updateDepartment: action,
+      addDepartment: action,
     });
     this._data = mock;
     this._cars = mock.cars;
@@ -109,6 +110,10 @@ class AppStore {
     toUpdateCars.forEach((car) => {
       car.department = name;
     });
+  };
+
+  addDepartment = (department) => {
+    this._departments.unshift(department);
   };
 
   get cars() {
