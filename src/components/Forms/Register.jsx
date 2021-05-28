@@ -10,13 +10,20 @@ export const Register = ({ classes, setupUserAndRedirect }) => {
       .string("Enter your email")
       .email("Enter a valid email")
       .required("Email is required"),
+    name: yup
+      .string("Enter your name")
+      .trim()
+      .min(2, "Enter more then 2 characters")
+      .required("Name is required"),
     phone: yup
-      .number("Enter your phone number")
-      .min(10, "Phone number should be of minimum 10 characters length")
-      .max(10, "Phone number should be 10 characters length")
-      .required("Password is required"),
+      .string("Enter your phone number")
+      .matches(/^[0-9]+$/, "Must be only digits")
+      .min(10, "Must be exactly 10 digits")
+      .max(10, "Must be exactly 10 digits")
+      .required("Phone is required"),
     password: yup
       .string("Enter your password")
+      .trim()
       .min(8, "Password should be of minimum 8 characters length")
       .required("Password is required"),
   });
@@ -25,6 +32,7 @@ export const Register = ({ classes, setupUserAndRedirect }) => {
     initialValues: {
       email: "",
       phone: "",
+      name: "",
       password: "",
     },
     validationSchema: validationSchema,
@@ -35,7 +43,7 @@ export const Register = ({ classes, setupUserAndRedirect }) => {
   });
 
   const onSubmitRegistration = (values) => {
-    const { email, phone, password } = values;
+    const { email, phone, password, name } = values;
     const data = { email, phone, password };
     console.log(data);
     //  send post to backend
@@ -45,13 +53,13 @@ export const Register = ({ classes, setupUserAndRedirect }) => {
       token: "327648263487326487263487632748632764872364786234",
       email,
       phoneNumber: "+380970000000",
-      name: "Your Name Here",
+      name,
     };
     setupUserAndRedirect(user);
   };
 
   return (
-    <form className={classes.form} onSubmit={onSubmitRegistration}>
+    <form className={classes.form} onSubmit={formik.handleSubmit}>
       <FormControl className={classes.input} fullWidth>
         <TextField
           type="text"
@@ -63,6 +71,20 @@ export const Register = ({ classes, setupUserAndRedirect }) => {
           helperText={formik.touched.email && formik.errors.email}
           FormHelperTextProps={{ style: { maxWidth: 250 } }}
           placeholder="Your email..."
+          required
+        />
+      </FormControl>
+      <FormControl className={classes.input} fullWidth>
+        <TextField
+          type="text"
+          name="name"
+          label="Name-Surname"
+          value={formik.values.name}
+          onChange={formik.handleChange}
+          error={formik.touched.name && Boolean(formik.errors.name)}
+          helperText={formik.touched.name && formik.errors.name}
+          FormHelperTextProps={{ style: { maxWidth: 250 } }}
+          placeholder="Your name..."
           required
         />
       </FormControl>
