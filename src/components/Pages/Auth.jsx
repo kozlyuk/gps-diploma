@@ -59,7 +59,7 @@ export const Auth = () => {
 
   const responseGoogle = (response) => {
     console.log(response);
-    if (response.error) return;
+    if (response.error || response?.type === "error") return;
     const user = {
       id: response.googleId,
       token: response.accessToken,

@@ -21,6 +21,7 @@ import { StoreContext } from "../../store/StoreContext";
 import { CollapseItem, TripItem, HistoryItem } from "./";
 import { TabPanel } from "../TabPanel";
 import { Filter, Footer } from "./";
+import { IntervalsForm } from "./IntervalsForm";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,10 +53,10 @@ const useStyles = makeStyles((theme) => ({
     overflowY: "auto",
     "&::-webkit-scrollbar": {
       width: 5,
-    }, 
-    "&::-webkit-scrollbar-thumb" : {
-      backgroundColor: "#555",    /* color of the scroll thumb */
-    }
+    },
+    "&::-webkit-scrollbar-thumb": {
+      backgroundColor: "#555" /* color of the scroll thumb */,
+    },
   },
 }));
 
@@ -160,13 +161,16 @@ export const SideMenu = observer(() => {
                   />
                 </Tabs>
               </Paper>
-              <TabPanel value={value} index={0} className={classes.itemsList}>
+              <TabPanel value={value} index={0}>
+                <IntervalsForm />
                 <Filter
                   filters={filters}
                   values={values}
                   onSetFilterValue={onSetFilterValue}
                 />
-                <List>{items}</List>
+                <div className={classes.itemsList}>
+                  <List>{items}</List>
+                </div>
               </TabPanel>
               <TabPanel value={value} index={1} className={classes.itemsList}>
                 <List>{tripsItems}</List>
