@@ -15,6 +15,8 @@ import {
   DriveEta,
   TripOrigin,
   History,
+  Add,
+  AddLocation,
 } from "@material-ui/icons";
 import { observer } from "mobx-react";
 import { StoreContext } from "../../store/StoreContext";
@@ -55,10 +57,40 @@ const useStyles = makeStyles((theme) => ({
       width: 5,
     },
     "&::-webkit-scrollbar-thumb": {
-      backgroundColor: "#555" /* color of the scroll thumb */,
+      backgroundColor: "#555",
     },
   },
+  addPanel: {
+    display: "flex",
+    justifyContent: "center",
+    marginTop: 10,
+  },
 }));
+
+const AddPanel = ({ style }) => {
+  return (
+    <div className={style}>
+      <Button
+        variant="contained"
+        color="secondary"
+        endIcon={<Add />}
+        style={{ marginRight: 10, textTransform: "none" }}
+        size="small"
+      >
+        Department
+      </Button>
+      <Button
+        variant="contained"
+        color="secondary"
+        endIcon={<AddLocation />}
+        size="small"
+        style={{ textTransform: "none" }}
+      >
+        Car
+      </Button>
+    </div>
+  );
+};
 
 export const SideMenu = observer(() => {
   const classes = useStyles();
@@ -162,6 +194,7 @@ export const SideMenu = observer(() => {
                 </Tabs>
               </Paper>
               <TabPanel value={value} index={0}>
+                <AddPanel style={classes.addPanel} />
                 <IntervalsForm />
                 <Filter
                   filters={filters}
