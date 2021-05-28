@@ -47,6 +47,7 @@ class AppStore {
       removeFromShowHistory: action,
       addToSearchHistory: action,
       changeShowDepartment: action,
+      updateDepartment: action,
     });
     this._data = mock;
     this._cars = mock.cars;
@@ -96,6 +97,18 @@ class AppStore {
   changeShowDepartment = (id, value) => {
     const index = this._departments.findIndex((dep) => dep.id === id);
     if (index !== -1) this._departments[index].show = value;
+  };
+
+  updateDepartment = (id, name) => {
+    const updatedItem = this._departments.find((dep) => dep.id === id);
+    const toUpdateCars = this._cars.filter(
+      (car) => car.department === updatedItem.name
+    );
+    console.log(toUpdateCars);
+    updatedItem.name = name;
+    toUpdateCars.forEach((car) => {
+      car.department = name;
+    });
   };
 
   get cars() {

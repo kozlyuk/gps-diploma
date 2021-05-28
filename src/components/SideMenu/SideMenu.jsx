@@ -25,6 +25,7 @@ import { TabPanel } from "../TabPanel";
 import { Filter, Footer } from "./";
 import { IntervalsForm } from "./IntervalsForm";
 import { DateFilter } from "./DateFilter";
+import { AddDepartmentModal } from "../Modals/AddDepartmentModal";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -69,6 +70,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AddPanel = ({ style }) => {
+  const [showDep, setShowDep] = React.useState(false);
+  const [showCar, setShowCar] = React.useState(false);
+
   return (
     <div className={style}>
       <Button
@@ -77,6 +81,7 @@ const AddPanel = ({ style }) => {
         endIcon={<Add />}
         style={{ marginRight: 10, textTransform: "none" }}
         size="small"
+        onClick={() => setShowDep(true)}
       >
         Department
       </Button>
@@ -89,6 +94,7 @@ const AddPanel = ({ style }) => {
       >
         Car
       </Button>
+      <AddDepartmentModal show={showDep} onClose={() => setShowDep(false)} />
     </div>
   );
 };

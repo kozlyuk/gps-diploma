@@ -24,6 +24,10 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    "&:hover": {
+      cursor: "pointer",
+      color: "#aaa",
+    },
   },
   textField: {
     marginLeft: theme.spacing(1),

@@ -23,6 +23,10 @@ const useStyles = makeStyles({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    "&:hover": {
+      cursor: "pointer",
+      color: "#aaa",
+    },
   },
 });
 
