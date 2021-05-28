@@ -108,12 +108,13 @@ export const SideMenu = observer(() => {
 
   const onSetFilterValue = (filter, value) => {
     if (filter === "" || value === "") setCurrentCars(cars);
-    else setCurrentCars(cars.filter((car) => car[filter] === value));
+    else if (filter !== "" || value !== "")
+      setCurrentCars(cars.filter((car) => car[filter] === value));
   };
 
   const onTripsFilter = (startDate, endDate) => {
     if (startDate === "" || endDate === "") setCurrentTrips(trips);
-    else
+    else if (startDate !== "" || endDate !== "")
       setCurrentTrips(
         trips.filter((trip) => trip.date >= startDate && trip.date <= endDate)
       );
