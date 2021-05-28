@@ -26,6 +26,7 @@ import { Filter, Footer } from "./";
 import { IntervalsForm } from "./IntervalsForm";
 import { DateFilter } from "./DateFilter";
 import { AddDepartmentModal } from "../Modals/AddDepartmentModal";
+import { AddCarModal } from "../Modals/AddCarModal";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -91,22 +92,44 @@ const AddPanel = ({ style }) => {
         endIcon={<AddLocation />}
         size="small"
         style={{ textTransform: "none" }}
+        onClick={() => setShowCar(true)}
       >
         Car
       </Button>
       <AddDepartmentModal show={showDep} onClose={() => setShowDep(false)} />
+      <AddCarModal show={showCar} onClose={() => setShowCar(false)} />
     </div>
   );
 };
 
 export const SideMenu = observer(() => {
   const classes = useStyles();
-  const { cars, departments, trips, searchHistory } =
-    React.useContext(StoreContext);
+  const {
+    cars,
+    departments,
+    trips,
+    searchHistory,
+    currentTrips,
+    setCurrentTrips,
+    currentCars,
+    setCurrentCars,
+  } = React.useContext(StoreContext);
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(0);
-  const [currentCars, setCurrentCars] = React.useState(cars);
-  const [currentTrips, setCurrentTrips] = React.useState(trips);
+
+  const filters = [...Object.keys(cars[0])];
+  filters.splice(filters.indexOf("record"), 1);
+  filters.splice(filters.indexOf("id"), 1);
+  const values = filters.reduce((acc, filter) => {
+    const arr = [];
+    cars.forEach((car) => {
+      if (!arr.includes(car[filter])) arr.push(car[filter]);
+    });
+    return {
+      ...acc,
+      [filter]: arr,
+    };
+  }, {});
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -125,20 +148,6 @@ export const SideMenu = observer(() => {
         trips.filter((trip) => trip.date >= startDate && trip.date <= endDate)
       );
   };
-
-  const filters = [...Object.keys(cars[0])];
-  filters.splice(filters.indexOf("record"), 1);
-  filters.splice(filters.indexOf("id"), 1);
-  const values = filters.reduce((acc, filter) => {
-    const arr = [];
-    cars.forEach((car) => {
-      if (!arr.includes(car[filter])) arr.push(car[filter]);
-    });
-    return {
-      ...acc,
-      [filter]: arr,
-    };
-  }, {});
 
   const items = departments.map((dep) => {
     const itemList = currentCars.filter((car) => car.department === dep.name);

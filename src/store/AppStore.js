@@ -14,6 +14,9 @@ class AppStore {
   _showHistory = [];
   _searchHistory = [];
 
+  _currentTrips = [];
+  _currentCars = [];
+
   userStore = null;
   modalStore = null;
   constructor() {
@@ -27,6 +30,8 @@ class AppStore {
       _showCars: observable,
       _showHistory: observable,
       _searchHistory: observable,
+      _currentTrips: observable,
+      _currentCars: observable,
 
       data: computed,
       cars: computed,
@@ -36,6 +41,8 @@ class AppStore {
       showCars: computed,
       showHistory: computed,
       searchHistory: computed,
+      currentCars: computed,
+      currentTrips: computed,
 
       updateData: action,
       updateCars: action,
@@ -49,6 +56,10 @@ class AppStore {
       changeShowDepartment: action,
       updateDepartment: action,
       addDepartment: action,
+      updateCar: action,
+      addCar: action,
+      setCurrentTrips: action,
+      setCurrentCars: action,
     });
     this._data = mock;
     this._cars = mock.cars;
@@ -57,6 +68,8 @@ class AppStore {
     this._showCars = mock.cars.map((car) => car.id);
     this.userStore = new UserStore();
     this.modalStore = new ModalsStore();
+    this._currentCars = this._cars;
+    this._currentTrips = this._trips;
   }
 
   updateData = (newData) => {
@@ -116,6 +129,24 @@ class AppStore {
     this._departments.unshift(department);
   };
 
+  updateCar = (car) => {
+    const index = this._cars.findIndex((c) => c.uuid === car.uuid);
+    this._cars[index] = car;
+  };
+
+  addCar = (car) => {
+    this._cars.unshift(car);
+    this._currentCars.push(car);
+  };
+
+  setCurrentCars = (cars) => {
+    this._currentCars = cars;
+  };
+
+  setCurrentTrips = (trips) => {
+    this._currentTrips = trips;
+  };
+
   get cars() {
     return this._cars;
   }
@@ -144,6 +175,14 @@ class AppStore {
     return this._searchHistory.filter((item) =>
       this._showHistory.includes(item.id)
     );
+  }
+
+  get currentCars() {
+    return this._currentCars;
+  }
+
+  get currentTrips() {
+    return this._currentTrips;
   }
 
   get data() {
