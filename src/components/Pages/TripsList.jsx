@@ -1,6 +1,12 @@
 import React from "react";
 import { List, ListItem, ListItemText, makeStyles } from "@material-ui/core";
-import { Switch, Route, useRouteMatch, useHistory, Link } from "react-router-dom";
+import {
+  Switch,
+  Route,
+  useRouteMatch,
+  useHistory,
+  Link,
+} from "react-router-dom";
 
 import { TripInfo } from "./TripInfo";
 import { StoreContext } from "../../store/StoreContext";
@@ -22,7 +28,7 @@ export const TripsList = () => {
     <Switch>
       <Route path={path} exact>
         <div>
-          <Link to={history.goBack()}>Back</Link>
+          <Link to="/">Back</Link>
           <div>
             <List>
               {trips.map((trip) => (

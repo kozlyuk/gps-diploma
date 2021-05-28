@@ -3,10 +3,11 @@ import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import store from "./store/AppStore";
+import { AuthenticatedRoute } from "./components/AuthenticatedRoute";
 import { StoreContext } from "./store/StoreContext";
 import { Auth } from "./components/Pages/Auth";
-import { AuthenticatedRoute } from "./components/AuthenticatedRoute";
 import { Main } from "./components/Pages/Main";
+import { TripsList } from "./components/Pages/TripsList";
 
 const App = () => {
   return (
@@ -17,7 +18,14 @@ const App = () => {
             <Auth />
           </Route>
           <AuthenticatedRoute path="/">
-            <Main />
+            <Switch>
+              <Route path="/" exact>
+                <Main />
+              </Route>
+              <Route path="/trips">
+                <TripsList />
+              </Route>
+            </Switch>
           </AuthenticatedRoute>
         </Switch>
       </Router>

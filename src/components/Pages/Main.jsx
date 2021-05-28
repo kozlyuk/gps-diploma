@@ -5,23 +5,18 @@ import { SideMenu } from "../SideMenu";
 import { TripsList } from "./TripsList";
 
 export const Main = () => {
-  const { path } = useRouteMatch();
+  const { path, url } = useRouteMatch();
+
+  console.log(path, url);
 
   return (
-    <Switch>
-      <Route path={path} exact>
-        <div
-          style={{
-            display: "flex",
-          }}
-        >
-          <SideMenu />
-          <Wrapper />
-        </div>
-      </Route>
-      <Route path={'/trips'}>
-        <TripsList />
-      </Route>
-    </Switch>
+    <div
+      style={{
+        display: "flex",
+      }}
+    >
+      <SideMenu />
+      <Wrapper />
+    </div>
   );
 };

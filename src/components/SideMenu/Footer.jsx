@@ -16,7 +16,7 @@ export const Footer = () => {
   };
 
   const showTrips = () => {
-    history.push('/trips');
+    history.push("/trips");
   };
 
   return (
