@@ -111,7 +111,6 @@ export const IntervalsForm = () => {
   };
 
   const reset = () => {
-    console.log(111);
     setStartDate("");
     setEndDate("");
   };

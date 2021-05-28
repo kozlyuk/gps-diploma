@@ -24,6 +24,7 @@ import { CollapseItem, TripItem, HistoryItem } from "./";
 import { TabPanel } from "../TabPanel";
 import { Filter, Footer } from "./";
 import { IntervalsForm } from "./IntervalsForm";
+import { DateFilter } from "./DateFilter";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -94,11 +95,12 @@ const AddPanel = ({ style }) => {
 
 export const SideMenu = observer(() => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState(0);
   const { cars, departments, trips, searchHistory } =
     React.useContext(StoreContext);
+  const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState(0);
   const [currentCars, setCurrentCars] = React.useState(cars);
+  const [currentTrips, setCurrentTrips] = React.useState(trips);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -107,6 +109,14 @@ export const SideMenu = observer(() => {
   const onSetFilterValue = (filter, value) => {
     if (filter === "" || value === "") setCurrentCars(cars);
     else setCurrentCars(cars.filter((car) => car[filter] === value));
+  };
+
+  const onTripsFilter = (startDate, endDate) => {
+    if (startDate === "" || endDate === "") setCurrentTrips(trips);
+    else
+      setCurrentTrips(
+        trips.filter((trip) => trip.date >= startDate && trip.date <= endDate)
+      );
   };
 
   const filters = [...Object.keys(cars[0])];
@@ -138,7 +148,7 @@ export const SideMenu = observer(() => {
     );
   });
 
-  const tripsItems = trips.map((trip) => (
+  const tripsItems = currentTrips.map((trip) => (
     <TripItem key={trip.id.toString()} trip={trip} />
   ));
 
@@ -205,8 +215,11 @@ export const SideMenu = observer(() => {
                   <List>{items}</List>
                 </div>
               </TabPanel>
-              <TabPanel value={value} index={1} className={classes.itemsList}>
-                <List>{tripsItems}</List>
+              <TabPanel value={value} index={1}>
+                <DateFilter onFilter={onTripsFilter} />
+                <div className={classes.itemsList}>
+                  <List>{tripsItems}</List>
+                </div>
               </TabPanel>
               <TabPanel value={value} index={2} className={classes.itemsList}>
                 {historyItems.length ? (
