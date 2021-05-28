@@ -13,6 +13,7 @@ import { Trip } from "./Trip";
 import { ModalIntervalPicker } from "./Modals/ModalIntervalPicker";
 import { CarInfoModal } from "./Modals/CarInfoModal";
 import { EditDepartmentModal } from "./Modals/EditDepartmentModal";
+import { EditCarModal } from "./Modals/EditCarModal";
 
 const SetUpAnimatedPane = () => {
   const map = useMapEvent("click", (e) => {
@@ -86,6 +87,7 @@ export const Wrapper = observer(() => {
       />
 
       <EditDepartmentModal />
+      <EditCarModal />
     </>
   );
 });

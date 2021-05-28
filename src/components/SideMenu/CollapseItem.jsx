@@ -59,7 +59,7 @@ export const CollapseItem = ({ items, title, show, id }) => {
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           {items.map((car) => (
-            <CarItem key={car.id} car={car} />
+            <CarItem key={car.uuid} car={car} />
           ))}
         </List>
       </Collapse>

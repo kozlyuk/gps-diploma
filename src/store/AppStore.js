@@ -65,7 +65,7 @@ class AppStore {
     this._cars = mock.cars;
     this._departments = mock.departments.map((el) => ({ ...el, show: true }));
     this._trips = mock.trips;
-    this._showCars = mock.cars.map((car) => car.id);
+    this._showCars = mock.cars.map((car) => car.uuid);
     this.userStore = new UserStore();
     this.modalStore = new ModalsStore();
     this._currentCars = this._cars;
@@ -132,6 +132,8 @@ class AppStore {
   updateCar = (car) => {
     const index = this._cars.findIndex((c) => c.uuid === car.uuid);
     this._cars[index] = car;
+    const curIndex = this._currentCars.findIndex((c) => c.uuid === car.uuid);
+    this._currentCars[curIndex] = car;
   };
 
   addCar = (car) => {
@@ -160,7 +162,7 @@ class AppStore {
   }
 
   get showCars() {
-    return this._cars.filter((car) => this._showCars.includes(car.id));
+    return this._cars.filter((car) => this._showCars.includes(car.uuid));
   }
 
   get trips() {
