@@ -5,7 +5,13 @@ import {
   makeStyles,
   IconButton,
 } from "@material-ui/core";
-import { Visibility, VisibilityOff, Edit } from "@material-ui/icons";
+import {
+  Visibility,
+  VisibilityOff,
+  Edit,
+  Explore,
+  ExploreOff,
+} from "@material-ui/icons";
 import { StoreContext } from "../../store/StoreContext";
 
 const useStyles = makeStyles((theme) => ({
@@ -31,16 +37,17 @@ export const CarItem = ({ car }) => {
     addToShowCars,
     removeFromShowCars,
     showCars,
+    resultIntervals,
     modalStore: { setEditingCarID },
   } = React.useContext(StoreContext);
-  const [show, setShow] = React.useState(
+  const [showMarker, setShowMarker] = React.useState(
     !!showCars.find((c) => c.uuid === car.uuid)
   );
 
   const onClick = () => {
-    if (show) removeFromShowCars(car.uuid);
+    if (showCars) removeFromShowCars(car.uuid);
     else addToShowCars(car.uuid);
-    setShow((prev) => !prev);
+    setShowMarker((prev) => !prev);
   };
 
   const onEditClick = () => {
@@ -55,11 +62,18 @@ export const CarItem = ({ car }) => {
             primary={car.id}
             primaryTypographyProps={{ style: { fontSize: 12 } }}
           />
+          {/* <IconButton size="small">
+            {!!resultIntervals.find((c) => c.uuid === car.uuid) ? (
+              <Explore style={{ fontSize: 16 }} />
+            ) : (
+              <ExploreOff style={{ fontSize: 16 }} />
+            )}
+          </IconButton> */}
           <IconButton size="small" onClick={onEditClick}>
             <Edit style={{ fontSize: 16 }} />
           </IconButton>
           <IconButton onClick={onClick} className={classes.arrow} size="small">
-            {show ? (
+            {showMarker ? (
               <Visibility htmlColor="green" />
             ) : (
               <VisibilityOff htmlColor="blue" />

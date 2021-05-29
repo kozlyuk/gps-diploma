@@ -7,8 +7,6 @@ import { TripsList } from "./TripsList";
 export const Main = () => {
   const { path, url } = useRouteMatch();
 
-  console.log(path, url);
-
   return (
     <div
       style={{
