@@ -14,6 +14,9 @@ import {
   Explore,
   RotateLeft,
 } from "@material-ui/icons";
+import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
+
 import { StoreContext } from "../../store/StoreContext";
 
 const useStyles = makeStyles((theme) => ({
@@ -48,35 +51,25 @@ export const IntervalsForm = () => {
     setOpen(!open);
   };
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
     const {
       start_time: { value: startTime },
       end_time: { value: endTime },
     } = event.target.elements;
-    // const startTime = event.target.elements.start_time.value;
-    // const endTime = event.target.elements.end_time.value;
     let idsQuery = showCars.reduce(
       (acc, curr, i) => `${acc}&id=${curr.id}`,
       ""
     );
     idsQuery = idsQuery.slice(1);
-    console.log(idsQuery);
-    const url = `${process.env.REACT_APP_BACKEND_URL}/api/cars/tracking/?${idsQuery}&start_time=${startTime}&end_time=${endTime}`;
-    console.log("post for interval: ", url);
-    const data = {
-      id: Date.now(),
-      ids: showCars.map((car) => car.id),
-      records: [],
-      startTime,
-      endTime,
-      userId,
-    };
-    console.log("search data: ", data);
-    addToSearchHistory(data);
-    const pos = { lat: 51.55467836329367, lng: -0.54124053113658494 };
-    const results = [
-      showCars.map((car) => ({
+    const query = `${idsQuery}&start_time=${startTime}&end_time=${endTime}`;
+    const cache = localStorage.getItem(query);
+    if (cache == null) {
+      const url = `${process.env.REACT_APP_BACKEND_URL}/api/cars/tracking/?${query}`;
+      //const response = await axios.get(url);
+      //  test response
+      const pos = { lat: 51.55467836329367, lng: -0.54124053113658494 };
+      const results = showCars.map((car) => ({
         id: car.id,
         records: [
           {
@@ -100,9 +93,27 @@ export const IntervalsForm = () => {
             lng: pos.lng + (Math.random() % 7),
           },
         ],
-      })),
-    ];
-    console.log(results);
+      }));
+      const data = {
+        id: uuidv4(),
+        ids: showCars.map((car) => car.uuid),
+        records: results,
+        startTime,
+        endTime,
+        userId,
+      };
+      addToSearchHistory(data);
+      localStorage.setItem(query, results);
+      return;
+    }
+
+    // const currentShowCarsIds = showCars.map((car) => car.uuid);
+
+    // if (cache.ids === currentShowCarsIds) return;
+
+    // const idsNotIncluded = currentShowCarsIds.map(
+    //   (car) => !cache.ids.includes(car.uuid)
+    // );
   };
 
   const onChange = (event) => {

@@ -17,8 +17,6 @@ class AppStore {
   _currentTrips = [];
   _currentCars = [];
 
-  _resultIntervals = [];
-
   userStore = null;
   modalStore = null;
   constructor() {
@@ -34,7 +32,6 @@ class AppStore {
       _searchHistory: observable,
       _currentTrips: observable,
       _currentCars: observable,
-      _resultIntervals: observable,
 
       data: computed,
       cars: computed,
@@ -46,7 +43,6 @@ class AppStore {
       searchHistory: computed,
       currentCars: computed,
       currentTrips: computed,
-      resultIntervals: computed,
 
       updateData: action,
       updateCars: action,
@@ -64,7 +60,6 @@ class AppStore {
       addCar: action,
       setCurrentTrips: action,
       setCurrentCars: action,
-      addToResultsIntervals: action,
     });
     this._data = mock;
     this._cars = mock.cars;
@@ -154,10 +149,6 @@ class AppStore {
     this._currentTrips = trips;
   };
 
-  addToResultsIntervals = (results) => {
-    this._resultIntervals = [...this._resultIntervals, ...results];
-  };
-
   get cars() {
     return this._cars;
   }
@@ -194,10 +185,6 @@ class AppStore {
 
   get currentTrips() {
     return this._currentTrips;
-  }
-
-  get resultIntervals() {
-    return this._resultIntervals;
   }
 
   get data() {

@@ -8,16 +8,12 @@ export const MarkerWrapper = ({ car }) => {
   const position = [car.record.position.lat, car.record.position.lng];
 
   const {
-    modalStore: { setShowIntervalModal, setCarInfo },
+    modalStore: { setCarInfo },
   } = React.useContext(StoreContext);
 
   const modalClick = () => {
     setCarInfo(car);
     //  hide popup after open modal window
-    popup.current._closeButton.click();
-  };
-  const showIntervalModal = () => {
-    setShowIntervalModal(true);
     popup.current._closeButton.click();
   };
 
@@ -27,7 +23,6 @@ export const MarkerWrapper = ({ car }) => {
       <Popup ref={popup}>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <Button onClick={modalClick}>Show more</Button>
-          <Button onClick={showIntervalModal}>Show interval</Button>
         </div>
       </Popup>
     </Marker>
