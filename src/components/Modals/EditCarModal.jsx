@@ -2,8 +2,8 @@ import React from "react";
 import { makeStyles, Modal } from "@material-ui/core";
 import { Close, Edit } from "@material-ui/icons";
 import { observer } from "mobx-react";
+import axios from "axios";
 
-import { DepartmentForm } from "../Forms/DepartmentForm";
 import { StoreContext } from "../../store/StoreContext";
 import { CarForm } from "../Forms/CarForm";
 
@@ -63,7 +63,7 @@ export const EditCarModal = observer(() => {
     setEditingCarID(null);
   };
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
     const {
       car_id: { value: id },
@@ -79,6 +79,7 @@ export const EditCarModal = observer(() => {
     updateCar(updatedCar);
     event.target.reset();
     onClose();
+    //await axios.put(`${process.env.REACT_APP_CARS}/${car.uuid}`)
   };
 
   return (

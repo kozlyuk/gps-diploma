@@ -65,7 +65,7 @@ export const IntervalsForm = () => {
     const query = `${idsQuery}&start_time=${startTime}&end_time=${endTime}`;
     const cache = localStorage.getItem(query);
     if (cache == null) {
-      const url = `${process.env.REACT_APP_BACKEND_URL}/api/cars/tracking/?${query}`;
+      const url = `${process.env.REACT_APP_CARS_TRACKING}/?${query}`;
       //const response = await axios.get(url);
       //  test response
       const pos = { lat: 51.55467836329367, lng: -0.54124053113658494 };

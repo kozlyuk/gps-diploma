@@ -1,6 +1,8 @@
 import React from "react";
 import { makeStyles, Modal } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
+import axios from "axios";
+
 import { DepartmentForm } from "../Forms/DepartmentForm";
 import { StoreContext } from "../../store/StoreContext";
 
@@ -50,13 +52,13 @@ export const AddDepartmentModal = ({ show, onClose }) => {
 
   const { addDepartment } = React.useContext(StoreContext);
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
     const name = event.target.elements.department_name.value;
-    console.log(name);
     event.target.reset();
     onClose();
     addDepartment({ id: Date.now(), name });
+    await axios.post(`${process.env.REACT_APP_DEPARTMENTS}/`, { name });
   };
 
   return (

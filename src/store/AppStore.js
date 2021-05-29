@@ -1,4 +1,11 @@
-import { makeObservable, observable, computed, action } from "mobx";
+import {
+  makeObservable,
+  observable,
+  computed,
+  action,
+  runInAction,
+} from "mobx";
+import axios from "axios";
 
 import mock from "../mock.json";
 import ModalsStore from "./ModalsStore";
@@ -62,8 +69,18 @@ class AppStore {
       setCurrentCars: action,
     });
     this._data = mock;
-    this._cars = mock.cars;
-    this._departments = mock.departments.map((el) => ({ ...el, show: true }));
+    runInAction(async () => {
+      this._cars =
+        //(await axios.get(`${process.env.REACT_APP_CARS}/`)) ?? 
+        mock.cars;
+    });
+    runInAction(async () => {
+      this._departments =
+        // (await axios.get(`${process.env.REACT_APP_DEPARTMENTS}/`))?.map(
+        //   (el) => ({ ...el, show: true })
+        // ) ?? 
+        mock.departments.map((el) => ({ ...el, show: true }));
+    });
     this._trips = mock.trips;
     this._showCars = mock.cars.map((car) => car.uuid);
     this.userStore = new UserStore();

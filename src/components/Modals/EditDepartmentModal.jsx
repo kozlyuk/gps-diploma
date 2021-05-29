@@ -60,14 +60,14 @@ export const EditDepartmentModal = observer(() => {
     setEditingDepartmentID(null);
   };
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
     const name = event.target.elements.department_name.value;
-    console.log(name);
     event.target.reset();
     updateDepartment(editingDepartmentID, name);
+    //await axios.put(`${process.env.REACT_APP_DEPARTMENTS}/${setEditingDepartmentID}`, {id: setEditingDepartmentID, name})
     onClose();
-  };
+  };  
 
   return (
     <div>

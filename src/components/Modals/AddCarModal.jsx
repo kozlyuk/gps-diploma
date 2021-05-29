@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles, Modal } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
+import axios from "axios";
 
 import { StoreContext } from "../../store/StoreContext";
 import { CarForm } from "../Forms/CarForm";
@@ -51,7 +52,7 @@ export const AddCarModal = ({ show, onClose }) => {
 
   const { addCar } = React.useContext(StoreContext);
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
     const {
       car_model: { value: model },
@@ -59,18 +60,19 @@ export const AddCarModal = ({ show, onClose }) => {
       car_id: { value: id },
     } = event.target.elements;
     const car = {
-      uuid: Date.now(),
       id,
       model,
       department,
-      brand: "some brand",
-      record: {
-        fuel: Math.random() % 25,
-        isLocked: !!Math.random(0, 1),
-        position: { lat: Math.random() % 33, lng: Math.random() % 66 },
-      },
+      // brand: "some brand",
+      // record: {
+      //   fuel: Math.random() % 25,
+      //   isLocked: !!Math.random(0, 1),
+      //   position: { lat: Math.random() % 33, lng: Math.random() % 66 },
+      // },
     };
-    addCar(car);
+    //addCar(car);
+
+    //await axios.post(`${process.env.REACT_APP_CARS}/`, car);
 
     event.target.reset();
     onClose();
