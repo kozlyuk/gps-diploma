@@ -4,17 +4,13 @@ import {
   MapContainer,
   TileLayer,
   ZoomControl,
-  Polyline,
-  CircleMarker,
 } from "react-leaflet";
 import { observer } from "mobx-react";
 
 import { StoreContext } from "../store/StoreContext";
 import { MarkerWrapper } from "./MarkerWrapper";
 import { Trip } from "./Trip";
-import { CarInfoModal } from "./Modals/CarInfoModal";
-import { EditDepartmentModal } from "./Modals/EditDepartmentModal";
-import { EditCarModal } from "./Modals/EditCarModal";
+import { HistoryRender } from "./HistoryRender";
 
 const SetUpAnimatedPane = () => {
   const map = useMapEvent("click", (e) => {
@@ -32,8 +28,6 @@ export const Wrapper = observer(() => {
     updateCars,
     showTrips,
     showCars,
-    showHistory,
-    modalStore: { carInfo, setCarInfo },
   } = React.useContext(StoreContext);
 
   React.useEffect(() => {
@@ -55,7 +49,7 @@ export const Wrapper = observer(() => {
 
   return (
     <>
-      <MapContainer center={pos} minZoom={5} zoom={10} zoomControl={false}>
+      <MapContainer center={pos} minZoom={2} zoom={10} zoomControl={false}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -68,39 +62,10 @@ export const Wrapper = observer(() => {
         {showTrips?.map((trip) => (
           <Trip key={trip.id} trip={trip} />
         ))}
-        {showHistory?.map((history) =>
-          history.records.map((car) => {
-            const randomColor =
-              "#" + Math.floor(Math.random() * 16777215).toString(16);
-            return (
-              <>
-                <Polyline
-                  key={history.id}
-                  positions={car.records}
-                  pathOptions={{ color: randomColor }}
-                />
-                {car.records.map((rec, i) => (
-                  <CircleMarker
-                    key={i.toString()}
-                    center={rec}
-                    radius={15}
-                    pathOptions={{ color: randomColor }}
-                  />
-                ))}
-              </>
-            );
-          })
-        )}
+        <HistoryRender />
       </MapContainer>
 
-      <CarInfoModal
-        open={carInfo !== null}
-        handleClose={() => setCarInfo(null)}
-        carInfo={carInfo}
-      />
 
-      <EditDepartmentModal />
-      <EditCarModal />
     </>
   );
 });

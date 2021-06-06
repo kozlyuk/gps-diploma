@@ -68,32 +68,43 @@ export const IntervalsForm = () => {
       const url = `${process.env.REACT_APP_CARS_TRACKING}/?${query}`;
       //const response = await axios.get(url);
       //  test response
-      const pos = { lat: 51.55467836329367, lng: -0.54124053113658494 };
-      const results = showCars.map((car) => ({
-        id: car.id,
-        records: [
-          {
-            lat: pos.lat + (Math.random() % 10),
-            lng: pos.lng + (Math.random() % 1),
-          },
-          {
-            lat: pos.lat + (Math.random() % 2),
-            lng: pos.lng + (Math.random() % 5),
-          },
-          {
-            lat: pos.lat + (Math.random() % 5),
-            lng: pos.lng + (Math.random() % 3),
-          },
-          {
-            lat: pos.lat + (Math.random() % 3),
-            lng: pos.lng + (Math.random() % 8),
-          },
-          {
-            lat: pos.lat + (Math.random() % 1),
-            lng: pos.lng + (Math.random() % 7),
-          },
-        ],
-      }));
+      const pos = { lat: 51.55467836329367, lng: 10.54124053113658494 };
+
+      const results = showCars.map((car) => {
+        const recs = [];
+        for (let i = 0; i < 1000; i++) {
+          recs.push({
+            lat: pos.lat + (Math.random()),
+            lng: pos.lng + (Math.random()),
+          });
+        }
+        return {
+          id: car.id,
+          records: recs,
+          //[
+          //   {
+          //     lat: pos.lat + (Math.random() % 10),
+          //     lng: pos.lng + (Math.random() % 1),
+          //   },
+          //   {
+          //     lat: pos.lat + (Math.random() % 2),
+          //     lng: pos.lng + (Math.random() % 5),
+          //   },
+          //   {
+          //     lat: pos.lat + (Math.random() % 5),
+          //     lng: pos.lng + (Math.random() % 3),
+          //   },
+          //   {
+          //     lat: pos.lat + (Math.random() % 3),
+          //     lng: pos.lng + (Math.random() % 8),
+          //   },
+          //   {
+          //     lat: pos.lat + (Math.random() % 1),
+          //     lng: pos.lng + (Math.random() % 7),
+          //   },
+          // ],
+        };
+      });
       const data = {
         id: uuidv4(),
         ids: showCars.map((car) => car.uuid),
@@ -161,6 +172,7 @@ export const IntervalsForm = () => {
                     .slice(0, 5)}`,
                 },
               }}
+              required
             />
             <TextField
               label="End date time"
@@ -182,6 +194,7 @@ export const IntervalsForm = () => {
                     .slice(0, 5)}`,
                 },
               }}
+              required
             />
           </div>
           <div>

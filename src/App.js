@@ -10,6 +10,10 @@ import { Main } from "./components/Pages/Main";
 import { TripsList } from "./components/Pages/TripsList";
 
 const App = () => {
+  // const {} = React.useContext(StoreContext);
+  // React.useEffect(() => {
+
+  // }, []) 
   return (
     <StoreContext.Provider value={store}>
       <Router>

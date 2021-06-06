@@ -1,7 +1,6 @@
 import React from "react";
 import { makeStyles, Modal } from "@material-ui/core";
 import { Close, Edit } from "@material-ui/icons";
-import { observer } from "mobx-react";
 
 import { DepartmentForm } from "../Forms/DepartmentForm";
 import { StoreContext } from "../../store/StoreContext";
@@ -47,31 +46,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const EditDepartmentModal = observer(() => {
+export const EditDepartmentModal = ({departmentID, onClose}) => {
   const classes = useStyles();
 
   const {
     departments,
     updateDepartment,
-    modalStore: { setEditingDepartmentID, editingDepartmentID },
   } = React.useContext(StoreContext);
-
-  const onClose = () => {
-    setEditingDepartmentID(null);
-  };
 
   const onSubmit = async (event) => {
     event.preventDefault();
     const name = event.target.elements.department_name.value;
     event.target.reset();
-    updateDepartment(editingDepartmentID, name);
-    //await axios.put(`${process.env.REACT_APP_DEPARTMENTS}/${setEditingDepartmentID}`, {id: setEditingDepartmentID, name})
+    updateDepartment(departmentID, name);
+    //await axios.put(`${process.env.REACT_APP_DEPARTMENTS}/${departmentID}`, {id: departmentID, name})
     onClose();
   };  
 
   return (
     <div>
-      <Modal open={editingDepartmentID !== null} onClose={onClose}>
+      <Modal open={departmentID !== null} onClose={onClose}>
         <div className={classes.modal}>
           <div className={classes.closeWrapper}>
             <div className={classes.closeButton} onClick={onClose}>
@@ -82,7 +76,7 @@ export const EditDepartmentModal = observer(() => {
             <DepartmentForm
               onSubmit={onSubmit}
               depName={
-                departments.find((dep) => dep.id === editingDepartmentID)
+                departments.find((dep) => dep.id === departmentID)
                   ?.name ?? ""
               }
               classes={classes}
@@ -94,4 +88,4 @@ export const EditDepartmentModal = observer(() => {
       </Modal>
     </div>
   );
-});
+};

@@ -1,7 +1,6 @@
 import React from "react";
 import { makeStyles, Modal } from "@material-ui/core";
 import { Close, Edit } from "@material-ui/icons";
-import { observer } from "mobx-react";
 import axios from "axios";
 
 import { StoreContext } from "../../store/StoreContext";
@@ -48,20 +47,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const EditCarModal = observer(() => {
+export const EditCarModal = ({ onClose, carID }) => {
   const classes = useStyles();
 
-  const {
-    cars,
-    updateCar,
-    modalStore: { setEditingCarID, editingCarID },
-  } = React.useContext(StoreContext);
+  const { cars, updateCar } = React.useContext(StoreContext);
 
-  const car = cars.find((car) => car.uuid === editingCarID) ?? null;
-
-  const onClose = () => {
-    setEditingCarID(null);
-  };
+  const car = cars.find((car) => car.uuid === carID) ?? null;
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -84,7 +75,7 @@ export const EditCarModal = observer(() => {
 
   return (
     <div>
-      <Modal open={editingCarID !== null} onClose={onClose}>
+      <Modal open={carID !== null} onClose={onClose}>
         <div className={classes.modal}>
           <div className={classes.closeWrapper}>
             <div className={classes.closeButton} onClick={onClose}>
@@ -104,4 +95,4 @@ export const EditCarModal = observer(() => {
       </Modal>
     </div>
   );
-});
+};

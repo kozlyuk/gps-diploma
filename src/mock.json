@@ -11,6 +11,7 @@
       "brand": "brand1",
       "model": "model1",
       "department": "dep1",
+      "color": "#aa46d3",
       "record": {
         "fuel": 30,
         "isLocked": true,
@@ -23,6 +24,7 @@
       "brand": "brand2",
       "model": "model2",
       "department": "dep2",
+      "color": "#a5bbf3",
       "record": {
         "fuel": 15,
         "isLocked": true,
@@ -35,6 +37,7 @@
       "brand": "brand3",
       "model": "model3",
       "department": "dep3",
+      "color": "#abaa53",
       "record": {
         "fuel": 43,
         "isLocked": true,
@@ -47,6 +50,7 @@
       "brand": "brand4",
       "model": "model2",
       "department": "dep2",
+      "color": "#aa4653",
       "record": {
         "fuel": 22,
         "isLocked": true,

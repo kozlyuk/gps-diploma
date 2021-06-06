@@ -1,12 +1,10 @@
 import React from "react";
-import { useRouteMatch, Switch, Route } from "react-router-dom";
+
 import { Wrapper } from "../Wrapper";
 import { SideMenu } from "../SideMenu";
-import { TripsList } from "./TripsList";
+import { Modals } from "../Modals";
 
 export const Main = () => {
-  const { path, url } = useRouteMatch();
-
   return (
     <div
       style={{
@@ -15,6 +13,7 @@ export const Main = () => {
     >
       <SideMenu />
       <Wrapper />
+      <Modals />
     </div>
   );
 };

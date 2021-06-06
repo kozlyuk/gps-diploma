@@ -20,13 +20,16 @@ import {
 } from "@material-ui/icons";
 import { observer } from "mobx-react";
 import { StoreContext } from "../../store/StoreContext";
-import { CollapseItem, TripItem, HistoryItem } from "./";
+import {
+  CollapseItem,
+  TripItem,
+  HistoryItem,
+  Filter,
+  Footer,
+  IntervalsForm,
+  DateFilter,
+} from "./";
 import { TabPanel } from "../TabPanel";
-import { Filter, Footer } from "./";
-import { IntervalsForm } from "./IntervalsForm";
-import { DateFilter } from "./DateFilter";
-import { AddDepartmentModal } from "../Modals/AddDepartmentModal";
-import { AddCarModal } from "../Modals/AddCarModal";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -71,8 +74,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AddPanel = ({ style }) => {
-  const [showDep, setShowDep] = React.useState(false);
-  const [showCar, setShowCar] = React.useState(false);
+  const {
+    modalStore: { setAddCarShowing, setAddDepartmentShowing },
+  } = React.useContext(StoreContext);
 
   return (
     <div className={style}>
@@ -82,7 +86,7 @@ const AddPanel = ({ style }) => {
         endIcon={<Add />}
         style={{ marginRight: 10, textTransform: "none" }}
         size="small"
-        onClick={() => setShowDep(true)}
+        onClick={() => setAddDepartmentShowing(true)}
       >
         Department
       </Button>
@@ -92,12 +96,10 @@ const AddPanel = ({ style }) => {
         endIcon={<AddLocation />}
         size="small"
         style={{ textTransform: "none" }}
-        onClick={() => setShowCar(true)}
+        onClick={() => setAddCarShowing(true)}
       >
         Car
       </Button>
-      <AddDepartmentModal show={showDep} onClose={() => setShowDep(false)} />
-      <AddCarModal show={showCar} onClose={() => setShowCar(false)} />
     </div>
   );
 };
