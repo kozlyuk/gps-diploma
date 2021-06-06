@@ -1,15 +1,12 @@
 import React from "react";
-import {
-  FormControl,
-  InputLabel,
-  Input,
-  makeStyles,
-  Button,
-} from "@material-ui/core";
-import { PersonAdd } from "@material-ui/icons";
-import { Link, useHistory } from "react-router-dom";
+import { makeStyles, Tabs, Tab } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 import { GoogleLogin } from "react-google-login";
+
+import { TabPanel } from "../TabPanel";
 import { StoreContext } from "../../store/StoreContext";
+import { Register } from "../Forms/Register";
+import { Login } from "../Forms/Login";
 
 const clientID = `${process.env.REACT_APP_GOOGLE_CLIEND_ID}.apps.googleusercontent.com`;
 
@@ -27,15 +24,27 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 30,
+    minHeight: 250,
+    minWidth: 250,
   },
-  input: {},
+  input: {
+    marginBottom: 5,
+  },
   submitButton: {
     marginTop: 25,
+    backgroundColor: "gold",
+    "&:hover": {
+      backgroundColor: "green",
+    },
   },
 }));
 
 export const Auth = () => {
   const classes = useStyles();
+  const [value, setValue] = React.useState(0);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   const history = useHistory();
 
@@ -43,9 +52,14 @@ export const Auth = () => {
     userStore: { setUserData },
   } = React.useContext(StoreContext);
 
+  const setupUserAndRedirect = (user) => {
+    setUserData(user);
+    history.push("/");
+  };
+
   const responseGoogle = (response) => {
     console.log(response);
-    if (response.error) return;
+    if (response.error || response?.type === "error") return;
     const user = {
       id: response.googleId,
       token: response.accessToken,
@@ -53,41 +67,25 @@ export const Auth = () => {
       phoneNumber: "+380970000000",
       name: response.profileObj.name,
     };
-    setUserData(user);
-    history.push("/app");
+    setupUserAndRedirect(user);
   };
 
   return (
     <div className={classes.wrapper}>
-      <form className={classes.form}>
-        <FormControl className={classes.input}>
-          <InputLabel htmlFor="email">Email address</InputLabel>
-          <Input
-            id="email"
-            type="email"
-            aria-describedby="my-helper-text"
-            required
-          />
-        </FormControl>
-        <FormControl className={classes.input}>
-          <InputLabel htmlFor="pass">Password</InputLabel>
-          <Input
-            id="pass"
-            type="password"
-            aria-describedby="my-helper-text"
-            required
-          />
-        </FormControl>
-        <Button
-          className={classes.submitButton}
-          variant="contained"
-          color="primary"
-          type="submit"
-          startIcon={<PersonAdd />}
-        >
-          Register
-        </Button>
-      </form>
+      <Tabs value={value} onChange={handleChange}>
+        <Tab className={classes.tab} label="Log In" value={0} />
+        <Tab className={classes.tab} label="Registration" value={1} />
+      </Tabs>
+      <TabPanel value={value} index={1}>
+        <Register
+          classes={classes}
+          setupUserAndRedirect={setupUserAndRedirect}
+        />
+      </TabPanel>
+      <TabPanel value={value} index={0}>
+        <Login classes={classes} setupUserAndRedirect={setupUserAndRedirect} />
+      </TabPanel>
+
       <GoogleLogin
         clientId={clientID}
         buttonText="Увійти за допомогою Google"
@@ -95,7 +93,6 @@ export const Auth = () => {
         onFailure={responseGoogle}
         cookiePolicy={"single_host_origin"}
       />
-      <Link to="/app">go to app</Link>
     </div>
   );
 };

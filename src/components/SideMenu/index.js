@@ -4,3 +4,6 @@ export { CollapseItem } from "./CollapseItem";
 export { Filter } from "./Filter";
 export { SideMenu } from "./SideMenu";
 export { TripItem } from "./TripItem";
+export { Footer } from "./Footer";
+export { IntervalsForm } from "./IntervalsForm";
+export { DateFilter } from "./DateFilter";

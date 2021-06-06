@@ -11,7 +11,7 @@ export const AuthenticatedRoute = ({ children, ...rest }) => {
       {...rest}
       render={(props) =>
         userId === null ? (
-          <Redirect to={{ pathname: "/", state: { from: props.location } }} />
+          <Redirect to={{ pathname: "/auth", state: { from: props.location } }} />
         ) : (
           children
         )

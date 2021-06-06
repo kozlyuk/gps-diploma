@@ -10,9 +10,7 @@ import { observer } from "mobx-react";
 import { StoreContext } from "../store/StoreContext";
 import { MarkerWrapper } from "./MarkerWrapper";
 import { Trip } from "./Trip";
-import { ModalIntervalPicker } from "./ModalIntervalPicker";
-import { CarInfoModal } from "./CarInfoModal";
-
+import { HistoryRender } from "./HistoryRender";
 
 const SetUpAnimatedPane = () => {
   const map = useMapEvent("click", (e) => {
@@ -30,7 +28,6 @@ export const Wrapper = observer(() => {
     updateCars,
     showTrips,
     showCars,
-    modalStore: { setShowIntervalModal, showIntervalModal, carInfo, setCarInfo },
   } = React.useContext(StoreContext);
 
   React.useEffect(() => {
@@ -52,33 +49,23 @@ export const Wrapper = observer(() => {
 
   return (
     <>
-      <MapContainer center={pos} minZoom={8} zoom={10} zoomControl={false}>
+      <MapContainer center={pos} minZoom={2} zoom={10} zoomControl={false}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
         <ZoomControl position="topright" />
         <SetUpAnimatedPane />
-
-        {showCars.map((car) => (
+        {showCars?.map((car) => (
           <MarkerWrapper key={car.id} car={car} />
         ))}
-
-        {showTrips.map((trip) => (
+        {showTrips?.map((trip) => (
           <Trip key={trip.id} trip={trip} />
         ))}
+        <HistoryRender />
       </MapContainer>
 
-      <ModalIntervalPicker
-        open={showIntervalModal}
-        handleClose={() => setShowIntervalModal(false)}
-      />
 
-      <CarInfoModal
-        open={carInfo !== null}
-        handleClose={() => setCarInfo(null)}
-        carInfo={carInfo}
-      />
     </>
   );
 });

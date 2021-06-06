@@ -8,16 +8,21 @@
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.8.3",
+    "axios": "^0.21.1",
+    "formik": "^2.2.8",
     "leaflet": "^1.7.1",
     "mobx": "^6.3.0",
     "mobx-react": "^7.1.0",
     "react": "^17.0.2",
+    "react-colorful": "^5.2.2",
     "react-dom": "^17.0.2",
     "react-google-login": "^5.2.2",
     "react-leaflet": "^3.1.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
-    "web-vitals": "^1.1.1"
+    "uuid": "^8.3.2",
+    "web-vitals": "^1.1.1",
+    "yup": "^0.32.9"
   },
   "scripts": {
     "start": "react-scripts start",

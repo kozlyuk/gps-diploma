@@ -2,30 +2,34 @@ import React from "react";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import { SideMenu } from "./components/SideMenu";
-import { Wrapper } from "./components/Wrapper";
 import store from "./store/AppStore";
+import { AuthenticatedRoute } from "./components/AuthenticatedRoute";
 import { StoreContext } from "./store/StoreContext";
 import { Auth } from "./components/Pages/Auth";
-import { AuthenticatedRoute } from "./components/AuthenticatedRoute";
+import { Main } from "./components/Pages/Main";
+import { TripsList } from "./components/Pages/TripsList";
 
 const App = () => {
+  // const {} = React.useContext(StoreContext);
+  // React.useEffect(() => {
+
+  // }, []) 
   return (
     <StoreContext.Provider value={store}>
       <Router>
         <Switch>
-          <Route path="/" exact>
+          <Route path="/auth" exact>
             <Auth />
           </Route>
-          <AuthenticatedRoute path="/app">
-            <div
-              style={{
-                display: "flex",
-              }}
-            >
-              <SideMenu />
-              <Wrapper />
-            </div>
+          <AuthenticatedRoute path="/">
+            <Switch>
+              <Route path="/" exact>
+                <Main />
+              </Route>
+              <Route path="/trips">
+                <TripsList />
+              </Route>
+            </Switch>
           </AuthenticatedRoute>
         </Switch>
       </Router>
