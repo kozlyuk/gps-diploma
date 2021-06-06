@@ -60,7 +60,7 @@ export const CarForm = ({
       <FormControl>
         <TextField
           type="tel"
-          name="phone"
+          name="sim_card_number"
           label="Car sim card number"
           defaultValue={car?.simCardNumber ?? ""}
           inputProps={{ maxLength: 10, minLength: 10 }}
@@ -68,14 +68,17 @@ export const CarForm = ({
           required
         />
       </FormControl>
+      <TextField type="hidden" name="car_color" value={color} />
       <ColorPicker color={color} onChange={setColor} />
       <FormControl className={classes.textField}>
-        <InputLabel id="department-input">Filter</InputLabel>
+        <InputLabel id="department-input" style={{ marginTop: -15 }}>
+          Filter
+        </InputLabel>
         <Select
           id="department-input"
           defaultValue={car?.department ?? ""}
           name="department"
-          style={{ textAlign: "left" }}
+          style={{ textAlign: "left", marginTop: 0 }}
           required
         >
           {departments?.map((dep) => (
@@ -91,6 +94,7 @@ export const CarForm = ({
         variant="contained"
         color="primary"
         endIcon={endIcon}
+        style={{ marginTop: 15 }}
       >
         {buttonTitle}
       </Button>

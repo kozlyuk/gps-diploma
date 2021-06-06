@@ -51,21 +51,29 @@ export const AddCarModal = ({ show, onClose }) => {
 
   const onSubmit = async (event) => {
     event.preventDefault();
+    console.log(event.target.elements);
+
     const {
       car_model: { value: model },
       department: { value: department },
-      car_number: { value: id },
-      
+      car_number: { value: number },
+      car_color: { value: color },
     } = event.target.elements;
     const car = {
-      id,
+      number,
       model,
       department,
-
+      color,
     };
     //addCar(car);
 
-    //await axios.post(`${process.env.REACT_APP_CARS}/`, car);
+    // await axios
+    //   .post(`${process.env.REACT_APP_CARS}/`, car)
+    //   .then((response) => {
+    //     console.log(response);
+    //     //  TODO: load cars here
+    //   })
+    //   .catch((e) => console.log("Error adding new car: ", e));
 
     event.target.reset();
     onClose();

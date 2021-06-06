@@ -9,6 +9,8 @@ const useStyles = makeStyles({
     position: "relative",
     display: "flex",
     alignItems: "center",
+    marginTop: 5,
+    marginBottom: 5,
   },
   swatch: {
     width: 25,
@@ -25,9 +27,10 @@ const useStyles = makeStyles({
     left: 0,
     borderRadius: 9,
     boxShadow: "0 6px 12px rgba(0, 0, 0, 0.15)",
-    zIndex: 1000,
+    zIndex: 2,
   },
   text: {
+    margin: 0,
     marginRight: 20,
   },
 });
