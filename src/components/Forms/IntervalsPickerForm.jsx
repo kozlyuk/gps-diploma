@@ -25,6 +25,7 @@ export const IntervalsPickerForm = ({
   resetIcon = <RotateLeft />,
   submitIcon = <Explore />,
   onResetFilter = () => {},
+  align = "column",
 }) => {
   const classes = useStyles();
   const [startDate, setStartDate] = React.useState("");
@@ -41,16 +42,17 @@ export const IntervalsPickerForm = ({
     setEndDate("");
   };
 
-  console.log(
-    `${new Date(Date.now()).toISOString().slice(0, 10)}T${new Date(Date.now())
-      .toLocaleTimeString()
-      .slice(0, 5)}`
-  );
-
   return (
     <>
       <form className={classes.container} onSubmit={onSubmit}>
-        <div style={{ display: "flex", flexDirection: "column" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: align,
+            width: align === "row" ? 400 : "auto",
+            justifyContent: "space-around",
+          }}
+        >
           <TextField
             label="Start date time"
             type="datetime-local"
