@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, Modal } from "@material-ui/core";
+import { makeStyles, Modal, Typography } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 import axios from "axios";
 
@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
   modal: {
     position: "absolute",
     width: 400,
-    top: "25%",
+    top: "15%",
     left: "35%",
     backgroundColor: "#fff",
     textAlign: "center",
@@ -88,6 +88,7 @@ export const AddCarModal = ({ show, onClose }) => {
               <Close />
             </div>
           </div>
+          <Typography variant="h6">Add Car Modal</Typography>
           <div>
             <CarForm onSubmit={onSubmit} classes={classes} />
           </div>

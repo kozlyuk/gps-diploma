@@ -1,5 +1,5 @@
 import React from "react";
-import { Marker, Popup, Tooltip, CircleMarker } from "react-leaflet";
+import { Marker, Popup, Tooltip } from "react-leaflet";
 import { Button } from "@material-ui/core";
 import * as Leaflet from "leaflet";
 
@@ -39,11 +39,17 @@ export const MarkerWrapper = ({ car }) => {
   });
 
   const {
-    modalStore: { setCarInfo },
+    modalStore: { setCarInfo, setCommandShowing },
   } = React.useContext(StoreContext);
 
   const modalClick = () => {
     setCarInfo(car);
+    //  hide popup after open modal window
+    popup.current._closeButton.click();
+  };
+
+  const commandClick = () => {
+    setCommandShowing(true);
     //  hide popup after open modal window
     popup.current._closeButton.click();
   };
@@ -54,6 +60,7 @@ export const MarkerWrapper = ({ car }) => {
       <Popup ref={popup}>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <Button onClick={modalClick}>Show more</Button>
+          <Button onClick={commandClick}>Send Command</Button>
         </div>
       </Popup>
     </Marker>

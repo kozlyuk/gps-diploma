@@ -6,6 +6,7 @@ class ModalsStore {
   _editingCarID = null;
   _addCarShowing = false;
   _addDepartmentShowing = false;
+  _commandShowing = false;
   constructor() {
     makeObservable(this, {
       _editingDepartmentID: observable,
@@ -13,16 +14,19 @@ class ModalsStore {
       _carInfo: observable,
       _addCarShowing: observable,
       _addDepartmentShowing: observable,
+      _commandShowing: observable,
       carInfo: computed,
       editingCarID: computed,
       editingDepartmentID: computed,
       addCarShowing: computed,
       addDepartmentShowing: computed,
+      commandShowing: computed,
       setCarInfo: action,
       setEditingDepartmentID: action,
       setEditingCarID: action,
       setAddCarShowing: action,
       setAddDepartmentShowing: action,
+      setCommandShowing: action,
     });
   }
 
@@ -46,6 +50,10 @@ class ModalsStore {
     this._editingCarID = uuid;
   };
 
+  setCommandShowing = (value) => {
+    this._commandShowing = value;
+  };
+
   get carInfo() {
     return this._carInfo;
   }
@@ -64,6 +72,10 @@ class ModalsStore {
 
   get addDepartmentShowing() {
     return this._addDepartmentShowing;
+  }
+
+  get commandShowing() {
+    return this._commandShowing;
   }
 }
 

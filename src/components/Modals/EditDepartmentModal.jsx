@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, Modal } from "@material-ui/core";
+import { makeStyles, Modal, Typography } from "@material-ui/core";
 import { Close, Edit } from "@material-ui/icons";
 
 import { DepartmentForm } from "../Forms/DepartmentForm";
@@ -72,6 +72,7 @@ export const EditDepartmentModal = ({departmentID, onClose}) => {
               <Close />
             </div>
           </div>
+          <Typography variant="h6">Edit Department Modal</Typography>
           <div>
             <DepartmentForm
               onSubmit={onSubmit}

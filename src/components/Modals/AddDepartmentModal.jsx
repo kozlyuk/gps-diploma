@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, Modal } from "@material-ui/core";
+import { makeStyles, Modal, Typography } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 import axios from "axios";
 
@@ -70,6 +70,7 @@ export const AddDepartmentModal = ({ show, onClose }) => {
               <Close />
             </div>
           </div>
+          <Typography variant="h6">Add Department Modal</Typography>
           <div>
             <DepartmentForm
               onSubmit={onSubmit}
