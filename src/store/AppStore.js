@@ -67,18 +67,19 @@ class AppStore {
       addCar: action,
       setCurrentTrips: action,
       setCurrentCars: action,
+      resetState: action,
     });
     this._data = mock;
     runInAction(async () => {
       this._cars =
-        //(await axios.get(`${process.env.REACT_APP_CARS}/`)) ?? 
+        //(await axios.get(`${process.env.REACT_APP_CARS}/`)) ??
         mock.cars;
     });
     runInAction(async () => {
       this._departments =
         // (await axios.get(`${process.env.REACT_APP_DEPARTMENTS}/`))?.map(
         //   (el) => ({ ...el, show: true })
-        // ) ?? 
+        // ) ??
         mock.departments.map((el) => ({ ...el, show: true }));
     });
     this._trips = mock.trips;
@@ -164,6 +165,28 @@ class AppStore {
 
   setCurrentTrips = (trips) => {
     this._currentTrips = trips;
+  };
+
+  resetState = () => {
+    this._data = mock;
+    runInAction(async () => {
+      this._cars =
+        //(await axios.get(`${process.env.REACT_APP_CARS}/`)) ??
+        mock.cars;
+    });
+    runInAction(async () => {
+      this._departments =
+        // (await axios.get(`${process.env.REACT_APP_DEPARTMENTS}/`))?.map(
+        //   (el) => ({ ...el, show: true })
+        // ) ??
+        mock.departments.map((el) => ({ ...el, show: true }));
+    });
+    this._trips = mock.trips;
+    this._showCars = mock.cars.map((car) => car.uuid);
+    this.userStore = new UserStore();
+    this.modalStore = new ModalsStore();
+    this._currentCars = this._cars;
+    this._currentTrips = this._trips;
   };
 
   get cars() {
