@@ -54,10 +54,8 @@ export const EditDepartmentModal = ({departmentID, onClose}) => {
     updateDepartment,
   } = React.useContext(StoreContext);
 
-  const onSubmit = async (event) => {
-    event.preventDefault();
-    const name = event.target.elements.department_name.value;
-    event.target.reset();
+  const onSubmit = async (values) => {
+    const name = values.departmentName;
     updateDepartment(departmentID, name);
     //await axios.put(`${process.env.REACT_APP_DEPARTMENTS}/${departmentID}`, {id: departmentID, name})
     onClose();

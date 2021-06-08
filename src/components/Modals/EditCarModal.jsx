@@ -54,21 +54,19 @@ export const EditCarModal = ({ onClose, carID }) => {
 
   const car = cars.find((car) => car.uuid === carID) ?? null;
 
-  const onSubmit = async (event) => {
-    event.preventDefault();
-    const {
-      car_id: { value: id },
-      car_model: { value: model },
-      department: { value: department },
-    } = event.target.elements;
+  const onSubmit = async (values) => {
+      const { trackerIMEI, department, carNumber, carModel, trackerSimNumber, color } = values;
+
     const updatedCar = {
       ...car,
-      id,
+      trackerIMEI,
+      carNumber,
+      carModel,
+      trackerSimNumber,
       department,
-      model,
+      color,
     };
     updateCar(updatedCar);
-    event.target.reset();
     onClose();
     //await axios.put(`${process.env.REACT_APP_CARS}/${car.uuid}`)
   };

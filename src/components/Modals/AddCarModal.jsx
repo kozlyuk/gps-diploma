@@ -49,22 +49,25 @@ const useStyles = makeStyles((theme) => ({
 export const AddCarModal = ({ show, onClose }) => {
   const classes = useStyles();
 
-  const onSubmit = async (event) => {
-    event.preventDefault();
-    console.log(event.target.elements);
-
+  const onSubmit = async (values) => {
     const {
-      car_model: { value: model },
-      department: { value: department },
-      car_number: { value: number },
-      car_color: { value: color },
-    } = event.target.elements;
+      trackerIMEI,
+      department,
+      carNumber,
+      carModel,
+      trackerSimNumber,
+      color,
+    } = values;
     const car = {
-      number,
-      model,
+      trackerIMEI,
+      carNumber,
+      carModel,
+      trackerSimNumber,
       department,
       color,
     };
+
+    console.log("new car: ", car);
     //addCar(car);
 
     // await axios
@@ -75,7 +78,6 @@ export const AddCarModal = ({ show, onClose }) => {
     //   })
     //   .catch((e) => console.log("Error adding new car: ", e));
 
-    event.target.reset();
     onClose();
   };
 

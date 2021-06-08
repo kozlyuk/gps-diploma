@@ -52,13 +52,11 @@ export const AddDepartmentModal = ({ show, onClose }) => {
 
   const { addDepartment } = React.useContext(StoreContext);
 
-  const onSubmit = async (event) => {
-    event.preventDefault();
-    const name = event.target.elements.department_name.value;
-    event.target.reset();
+  const onSubmit = async (values) => {
+    const name = values.departmentName;
     onClose();
     addDepartment({ id: Date.now(), name });
-    await axios.post(`${process.env.REACT_APP_DEPARTMENTS}/`, { name });
+    //await axios.post(`${process.env.REACT_APP_DEPARTMENTS}/`, { name });
   };
 
   return (
