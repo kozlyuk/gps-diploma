@@ -50,9 +50,13 @@ const useStyles = makeStyles((theme) => ({
 export const EditCarModal = ({ onClose, carID }) => {
   const classes = useStyles();
 
-  const { cars, updateCar } = React.useContext(StoreContext);
+  const {
+    cars,
+    updateCar,
+    userStore: { token },
+  } = React.useContext(StoreContext);
 
-  const car = cars.find((car) => car.uuid === carID) ?? null;
+  const car = cars.find((car) => car.id === carID) ?? null;
 
   const onSubmit = async (values) => {
     const {
@@ -75,7 +79,11 @@ export const EditCarModal = ({ onClose, carID }) => {
     };
     updateCar(updatedCar);
     onClose();
-    await axios.put(`${process.env.REACT_APP_CARS}${car.uuid}/`, updatedCar);
+    await axios.put(`${process.env.REACT_APP_CARS}${car.id}/`, updatedCar, {
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+    });
   };
 
   return (

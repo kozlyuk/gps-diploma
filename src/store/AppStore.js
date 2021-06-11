@@ -133,9 +133,9 @@ class AppStore {
   };
 
   updateCar = (car) => {
-    const index = this._cars.findIndex((c) => c.uuid === car.uuid);
+    const index = this._cars.findIndex((c) => c.id === car.id);
     this._cars[index] = car;
-    const curIndex = this._currentCars.findIndex((c) => c.uuid === car.uuid);
+    const curIndex = this._currentCars.findIndex((c) => c.id === car.id);
     this._currentCars[curIndex] = car;
   };
 

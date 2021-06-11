@@ -39,17 +39,17 @@ export const CarItem = ({ car }) => {
     modalStore: { setEditingCarID },
   } = React.useContext(StoreContext);
   const [showMarker, setShowMarker] = React.useState(
-    !!showCars.find((c) => c.uuid === car.uuid)
+    !!showCars.find((c) => c.id === car.id)
   );
 
   const onClick = () => {
-    if (showCars) removeFromShowCars(car.uuid);
-    else addToShowCars(car.uuid);
+    if (showCars) removeFromShowCars(car.id);
+    else addToShowCars(car.id);
     setShowMarker((prev) => !prev);
   };
 
   const onEditClick = () => {
-    setEditingCarID(car.uuid);
+    setEditingCarID(car.id);
   };
 
   return (

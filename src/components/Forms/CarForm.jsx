@@ -21,8 +21,10 @@ export const CarForm = ({
   buttonTitle = "Add",
   endIcon = <Add />,
 }) => {
-  const [color, setColor] = React.useState("#000");
+  const [color, setColor] = React.useState(car === null ? "#000" : car.color);
   const { departments, models } = React.useContext(StoreContext);
+
+  console.log("car color: ", car);
 
   const validationSchema = yup.object({
     trackerIMEI: yup
@@ -53,10 +55,10 @@ export const CarForm = ({
 
   const formik = useFormik({
     initialValues: {
-      trackerIMEI: car?.imei ?? "",
+      trackerIMEI: car?.sim_imei ?? "",
       carNumber: car?.number ?? "",
       model: car?.model ?? "",
-      trackerSimNumber: car?.simCardNumber ?? "",
+      trackerSimNumber: car?.sim_number ?? "",
       department: car?.department ?? "",
     },
     validationSchema: validationSchema,
@@ -100,10 +102,8 @@ export const CarForm = ({
           required
         />
       </FormControl>
-      <FormControl className={classes.textField} >
-        <InputLabel id="model-input">
-          Model
-        </InputLabel>
+      <FormControl className={classes.textField}>
+        <InputLabel id="model-input">Model</InputLabel>
         <Select
           id="model-input"
           value={formik.values.model}
@@ -112,7 +112,7 @@ export const CarForm = ({
           helperText={formik.touched.model && formik.errors.model}
           FormHelperTextProps={{ style: { maxWidth: 250 } }}
           name="model"
-          style={{ textAlign: "left"}}
+          style={{ textAlign: "left" }}
           required
         >
           {models?.map((model) => (

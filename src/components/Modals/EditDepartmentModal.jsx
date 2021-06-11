@@ -50,15 +50,27 @@ const useStyles = makeStyles((theme) => ({
 export const EditDepartmentModal = ({ departmentID, onClose }) => {
   const classes = useStyles();
 
-  const { departments, updateDepartment } = React.useContext(StoreContext);
+  const {
+    departments,
+    updateDepartment,
+    userStore: { token },
+  } = React.useContext(StoreContext);
 
   const onSubmit = async (values) => {
     const { company, departmentName: name } = values;
     updateDepartment(departmentID, name);
-    await axios.put(`${process.env.REACT_APP_DEPARTMENTS}${departmentID}/`, {
-      company,
-      name,
-    });
+    await axios.put(
+      `${process.env.REACT_APP_DEPARTMENTS}${departmentID}/`,
+      {
+        company,
+        name,
+      },
+      {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      }
+    );
     onClose();
   };
 
