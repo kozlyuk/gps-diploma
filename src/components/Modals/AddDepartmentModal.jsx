@@ -50,13 +50,32 @@ const useStyles = makeStyles((theme) => ({
 export const AddDepartmentModal = ({ show, onClose }) => {
   const classes = useStyles();
 
-  const { addDepartment } = React.useContext(StoreContext);
+  const {
+    addDepartment,
+    userStore: { token },
+  } = React.useContext(StoreContext);
 
   const onSubmit = async (values) => {
-    const name = values.departmentName;
+    const { company, departmentName: name } = values;
+
     onClose();
-    addDepartment({ id: Date.now(), name });
-    //await axios.post(`${process.env.REACT_APP_DEPARTMENTS}/`, { name });
+    await axios
+      .post(
+        `${process.env.REACT_APP_DEPARTMENTS}`,
+        {
+          name,
+          company,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${token}`,
+          },
+        }
+      )
+      .then(({ data }) => {
+        addDepartment(data);
+      });
   };
 
   return (
@@ -72,7 +91,7 @@ export const AddDepartmentModal = ({ show, onClose }) => {
           <div>
             <DepartmentForm
               onSubmit={onSubmit}
-              depName={""}
+              department={null}
               classes={classes}
             />
           </div>

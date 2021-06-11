@@ -10,7 +10,9 @@ const imgSource =
 
 export const MarkerWrapper = ({ car }) => {
   const popup = React.useRef();
-  const position = [car.record.position.lat, car.record.position.lng];
+  const position = car.hasOwnProperty("record")
+    ? [car?.record?.position?.lat, car?.record?.position?.lng]
+    : null;
 
   const markerImageHtmlStyles = `
   width: 1.5rem;
@@ -53,6 +55,8 @@ export const MarkerWrapper = ({ car }) => {
     //  hide popup after open modal window
     popup.current._closeButton.click();
   };
+
+  if (!position) return null;
 
   return (
     <Marker position={position} opacity={1} icon={icon}>

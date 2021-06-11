@@ -9,8 +9,6 @@ import {
   Visibility,
   VisibilityOff,
   Edit,
-  Explore,
-  ExploreOff,
 } from "@material-ui/icons";
 import { StoreContext } from "../../store/StoreContext";
 
@@ -59,11 +57,11 @@ export const CarItem = ({ car }) => {
       <div className={classes.item}>
         <ListItem style={{ paddingTop: 0, paddingBottom: 0 }}>
           <ListItemText
-            primary={car.id}
+            primary={car.number}
             primaryTypographyProps={{ style: { fontSize: 12 } }}
           />
           {/* <IconButton size="small">
-            {!!resultIntervals.find((c) => c.uuid === car.uuid) ? (
+            {!!resultIntervals.find((c) => c.uuid === car.id) ? (
               <Explore style={{ fontSize: 16 }} />
             ) : (
               <ExploreOff style={{ fontSize: 16 }} />

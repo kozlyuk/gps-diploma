@@ -22,7 +22,7 @@ export const CarForm = ({
   endIcon = <Add />,
 }) => {
   const [color, setColor] = React.useState("#000");
-  const { departments } = React.useContext(StoreContext);
+  const { departments, models } = React.useContext(StoreContext);
 
   const validationSchema = yup.object({
     trackerIMEI: yup
@@ -33,9 +33,10 @@ export const CarForm = ({
       .required("Tracker IMEI is required"),
     carNumber: yup
       .string("Enter car number")
-      .min(5, "Minimum 5 characters")
+      .min(8, "Must contain 8 characters")
+      .max(8, "Must contain 8 characters")
       .required("Car number is required"),
-    carModel: yup
+    model: yup
       .string("Enter car model")
       .min(3, "Minimum 3 characters")
       .required("Tracker IMEI is required"),
@@ -54,7 +55,7 @@ export const CarForm = ({
     initialValues: {
       trackerIMEI: car?.imei ?? "",
       carNumber: car?.number ?? "",
-      carModel: car?.model ?? "",
+      model: car?.model ?? "",
       trackerSimNumber: car?.simCardNumber ?? "",
       department: car?.department ?? "",
     },
@@ -95,22 +96,31 @@ export const CarForm = ({
           error={formik.touched.carNumber && Boolean(formik.errors.carNumber)}
           helperText={formik.touched.carNumber && formik.errors.carNumber}
           FormHelperTextProps={{ style: { maxWidth: 250 } }}
+          inputProps={{ maxLength: 8, minLength: 8 }}
           required
         />
       </FormControl>
-      <FormControl>
-        <TextField
-          label="Car model"
-          type="text"
-          name="carModel"
-          className={classes.textField}
-          value={formik.values.carModel}
+      <FormControl className={classes.textField} >
+        <InputLabel id="model-input">
+          Model
+        </InputLabel>
+        <Select
+          id="model-input"
+          value={formik.values.model}
           onChange={formik.handleChange}
-          error={formik.touched.carModel && Boolean(formik.errors.carModel)}
-          helperText={formik.touched.carModel && formik.errors.carModel}
+          error={formik.touched.model && Boolean(formik.errors.model)}
+          helperText={formik.touched.model && formik.errors.model}
           FormHelperTextProps={{ style: { maxWidth: 250 } }}
+          name="model"
+          style={{ textAlign: "left"}}
           required
-        />
+        >
+          {models?.map((model) => (
+            <MenuItem key={model.id.toString()} value={model.id}>
+              {model.name}
+            </MenuItem>
+          ))}
+        </Select>
       </FormControl>
       <FormControl>
         <TextField
@@ -150,7 +160,7 @@ export const CarForm = ({
           required
         >
           {departments?.map((dep) => (
-            <MenuItem key={dep.id.toString()} value={dep.name}>
+            <MenuItem key={dep.id.toString()} value={dep.id}>
               {dep.name}
             </MenuItem>
           ))}

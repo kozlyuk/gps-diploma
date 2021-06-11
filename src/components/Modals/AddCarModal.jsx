@@ -4,6 +4,7 @@ import { Close } from "@material-ui/icons";
 import axios from "axios";
 
 import { CarForm } from "../Forms/CarForm";
+import { StoreContext } from "../../store/StoreContext";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -49,34 +50,42 @@ const useStyles = makeStyles((theme) => ({
 export const AddCarModal = ({ show, onClose }) => {
   const classes = useStyles();
 
+  const {
+    addCar,
+    userStore: { token },
+  } = React.useContext(StoreContext);
+
   const onSubmit = async (values) => {
     const {
       trackerIMEI,
       department,
       carNumber,
-      carModel,
+      model,
       trackerSimNumber,
       color,
     } = values;
     const car = {
-      trackerIMEI,
-      carNumber,
-      carModel,
-      trackerSimNumber,
+      model,
       department,
+      sim_imei: trackerIMEI,
+      sim_number: trackerSimNumber,
+      number: carNumber,
       color,
+      is_active: false,
     };
-
-    console.log("new car: ", car);
-    //addCar(car);
-
-    // await axios
-    //   .post(`${process.env.REACT_APP_CARS}/`, car)
-    //   .then((response) => {
-    //     console.log(response);
-    //     //  TODO: load cars here
-    //   })
-    //   .catch((e) => console.log("Error adding new car: ", e));
+    
+    await axios
+      .post(`${process.env.REACT_APP_CARS}`, car, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${token}`,
+        },
+      })
+      .then(({ data }) => {
+        console.log("on adding car response: ", data);
+        addCar(data);
+      })
+      .catch((e) => console.log("Error adding new car: ", e));
 
     onClose();
   };

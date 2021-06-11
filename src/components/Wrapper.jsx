@@ -6,6 +6,7 @@ import {
   ZoomControl,
 } from "react-leaflet";
 import { observer } from "mobx-react";
+import axios from "axios";
 
 import { StoreContext } from "../store/StoreContext";
 import { MarkerWrapper } from "./MarkerWrapper";
@@ -23,26 +24,23 @@ const SetUpAnimatedPane = () => {
 
 export const Wrapper = observer(() => {
   const pos = [51.505, -0.09];
-  const {
-    cars,
-    updateCars,
-    showTrips,
-    showCars,
-  } = React.useContext(StoreContext);
+  const { cars, updateCars, showTrips, showCars } =
+    React.useContext(StoreContext);
 
   React.useEffect(() => {
-    const update = setInterval(() => {
+    if (showCars.length === 0) return;
+    const update = setInterval(async () => {
       const idsQuery = showCars.reduce(
         (acc, curr, i) => `${acc}${i !== 0 ? "&" : ""}id=${curr.id}`,
         ""
       );
       const queryUrl = `${process.env.REACT_APP_BACKEND_URL}/api/cars/?${idsQuery}`;
       console.log("get for updating car location: ", queryUrl);
-      let newData = [...cars];
-      newData.forEach((car) => {
-        if (showCars.includes(car)) car.record.position.lat += 0.001;
+      await axios.get(queryUrl).then(({ data }) => {
+        //  update cars here
+        //updateCars(data);
+        console.log(data);
       });
-      updateCars(newData);
     }, 5000);
     return () => clearInterval(update);
   }, [cars, updateCars, showCars]);
@@ -64,8 +62,6 @@ export const Wrapper = observer(() => {
         ))}
         <HistoryRender />
       </MapContainer>
-
-
     </>
   );
 });

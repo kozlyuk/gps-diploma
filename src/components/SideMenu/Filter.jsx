@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "flex-end",
-    width: "100%"
+    width: "100%",
   },
 
   formControl: {
@@ -37,8 +37,10 @@ export const Filter = ({ filters, values, onSetFilterValue }) => {
   const [value, setValue] = React.useState("");
 
   const handleChange = (event) => {
-    if (event.target.name === "filter") setFilter(event.target.value);
-    else if (event.target.name === "value") {
+    if (event.target.name === "filter") {
+      onSetFilterValue("", "");
+      setFilter(event.target.value);
+    } else if (event.target.name === "value") {
       setValue(event.target.value);
       onSetFilterValue(filter, event.target.value);
     }
@@ -79,14 +81,18 @@ export const Filter = ({ filters, values, onSetFilterValue }) => {
             name="value"
             disabled={filter === ""}
           >
-            {values[filter]?.map((v, i) => (
-              <MenuItem key={i} value={v}>
-                {v}
+            {values[filter]?.map((v) => (
+              <MenuItem key={v.id.toString()} value={v.id}>
+                {v.name}
               </MenuItem>
             ))}
           </Select>
         </FormControl>
-        <Button className={classes.resetButton} onClick={reset} title="Reset filter">
+        <Button
+          className={classes.resetButton}
+          onClick={reset}
+          title="Reset filter"
+        >
           <RotateLeft />
         </Button>
       </div>

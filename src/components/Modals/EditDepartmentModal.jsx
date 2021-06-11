@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles, Modal, Typography } from "@material-ui/core";
 import { Close, Edit } from "@material-ui/icons";
+import axios from "axios";
 
 import { DepartmentForm } from "../Forms/DepartmentForm";
 import { StoreContext } from "../../store/StoreContext";
@@ -46,20 +47,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const EditDepartmentModal = ({departmentID, onClose}) => {
+export const EditDepartmentModal = ({ departmentID, onClose }) => {
   const classes = useStyles();
 
-  const {
-    departments,
-    updateDepartment,
-  } = React.useContext(StoreContext);
+  const { departments, updateDepartment } = React.useContext(StoreContext);
 
   const onSubmit = async (values) => {
-    const name = values.departmentName;
+    const { company, departmentName: name } = values;
     updateDepartment(departmentID, name);
-    //await axios.put(`${process.env.REACT_APP_DEPARTMENTS}/${departmentID}`, {id: departmentID, name})
+    await axios.put(`${process.env.REACT_APP_DEPARTMENTS}${departmentID}/`, {
+      company,
+      name,
+    });
     onClose();
-  };  
+  };
 
   return (
     <div>
@@ -74,10 +75,7 @@ export const EditDepartmentModal = ({departmentID, onClose}) => {
           <div>
             <DepartmentForm
               onSubmit={onSubmit}
-              depName={
-                departments.find((dep) => dep.id === departmentID)
-                  ?.name ?? ""
-              }
+              department={departments.find((dep) => dep.id === departmentID)}
               classes={classes}
               buttonTitle="Edit"
               endIcon={<Edit />}
