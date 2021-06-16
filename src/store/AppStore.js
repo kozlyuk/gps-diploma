@@ -1,7 +1,7 @@
 import { makeObservable, observable, computed, action } from "mobx";
 import axios from "axios";
 
-//import mock from "../mock.json";
+import mock from "../mock.json";
 import ModalsStore from "./ModalsStore";
 import UserStore from "./UserStore";
 
@@ -172,12 +172,16 @@ class AppStore {
   loadData = async () => {
     const headers = { Authorization: `Token ${this.userStore.token}` };
 
+    this._trips = mock.trips;
+    this._cars = mock.cars;
+    this._departments = mock.departments;
+
     //  load cars
     await axios
       .get(`${process.env.REACT_APP_CARS}`, { headers: headers })
       .then(({ data: dd }) => {
         console.log(dd);
-        this._cars = [...dd];
+        this._cars = [...this._cars, ...dd];
         this._currentCars = this._cars;
         this._showCars = this._cars.map((car) => car.id);
       });
@@ -186,7 +190,10 @@ class AppStore {
       .get(`${process.env.REACT_APP_DEPARTMENTS}`, { headers: headers })
       .then(({ data: dd }) => {
         console.log(dd);
-        this._departments = [...dd.map((el) => ({ ...el, show: true }))];
+        this._departments = [
+          ...this._departments.map((el) => ({ ...el, show: true })),
+          ...dd.map((el) => ({ ...el, show: true })),
+        ];
       });
     //  load mpdels
     await axios
