@@ -81,7 +81,7 @@ class AppStore {
   };
 
   updateCars = (newData) => {
-    this._cars = newData;
+    this._cars = [...this._cars, ...newData];
   };
 
   addToShowTrips = (tripID) => {
@@ -175,13 +175,14 @@ class AppStore {
     this._trips = mock.trips;
     this._cars = mock.cars;
     this._departments = mock.departments;
+    this._models = mock.models;
 
     //  load cars
     await axios
       .get(`${process.env.REACT_APP_CARS}`, { headers: headers })
       .then(({ data: dd }) => {
         console.log(dd);
-        this._cars = [...this._cars, ...dd];
+        //this._cars = [...this._cars, ...dd];
         this._currentCars = this._cars;
         this._showCars = this._cars.map((car) => car.id);
       });
@@ -200,7 +201,7 @@ class AppStore {
       .get(`${process.env.REACT_APP_MODELS}`, { headers: headers })
       .then(({ data: dd }) => {
         console.log(dd);
-        this._models = [...dd];
+        this._models = [...this._models, ...dd];
       });
     //  load company
     await axios

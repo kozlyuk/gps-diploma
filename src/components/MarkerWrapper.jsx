@@ -41,6 +41,7 @@ export const MarkerWrapper = ({ car }) => {
   });
 
   const {
+    departments,
     modalStore: { setCarInfo, setCommandShowing },
   } = React.useContext(StoreContext);
 
@@ -60,7 +61,7 @@ export const MarkerWrapper = ({ car }) => {
 
   return (
     <Marker position={position} opacity={1} icon={icon}>
-      <Tooltip>{`[${car.department}]:${car.id}`}</Tooltip>
+      <Tooltip>{`[${departments.find(dep => dep.id == car.department)?.name}]:${car.number}`}</Tooltip>
       <Popup ref={popup}>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <Button onClick={modalClick}>Show more</Button>

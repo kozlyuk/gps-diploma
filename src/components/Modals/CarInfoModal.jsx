@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles, Modal } from "@material-ui/core";
 import { Close, CheckCircleOutline, CancelOutlined } from "@material-ui/icons";
+import { StoreContext } from "../../store/StoreContext";
 
 const useStyles = makeStyles({
   modal: {
@@ -32,7 +33,9 @@ const useStyles = makeStyles({
 
 export const CarInfoModal = ({ open, handleClose, carInfo }) => {
   const classes = useStyles();
+  const { models, departments } = React.useContext(StoreContext);
   if (carInfo === null) return null;
+
   return (
     <div>
       <Modal open={open} onClose={handleClose}>
@@ -45,8 +48,11 @@ export const CarInfoModal = ({ open, handleClose, carInfo }) => {
           <div>
             <h2>"CAR INFO"</h2>
             <h2>Brand: {carInfo.brand}</h2>
-            <h2>Model: {carInfo.model}</h2>
-            <h2>Department: {carInfo.department}</h2>
+            <h2>Model: {models.find((m) => m.id == carInfo.model).name}</h2>
+            <h2>
+              Department:{" "}
+              {departments.find((dep) => dep.id == carInfo.department).name}
+            </h2>
             <h2>Fuel: {carInfo.record.fuel}</h2>
             <div
               style={{

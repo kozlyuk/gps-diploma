@@ -24,23 +24,25 @@ const SetUpAnimatedPane = () => {
 
 export const Wrapper = observer(() => {
   const pos = [51.505, -0.09];
-  const { cars, updateCars, showTrips, showCars } =
-    React.useContext(StoreContext);
+  const {
+    cars,
+    updateCars,
+    showTrips,
+    showCars,
+    userStore: { token },
+  } = React.useContext(StoreContext);
 
   React.useEffect(() => {
     if (showCars.length === 0) return;
     const update = setInterval(async () => {
-      const idsQuery = showCars.reduce(
-        (acc, curr, i) => `${acc}${i !== 0 ? "&" : ""}id=${curr.id}`,
-        ""
-      );
-      const queryUrl = `${process.env.REACT_APP_BACKEND_URL}/api/cars/?${idsQuery}`;
-      console.log("get for updating car location: ", queryUrl);
-      await axios.get(queryUrl).then(({ data }) => {
-        //  update cars here
-        //updateCars(data);
-        console.log(data);
-      });
+      const queryUrl = `${process.env.REACT_APP_CARS}`;
+      await axios
+        .get(queryUrl, { headers: { Authorization: `Token ${token}` } })
+        .then(({ data }) => {
+          //  update cars here
+          //updateCars(data);
+          console.log(data);
+        });
     }, 5000);
     return () => clearInterval(update);
   }, [cars, updateCars, showCars]);

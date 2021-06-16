@@ -74,7 +74,7 @@ export const CommandModal = ({ show, onClose }) => {
   const classes = useStyles();
 
   const [dialogErrorOpen, setDialogErrorOpen] = React.useState(false);
-  const [successResponse, setSuccessResponse] = React.useState(false);
+  const [successResponse, setSuccessResponse] = React.useState("");
 
   const onSubmit = (event) => {
     event.preventDefault();

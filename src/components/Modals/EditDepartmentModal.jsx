@@ -56,9 +56,17 @@ export const EditDepartmentModal = ({ departmentID, onClose }) => {
     userStore: { token },
   } = React.useContext(StoreContext);
 
+  const dep = departments.find((dep) => dep.id === departmentID);
+
   const onSubmit = async (values) => {
     const { company, departmentName: name } = values;
     updateDepartment(departmentID, name);
+    if (dep.name == name && dep?.company === company) {
+      console.log("No changes");
+      onClose();
+      return;
+    }
+
     await axios.put(
       `${process.env.REACT_APP_DEPARTMENTS}${departmentID}/`,
       {
@@ -87,7 +95,7 @@ export const EditDepartmentModal = ({ departmentID, onClose }) => {
           <div>
             <DepartmentForm
               onSubmit={onSubmit}
-              department={departments.find((dep) => dep.id === departmentID)}
+              department={dep}
               classes={classes}
               buttonTitle="Edit"
               endIcon={<Edit />}

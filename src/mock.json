@@ -6,11 +6,11 @@
   ],
   "cars": [
     {
-      "uuid": "324-234-324-2344-354-324-345",
-      "id": "0000000000001",
+      "id": "324-234-324-2344-354-324-345",
+      "number": "0000000000001",
       "brand": "brand1",
-      "model": "model1",
-      "department": "dep1",
+      "model": 1,
+      "department": 1,
       "color": "#aa46d3",
       "record": {
         "fuel": 30,
@@ -19,11 +19,11 @@
       }
     },
     {
-      "uuid": "324-234-324-234saf4-354-324-345",
-      "id": "0000000000002",
+      "id": "324-234-324-234saf4-354-324-345",
+      "number": "0000000000002",
       "brand": "brand2",
-      "model": "model2",
-      "department": "dep2",
+      "model": 2,
+      "department": 2,
       "color": "#a5bbf3",
       "record": {
         "fuel": 15,
@@ -32,11 +32,11 @@
       }
     },
     {
-      "uuid": "32fdg4-234-324-2344-354-324-345",
-      "id": "0000000000003",
+      "id": "32fdg4-234-324-2344-354-324-345",
+      "number": "0000000000003",
       "brand": "brand3",
-      "model": "model3",
-      "department": "dep3",
+      "model": 3,
+      "department": 3,
       "color": "#abaa53",
       "record": {
         "fuel": 43,
@@ -45,11 +45,11 @@
       }
     },
     {
-      "uuid": "324-2dsf34-3sdf24-2344-354-324-345",
-      "id": "0000000000004",
+      "id": "324-2dsf34-3sdf24-2344-354-324-345",
+      "number": "0000000000004",
       "brand": "brand4",
-      "model": "model2",
-      "department": "dep2",
+      "model": 2,
+      "department": 2,
       "color": "#aa4653",
       "record": {
         "fuel": 22,
@@ -181,5 +181,10 @@
         }
       ]
     }
+  ],
+  "models": [
+    { "id": 1, "name": "model1" },
+    { "id": 2, "name": "model2" },
+    { "id": 3, "name": "model3" }
   ]
 }

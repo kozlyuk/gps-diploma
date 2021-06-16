@@ -20,7 +20,9 @@ export const Routes = () => {
               <Main />
             </Route>
             <Route path="/trips">
-              <TripsList />
+              <Route path="/trips/" exact>
+                <TripsList />
+              </Route>
               <Switch>
                 <Route path="/trips/:uuid">
                   <TripInfo />
