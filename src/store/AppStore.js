@@ -182,7 +182,7 @@ class AppStore {
       .get(`${process.env.REACT_APP_CARS}`, { headers: headers })
       .then(({ data: dd }) => {
         console.log(dd);
-        //this._cars = [...this._cars, ...dd];
+        this._cars = [...this._cars, ...dd];
         this._currentCars = this._cars;
         this._showCars = this._cars.map((car) => car.id);
       });
@@ -212,7 +212,7 @@ class AppStore {
       });
 
     this._currentTrips = this._trips;
-    this._showTrips = this._trips;
+    this._showTrips = [];
 
     console.log("loaded cars: ", this._cars);
 

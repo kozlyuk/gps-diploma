@@ -10,9 +10,14 @@ const imgSource =
 
 export const MarkerWrapper = ({ car }) => {
   const popup = React.useRef();
-  const position = car.hasOwnProperty("record")
+  let position = car.hasOwnProperty("record")
     ? [car?.record?.position?.lat, car?.record?.position?.lng]
     : null;
+
+  if (car.hasOwnProperty("last_position")) {
+    const divider = 10000000;
+    position = [car.last_position.latitude / divider, car.last_position.longitude / divider];
+  }
 
   const markerImageHtmlStyles = `
   width: 1.5rem;
@@ -61,7 +66,9 @@ export const MarkerWrapper = ({ car }) => {
 
   return (
     <Marker position={position} opacity={1} icon={icon}>
-      <Tooltip>{`[${departments.find(dep => dep.id == car.department)?.name}]:${car.number}`}</Tooltip>
+      <Tooltip>{`[${
+        departments.find((dep) => dep.id == car.department)?.name
+      }]:${car.number}`}</Tooltip>
       <Popup ref={popup}>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <Button onClick={modalClick}>Show more</Button>

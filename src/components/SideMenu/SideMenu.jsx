@@ -120,6 +120,8 @@ export const SideMenu = observer(() => {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(0);
 
+  console.log(currentTrips);
+
   const filters = ["model", "department"];
   const values = filters.reduce((acc, filter) => {
     const arr = [];
@@ -161,7 +163,7 @@ export const SideMenu = observer(() => {
   };
 
   const items = departments.map((dep) => {
-    const itemList = currentCars.filter((car) => car.department === dep.id);
+    const itemList = currentCars.filter((car) => car.department == dep.id);
     //if (itemList.length === 0) return null;
 
     return (

@@ -47,32 +47,37 @@ export const CarInfoModal = ({ open, handleClose, carInfo }) => {
           </div>
           <div>
             <h2>"CAR INFO"</h2>
-            <h2>Brand: {carInfo.brand}</h2>
+            {carInfo.brand && <h2>Brand: {carInfo.brand}</h2>}
             <h2>Model: {models.find((m) => m.id == carInfo.model).name}</h2>
             <h2>
               Department:{" "}
               {departments.find((dep) => dep.id == carInfo.department).name}
             </h2>
-            <h2>Fuel: {carInfo.record.fuel}</h2>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <div>
-                <p style={{ fontSize: 18 }}>Is locked: </p>
+            {carInfo?.record?.fuel && <h2>Fuel: {carInfo.record.fuel}</h2>}
+            {carInfo?.last_position.hasOwnProperty("speed") && (
+              <h2>Speed: {carInfo.last_position.speed}</h2>
+            )}
+            {carInfo?.record?.isLocked && (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <div>
+                  <p style={{ fontSize: 18 }}>Is locked: </p>
+                </div>
+                <div style={{ paddingLeft: 10 }}>
+                  {carInfo.record.isLocked ? (
+                    <CheckCircleOutline htmlColor="green" />
+                  ) : (
+                    <CancelOutlined htmlColor="red" />
+                  )}
+                </div>
               </div>
-              <div style={{ paddingLeft: 10 }}>
-                {carInfo.record.isLocked ? (
-                  <CheckCircleOutline htmlColor="green" />
-                ) : (
-                  <CancelOutlined htmlColor="red" />
-                )}
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </Modal>

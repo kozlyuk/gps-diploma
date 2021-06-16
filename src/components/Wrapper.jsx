@@ -45,7 +45,7 @@ export const Wrapper = observer(() => {
         });
     }, 5000);
     return () => clearInterval(update);
-  }, [cars, updateCars, showCars]);
+  }, [cars, updateCars, showCars, token]);
 
   return (
     <>
