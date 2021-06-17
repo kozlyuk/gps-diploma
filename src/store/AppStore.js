@@ -6,6 +6,7 @@ import ModalsStore from "./ModalsStore";
 import UserStore from "./UserStore";
 
 class AppStore {
+  precision = 10000000;
   _cars = [];
   _trips = [];
   _departments = [];
@@ -100,8 +101,7 @@ class AppStore {
         })
         .then(({ data }) => {
           const index = this._cars.findIndex((car) => car.id == data.id);
-          if(index != -1)
-            this._cars[index] = data;
+          if (index != -1) this._cars[index] = data;
           this._showCars.unshift(carID);
         });
     }
