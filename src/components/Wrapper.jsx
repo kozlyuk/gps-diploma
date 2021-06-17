@@ -23,7 +23,6 @@ const SetUpAnimatedPane = () => {
 };
 
 export const Wrapper = observer(() => {
-  const pos = [51.505, -0.09];
   const {
     cars,
     updateCars,
@@ -31,6 +30,13 @@ export const Wrapper = observer(() => {
     showCars,
     userStore: { token },
   } = React.useContext(StoreContext);
+  const divider = 10000000;
+  const [pos, setPos] = React.useState(
+    [
+      cars[0]?.last_position?.latitude / divider,
+      cars[0]?.last_position?.longitude / divider,
+    ] ?? [0, 0]
+  );
 
   React.useEffect(() => {
     if (showCars.length === 0) return;
@@ -40,8 +46,7 @@ export const Wrapper = observer(() => {
         .get(queryUrl, { headers: { Authorization: `Token ${token}` } })
         .then(({ data }) => {
           //  update cars here
-          //updateCars(data);
-          console.log(data);
+          updateCars(data);
         });
     }, 5000);
     return () => clearInterval(update);

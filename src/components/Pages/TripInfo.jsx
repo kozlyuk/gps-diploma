@@ -37,11 +37,7 @@ export const TripInfo = () => {
   const classes = useStyles();
   const { trips } = React.useContext(StoreContext);
   const { uuid } = useParams();
-  console.log(uuid);
-  console.log(useParams());
-  console.log(trips)
   const trip = trips.find((t) => t.id == uuid);
-  console.log(trip)
   const positions = trip?.records?.map((rec) => rec.position);
   return (
     <div className={classes.container}>

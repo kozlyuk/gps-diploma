@@ -12,7 +12,7 @@ export const IntervalsForm = () => {
   const {
     addToSearchHistory,
     showCars,
-    userStore: { userId },
+    userStore: { userId, token },
   } = React.useContext(StoreContext);
 
   const handleClick = () => {
@@ -26,15 +26,18 @@ export const IntervalsForm = () => {
       end_time: { value: endTime },
     } = event.target.elements;
     let idsQuery = showCars.reduce(
-      (acc, curr, i) => `${acc}&id=${curr.id}`,
+      (acc, curr, i) => `${acc}&car_id=${curr.id}`,
       ""
     );
     idsQuery = idsQuery.slice(1);
     const query = `${idsQuery}&start_time=${startTime}&end_time=${endTime}`;
     const cache = localStorage.getItem(query);
     if (cache == null) {
-      const url = `${process.env.REACT_APP_CARS_TRACKING}/?${query}`;
-      //const response = await axios.get(url);
+      const url = `${process.env.REACT_APP_CARS_TRACKING}tracking/records/?${query}`;
+      // const response = await axios
+      //   .get(url, { headers: { Authorization: `Token ${token}` } })
+      //   .then((resp) => console.log(resp))
+      //   .catch((e) => console.log(e));
       //  test response
       const pos = { lat: 51.55467836329367, lng: 10.54124053113658494 };
 

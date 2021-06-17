@@ -144,9 +144,9 @@ export const CarForm = ({
       </FormControl>
       <TextField type="hidden" name="color" value={color} />
       <ColorPicker color={color} onChange={setColor} />
-      <FormControl className={classes.textField}>
+      <FormControl className={classes.textField} style={{marginTop: 10}}>
         <InputLabel id="department-input" style={{ marginTop: -15 }}>
-          Filter
+          Department
         </InputLabel>
         <Select
           id="department-input"

@@ -120,8 +120,6 @@ export const SideMenu = observer(() => {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(0);
 
-  console.log(currentTrips);
-
   const filters = ["model", "department"];
   const values = filters.reduce((acc, filter) => {
     const arr = [];

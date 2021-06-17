@@ -36,13 +36,14 @@ export const MarkerWrapper = ({ car }) => {
     border-radius: 3rem 3rem 0;
     transform: rotate(45deg);
     border: 1px solid #FFFFFF`;
+    const img = `<img style="${markerImageHtmlStyles}" src="${imgSource}" alt="no image"/>`;
 
   const icon = Leaflet.divIcon({
     className: "",
     iconAnchor: [0, 24],
     tooltipAnchor: [11, -11],
     popupAnchor: [0, -11],
-    html: `<span style="${markerHtmlStyles}"><img style="${markerImageHtmlStyles}" src="${imgSource}" alt="no image"/></span>`,
+    html: `<span style="${markerHtmlStyles}"></span>`,
   });
 
   const {

@@ -35,7 +35,6 @@ export const CarItem = ({ car }) => {
     addToShowCars,
     removeFromShowCars,
     showCars,
-    resultIntervals,
     modalStore: { setEditingCarID },
   } = React.useContext(StoreContext);
   const [showMarker, setShowMarker] = React.useState(

@@ -55,10 +55,10 @@ export const Auth = () => {
     userStore: { setUserData },
   } = React.useContext(StoreContext);
 
-  const setupUserAndRedirect = async (user) => {
+  const setupUserAndRedirect = (user) => {
     setUserData(user);
-    await loadData().finally(() => {
-      history.push("/");
+    history.push("/");
+    loadData().finally(() => {
       setLoading(false);
     });
   };

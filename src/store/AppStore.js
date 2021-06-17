@@ -81,7 +81,7 @@ class AppStore {
   };
 
   updateCars = (newData) => {
-    this._cars = [...this._cars, ...newData];
+    this._cars = [...newData];
   };
 
   addToShowTrips = (tripID) => {
@@ -92,8 +92,19 @@ class AppStore {
     this._showTrips = this._showTrips.filter((id) => id !== tripID);
   };
 
-  addToShowCars = (carID) => {
-    if (!this._showCars.includes(carID)) this._showCars.unshift(carID);
+  addToShowCars = async (carID) => {
+    if (!this._showCars.includes(carID)) {
+      await axios
+        .get(`${process.env.REACT_APP_CARS}${carID}/`, {
+          headers: { Authorization: `Token ${this.userStore.token}` },
+        })
+        .then(({ data }) => {
+          const index = this._cars.findIndex((car) => car.id == data.id);
+          if(index != -1)
+            this._cars[index] = data;
+          this._showCars.unshift(carID);
+        });
+    }
   };
 
   removeFromShowCars = (carID) => {
@@ -173,16 +184,16 @@ class AppStore {
     const headers = { Authorization: `Token ${this.userStore.token}` };
 
     this._trips = mock.trips;
-    this._cars = mock.cars;
-    this._departments = mock.departments;
-    this._models = mock.models;
+    //this._cars = mock.cars;
+    //this._departments = mock.departments;
+    //this._models = mock.models;
 
     //  load cars
     await axios
       .get(`${process.env.REACT_APP_CARS}`, { headers: headers })
       .then(({ data: dd }) => {
         console.log(dd);
-        this._cars = [...this._cars, ...dd];
+        this._cars = [...dd];
         this._currentCars = this._cars;
         this._showCars = this._cars.map((car) => car.id);
       });
@@ -191,17 +202,14 @@ class AppStore {
       .get(`${process.env.REACT_APP_DEPARTMENTS}`, { headers: headers })
       .then(({ data: dd }) => {
         console.log(dd);
-        this._departments = [
-          ...this._departments.map((el) => ({ ...el, show: true })),
-          ...dd.map((el) => ({ ...el, show: true })),
-        ];
+        this._departments = [...dd.map((el) => ({ ...el, show: true }))];
       });
     //  load mpdels
     await axios
       .get(`${process.env.REACT_APP_MODELS}`, { headers: headers })
       .then(({ data: dd }) => {
         console.log(dd);
-        this._models = [...this._models, ...dd];
+        this._models = [...dd];
       });
     //  load company
     await axios
@@ -216,7 +224,7 @@ class AppStore {
 
     console.log("loaded cars: ", this._cars);
 
-    this._loading = false;
+    //this._loading = false;
   };
 
   setLoading = (value) => {
