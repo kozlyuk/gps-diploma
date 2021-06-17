@@ -2,6 +2,7 @@ import React from "react";
 import { makeStyles, Tabs, Tab } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import { GoogleLogin } from "react-google-login";
+import axios from "axios";
 
 import { TabPanel } from "../TabPanel";
 import { StoreContext } from "../../store/StoreContext";
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 30,
-    minHeight: 250,
+    minHeight: 300,
     minWidth: 250,
   },
   input: {
@@ -49,25 +50,38 @@ export const Auth = () => {
   const history = useHistory();
 
   const {
+    loadData,
+    setLoading,
     userStore: { setUserData },
   } = React.useContext(StoreContext);
 
   const setupUserAndRedirect = (user) => {
     setUserData(user);
     history.push("/");
+    loadData().finally(() => {
+      setLoading(false);
+    });
   };
 
-  const responseGoogle = (response) => {
+  const responseGoogle = async (response) => {
     console.log(response);
     if (response.error || response?.type === "error") return;
-    const user = {
-      id: response.googleId,
-      token: response.accessToken,
-      email: response.profileObj.email,
-      phoneNumber: "+380970000000",
-      name: response.profileObj.name,
-    };
-    setupUserAndRedirect(user);
+
+    await axios
+      .post(`${process.env.REACT_APP_AUTH}`, {
+        access_token: response.accessToken,
+      })
+      .then(({ data }) => {
+        const user = {
+          id: response.googleId,
+          token: data.token,
+          email: response.profileObj.email,
+          phoneNumber: "+380970000000",
+          name: response.profileObj.name,
+        };
+        setupUserAndRedirect(user);
+      })
+      .catch((e) => console.log("error: ", e));
   };
 
   return (
@@ -76,14 +90,14 @@ export const Auth = () => {
         <Tab className={classes.tab} label="Log In" value={0} />
         <Tab className={classes.tab} label="Registration" value={1} />
       </Tabs>
+      <TabPanel value={value} index={0}>
+        <Login classes={classes} setupUserAndRedirect={setupUserAndRedirect} />
+      </TabPanel>
       <TabPanel value={value} index={1}>
         <Register
           classes={classes}
           setupUserAndRedirect={setupUserAndRedirect}
         />
-      </TabPanel>
-      <TabPanel value={value} index={0}>
-        <Login classes={classes} setupUserAndRedirect={setupUserAndRedirect} />
       </TabPanel>
 
       <GoogleLogin

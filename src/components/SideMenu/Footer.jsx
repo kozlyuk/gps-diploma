@@ -5,6 +5,7 @@ import { StoreContext } from "../../store/StoreContext";
 
 export const Footer = () => {
   const {
+    resetState,
     userStore: { resetUserData },
   } = React.useContext(StoreContext);
 
@@ -12,6 +13,7 @@ export const Footer = () => {
 
   const Logout = () => {
     resetUserData();
+    resetState();
     history.push("/");
   };
 

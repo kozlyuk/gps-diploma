@@ -6,6 +6,7 @@ import {
   ZoomControl,
 } from "react-leaflet";
 import { observer } from "mobx-react";
+import axios from "axios";
 
 import { StoreContext } from "../store/StoreContext";
 import { MarkerWrapper } from "./MarkerWrapper";
@@ -22,30 +23,34 @@ const SetUpAnimatedPane = () => {
 };
 
 export const Wrapper = observer(() => {
-  const pos = [51.505, -0.09];
   const {
     cars,
     updateCars,
     showTrips,
     showCars,
+    userStore: { token },
   } = React.useContext(StoreContext);
+  const divider = 10000000;
+  const [pos, setPos] = React.useState(
+    [
+      cars[0]?.last_position?.latitude / divider,
+      cars[0]?.last_position?.longitude / divider,
+    ] ?? [0, 0]
+  );
 
   React.useEffect(() => {
-    const update = setInterval(() => {
-      const idsQuery = showCars.reduce(
-        (acc, curr, i) => `${acc}${i !== 0 ? "&" : ""}id=${curr.id}`,
-        ""
-      );
-      const queryUrl = `${process.env.REACT_APP_BACKEND_URL}/api/cars/?${idsQuery}`;
-      console.log("get for updating car location: ", queryUrl);
-      let newData = [...cars];
-      newData.forEach((car) => {
-        if (showCars.includes(car)) car.record.position.lat += 0.001;
-      });
-      updateCars(newData);
+    if (showCars.length === 0) return;
+    const update = setInterval(async () => {
+      const queryUrl = `${process.env.REACT_APP_CARS}`;
+      await axios
+        .get(queryUrl, { headers: { Authorization: `Token ${token}` } })
+        .then(({ data }) => {
+          //  update cars here
+          updateCars(data);
+        });
     }, 5000);
     return () => clearInterval(update);
-  }, [cars, updateCars, showCars]);
+  }, [cars, updateCars, showCars, token]);
 
   return (
     <>
@@ -64,8 +69,6 @@ export const Wrapper = observer(() => {
         ))}
         <HistoryRender />
       </MapContainer>
-
-
     </>
   );
 });

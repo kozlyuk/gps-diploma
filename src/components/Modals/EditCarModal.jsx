@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, Modal } from "@material-ui/core";
+import { makeStyles, Modal, Typography } from "@material-ui/core";
 import { Close, Edit } from "@material-ui/icons";
 import axios from "axios";
 
@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
   modal: {
     position: "absolute",
     width: 400,
-    top: "25%",
+    top: "15%",
     left: "35%",
     backgroundColor: "#fff",
     textAlign: "center",
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
     width: 200,
-    marginBottom: 20,
+    marginBottom: 5,
   },
   form: {
     display: "flex",
@@ -50,27 +50,40 @@ const useStyles = makeStyles((theme) => ({
 export const EditCarModal = ({ onClose, carID }) => {
   const classes = useStyles();
 
-  const { cars, updateCar } = React.useContext(StoreContext);
+  const {
+    cars,
+    updateCar,
+    userStore: { token },
+  } = React.useContext(StoreContext);
 
-  const car = cars.find((car) => car.uuid === carID) ?? null;
+  const car = cars.find((car) => car.id === carID) ?? null;
 
-  const onSubmit = async (event) => {
-    event.preventDefault();
+  const onSubmit = async (values) => {
     const {
-      car_id: { value: id },
-      car_model: { value: model },
-      department: { value: department },
-    } = event.target.elements;
+      trackerIMEI,
+      department,
+      carNumber,
+      model,
+      trackerSimNumber,
+      color,
+    } = values;
+
     const updatedCar = {
       ...car,
-      id,
-      department,
+      sim_imei: trackerIMEI,
+      number: carNumber,
       model,
+      sim_number: trackerSimNumber,
+      department,
+      color,
     };
     updateCar(updatedCar);
-    event.target.reset();
     onClose();
-    //await axios.put(`${process.env.REACT_APP_CARS}/${car.uuid}`)
+    await axios.put(`${process.env.REACT_APP_CARS}${car.id}/`, updatedCar, {
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+    });
   };
 
   return (
@@ -82,6 +95,7 @@ export const EditCarModal = ({ onClose, carID }) => {
               <Close />
             </div>
           </div>
+          <Typography variant="h6">Edit Car Modal</Typography>
           <div>
             <CarForm
               onSubmit={onSubmit}

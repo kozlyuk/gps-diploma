@@ -1,15 +1,16 @@
 import React from "react";
-import { makeStyles, Modal } from "@material-ui/core";
+import { makeStyles, Modal, Typography } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 import axios from "axios";
 
 import { CarForm } from "../Forms/CarForm";
+import { StoreContext } from "../../store/StoreContext";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
     position: "absolute",
     width: 400,
-    top: "25%",
+    top: "15%",
     left: "35%",
     backgroundColor: "#fff",
     textAlign: "center",
@@ -49,33 +50,43 @@ const useStyles = makeStyles((theme) => ({
 export const AddCarModal = ({ show, onClose }) => {
   const classes = useStyles();
 
-  const onSubmit = async (event) => {
-    event.preventDefault();
-    console.log(event.target.elements);
+  const {
+    addCar,
+    userStore: { token },
+  } = React.useContext(StoreContext);
 
+  const onSubmit = async (values) => {
     const {
-      car_model: { value: model },
-      department: { value: department },
-      car_number: { value: number },
-      car_color: { value: color },
-    } = event.target.elements;
+      trackerIMEI,
+      department,
+      carNumber,
+      model,
+      trackerSimNumber,
+      color,
+    } = values;
     const car = {
-      number,
       model,
       department,
+      sim_imei: trackerIMEI,
+      sim_number: trackerSimNumber,
+      number: carNumber,
       color,
+      is_active: false,
     };
-    //addCar(car);
+    
+    await axios
+      .post(`${process.env.REACT_APP_CARS}`, car, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${token}`,
+        },
+      })
+      .then(({ data }) => {
+        console.log("on adding car response: ", data);
+        addCar(data);
+      })
+      .catch((e) => console.log("Error adding new car: ", e));
 
-    // await axios
-    //   .post(`${process.env.REACT_APP_CARS}/`, car)
-    //   .then((response) => {
-    //     console.log(response);
-    //     //  TODO: load cars here
-    //   })
-    //   .catch((e) => console.log("Error adding new car: ", e));
-
-    event.target.reset();
     onClose();
   };
 
@@ -88,6 +99,7 @@ export const AddCarModal = ({ show, onClose }) => {
               <Close />
             </div>
           </div>
+          <Typography variant="h6">Add Car Modal</Typography>
           <div>
             <CarForm onSubmit={onSubmit} classes={classes} />
           </div>

@@ -1,24 +1,29 @@
 import React from "react";
 import {
   List,
+  Paper,
+  Collapse,
   ListItem,
   ListItemText,
   makeStyles,
   Breadcrumbs,
   Typography,
 } from "@material-ui/core";
-import { NavigateNext } from "@material-ui/icons";
 import {
-  Switch,
-  Route,
+  NavigateNext,
+  ExpandLess,
+  ExpandMore,
+  Search,
+} from "@material-ui/icons";
+import {
   useRouteMatch,
   useHistory,
   Link,
 } from "react-router-dom";
 
-import { TripInfo } from "./TripInfo";
 import { StoreContext } from "../../store/StoreContext";
 import { CardTrip } from "../CardTrip";
+import { IntervalsPickerForm } from "../Forms/IntervalsPickerForm";
 
 const useStyles = makeStyles({
   container: {
@@ -44,39 +49,80 @@ export const TripsList = () => {
   const classes = useStyles();
   const { trips } = React.useContext(StoreContext);
 
-  const { path, url } = useRouteMatch();
+  const [open, setOpen] = React.useState(false);
+  const [showingTrips, setShowingTrips] = React.useState(trips);
+
+  const { url } = useRouteMatch();
   const history = useHistory();
+
+  const onFilterSubmit = (event) => {
+    event.preventDefault();
+    const {
+      start_time: { value: startDate },
+      end_time: { value: endDate },
+    } = event.target.elements;
+
+    if (startDate === "" || endDate === "") setShowingTrips(trips);
+    else if (startDate !== "" || endDate !== "")
+      setShowingTrips(
+        trips.filter((trip) => trip.date >= startDate && trip.date <= endDate)
+      );
+
+    event.target.reset();
+  };
+
+  const handleReset = () => {
+    setShowingTrips(trips);
+  };
 
   const onTripPress = (tripID) => {
     history.push(`${url}/${tripID}`);
   };
 
+  const handleClick = () => {
+    setOpen((prev) => !prev);
+  };
+
   return (
-    <Switch>
-      <Route path={path} exact>
-        <div className={classes.container}>
-          <Breadcrumbs separator={<NavigateNext fontSize="small" />}>
-            <Link color="inherit" to="/" className={classes.link}>
-              Map
-            </Link>
-            <Typography color="textPrimary">Trips list</Typography>
-          </Breadcrumbs>
-          <div className={classes.list}>
-            <List>
-              {trips.map((trip) => (
-                <CardTrip
-                  key={trip.id.toString()}
-                  trip={trip}
-                  onClick={() => onTripPress(trip.id)}
-                />
-              ))}
-            </List>
-          </div>
-        </div>
-      </Route>
-      <Route path={`${path}/:uuid`}>
-        <TripInfo />
-      </Route>
-    </Switch>
+    <div className={classes.container}>
+      <Breadcrumbs separator={<NavigateNext fontSize="small" />}>
+        <Link color="inherit" to="/" className={classes.link}>
+          Map
+        </Link>
+        <Typography color="textPrimary">Trips list</Typography>
+      </Breadcrumbs>
+      <div className={classes.list}>
+        <Paper style={{ marginTop: 5 }}>
+          <ListItem
+            button
+            onClick={handleClick}
+            style={{ paddingTop: 0, paddingBottom: 0 }}
+          >
+            <ListItemText
+              primary={"Filter"}
+              primaryTypographyProps={{ style: { fontSize: 16 } }}
+            />
+            {open ? <ExpandLess /> : <ExpandMore />}
+          </ListItem>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <IntervalsPickerForm
+              onSubmit={onFilterSubmit}
+              align={"row"}
+              submitIcon={<Search htmlColor="blue" />}
+              onResetFilter={handleReset}
+            />
+          </Collapse>
+        </Paper>
+        <List>
+          {showingTrips.map((trip) => (
+            <CardTrip
+              key={trip.id.toString()}
+              trip={trip}
+              onClick={() => onTripPress(trip.id)}
+            />
+          ))}
+        </List>
+      </div>
+    </div>
   );
 };

@@ -1,6 +1,9 @@
 import React from "react";
-import { makeStyles, Modal } from "@material-ui/core";
-import { Close, CheckCircleOutline, CancelOutlined } from "@material-ui/icons";
+import { makeStyles, Modal, Typography } from "@material-ui/core";
+import { Close } from "@material-ui/icons";
+import { observer } from "mobx-react";
+
+import { StoreContext } from "../../store/StoreContext";
 
 const useStyles = makeStyles({
   modal: {
@@ -28,11 +31,19 @@ const useStyles = makeStyles({
       color: "#aaa",
     },
   },
+  container: {
+    minHeight: 250,
+    padding: "0px 10px 10px",
+  },
 });
 
-export const CarInfoModal = ({ open, handleClose, carInfo }) => {
+export const CarInfoModal = observer(({ open, handleClose, carInfo }) => {
   const classes = useStyles();
+  const { models, departments, cars } = React.useContext(StoreContext);
   if (carInfo === null) return null;
+
+  const currCar = cars.find((car) => car.id == carInfo.id);
+
   return (
     <div>
       <Modal open={open} onClose={handleClose}>
@@ -42,34 +53,21 @@ export const CarInfoModal = ({ open, handleClose, carInfo }) => {
               <Close />
             </div>
           </div>
-          <div>
-            <h2>"CAR INFO"</h2>
-            <h2>Brand: {carInfo.brand}</h2>
-            <h2>Model: {carInfo.model}</h2>
-            <h2>Department: {carInfo.department}</h2>
-            <h2>Fuel: {carInfo.record.fuel}</h2>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <div>
-                <p style={{ fontSize: 18 }}>Is locked: </p>
-              </div>
-              <div style={{ paddingLeft: 10 }}>
-                {carInfo.record.isLocked ? (
-                  <CheckCircleOutline htmlColor="green" />
-                ) : (
-                  <CancelOutlined htmlColor="red" />
-                )}
-              </div>
-            </div>
+          <div className={classes.container}>
+            <Typography variant="h4" style={{marginBottom: 25}}>CAR INFO</Typography>
+            <Typography variant="h6">
+              Model: {models.find((m) => m.id == currCar.model).name}
+            </Typography>
+            <Typography variant="h6">
+              Department:{" "}
+              {departments.find((dep) => dep.id == currCar.department).name}
+            </Typography>
+            {currCar.hasOwnProperty("last_position") && (
+              <Typography variant="h6">Speed: {currCar.last_position.speed} km/h</Typography>
+            )}
           </div>
         </div>
       </Modal>
     </div>
   );
-};
+});

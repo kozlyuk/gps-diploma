@@ -1,10 +1,4 @@
-import {
-  makeObservable,
-  observable,
-  computed,
-  action,
-  runInAction,
-} from "mobx";
+import { makeObservable, observable, computed, action } from "mobx";
 import axios from "axios";
 
 import mock from "../mock.json";
@@ -12,10 +6,11 @@ import ModalsStore from "./ModalsStore";
 import UserStore from "./UserStore";
 
 class AppStore {
-  _data = {};
   _cars = [];
   _trips = [];
   _departments = [];
+  _models = [];
+  _company = [];
   _showTrips = [];
   _showCars = [];
   _showHistory = [];
@@ -24,32 +19,38 @@ class AppStore {
   _currentTrips = [];
   _currentCars = [];
 
+  _loading = true;
+
   userStore = null;
   modalStore = null;
   constructor() {
     makeObservable(this, {
       userStore: observable,
-      _data: observable,
       _cars: observable,
       _departments: observable,
       _trips: observable,
+      _company: observable,
+      _models: observable,
       _showTrips: observable,
       _showCars: observable,
       _showHistory: observable,
       _searchHistory: observable,
       _currentTrips: observable,
       _currentCars: observable,
+      _loading: observable,
 
-      data: computed,
       cars: computed,
       departments: computed,
       trips: computed,
+      models: computed,
+      company: computed,
       showTrips: computed,
       showCars: computed,
       showHistory: computed,
       searchHistory: computed,
       currentCars: computed,
       currentTrips: computed,
+      loading: computed,
 
       updateData: action,
       updateCars: action,
@@ -67,26 +68,12 @@ class AppStore {
       addCar: action,
       setCurrentTrips: action,
       setCurrentCars: action,
+      resetState: action,
+      loadData: action,
+      setLoading: action,
     });
-    this._data = mock;
-    runInAction(async () => {
-      this._cars =
-        //(await axios.get(`${process.env.REACT_APP_CARS}/`)) ?? 
-        mock.cars;
-    });
-    runInAction(async () => {
-      this._departments =
-        // (await axios.get(`${process.env.REACT_APP_DEPARTMENTS}/`))?.map(
-        //   (el) => ({ ...el, show: true })
-        // ) ?? 
-        mock.departments.map((el) => ({ ...el, show: true }));
-    });
-    this._trips = mock.trips;
-    this._showCars = mock.cars.map((car) => car.uuid);
     this.userStore = new UserStore();
     this.modalStore = new ModalsStore();
-    this._currentCars = this._cars;
-    this._currentTrips = this._trips;
   }
 
   updateData = (newData) => {
@@ -94,7 +81,7 @@ class AppStore {
   };
 
   updateCars = (newData) => {
-    this._cars = newData;
+    this._cars = [...newData];
   };
 
   addToShowTrips = (tripID) => {
@@ -105,8 +92,19 @@ class AppStore {
     this._showTrips = this._showTrips.filter((id) => id !== tripID);
   };
 
-  addToShowCars = (carID) => {
-    if (!this._showCars.includes(carID)) this._showCars.unshift(carID);
+  addToShowCars = async (carID) => {
+    if (!this._showCars.includes(carID)) {
+      await axios
+        .get(`${process.env.REACT_APP_CARS}${carID}/`, {
+          headers: { Authorization: `Token ${this.userStore.token}` },
+        })
+        .then(({ data }) => {
+          const index = this._cars.findIndex((car) => car.id == data.id);
+          if(index != -1)
+            this._cars[index] = data;
+          this._showCars.unshift(carID);
+        });
+    }
   };
 
   removeFromShowCars = (carID) => {
@@ -135,7 +133,6 @@ class AppStore {
     const toUpdateCars = this._cars.filter(
       (car) => car.department === updatedItem.name
     );
-    console.log(toUpdateCars);
     updatedItem.name = name;
     toUpdateCars.forEach((car) => {
       car.department = name;
@@ -147,9 +144,9 @@ class AppStore {
   };
 
   updateCar = (car) => {
-    const index = this._cars.findIndex((c) => c.uuid === car.uuid);
+    const index = this._cars.findIndex((c) => c.id === car.id);
     this._cars[index] = car;
-    const curIndex = this._currentCars.findIndex((c) => c.uuid === car.uuid);
+    const curIndex = this._currentCars.findIndex((c) => c.id === car.id);
     this._currentCars[curIndex] = car;
   };
 
@@ -166,6 +163,74 @@ class AppStore {
     this._currentTrips = trips;
   };
 
+  resetState = () => {
+    this._cars = [];
+    this._trips = [];
+    this._departments = [];
+    this._models = [];
+    this._company = [];
+    this._showTrips = [];
+    this._showCars = [];
+    this._showHistory = [];
+    this._searchHistory = [];
+
+    this._loading = true;
+
+    this._currentTrips = [];
+    this._currentCars = [];
+  };
+
+  loadData = async () => {
+    const headers = { Authorization: `Token ${this.userStore.token}` };
+
+    this._trips = mock.trips;
+    //this._cars = mock.cars;
+    //this._departments = mock.departments;
+    //this._models = mock.models;
+
+    //  load cars
+    await axios
+      .get(`${process.env.REACT_APP_CARS}`, { headers: headers })
+      .then(({ data: dd }) => {
+        console.log(dd);
+        this._cars = [...dd];
+        this._currentCars = this._cars;
+        this._showCars = this._cars.map((car) => car.id);
+      });
+    //  load departments
+    await axios
+      .get(`${process.env.REACT_APP_DEPARTMENTS}`, { headers: headers })
+      .then(({ data: dd }) => {
+        console.log(dd);
+        this._departments = [...dd.map((el) => ({ ...el, show: true }))];
+      });
+    //  load mpdels
+    await axios
+      .get(`${process.env.REACT_APP_MODELS}`, { headers: headers })
+      .then(({ data: dd }) => {
+        console.log(dd);
+        this._models = [...dd];
+      });
+    //  load company
+    await axios
+      .get(`${process.env.REACT_APP_COMPANY}`, { headers: headers })
+      .then(({ data: dd }) => {
+        console.log(dd);
+        this._company = [...dd];
+      });
+
+    this._currentTrips = this._trips;
+    this._showTrips = [];
+
+    console.log("loaded cars: ", this._cars);
+
+    //this._loading = false;
+  };
+
+  setLoading = (value) => {
+    this._loading = value;
+  };
+
   get cars() {
     return this._cars;
   }
@@ -179,7 +244,7 @@ class AppStore {
   }
 
   get showCars() {
-    return this._cars.filter((car) => this._showCars.includes(car.uuid));
+    return this._cars.filter((car) => this._showCars.includes(car.id));
   }
 
   get trips() {
@@ -204,8 +269,16 @@ class AppStore {
     return this._currentTrips;
   }
 
-  get data() {
-    return this._data;
+  get models() {
+    return this._models;
+  }
+
+  get company() {
+    return this._company;
+  }
+
+  get loading() {
+    return this._loading;
   }
 }
 

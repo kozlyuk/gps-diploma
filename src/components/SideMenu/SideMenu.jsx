@@ -110,6 +110,7 @@ export const SideMenu = observer(() => {
     cars,
     departments,
     trips,
+    models,
     searchHistory,
     currentTrips,
     setCurrentTrips,
@@ -119,13 +120,21 @@ export const SideMenu = observer(() => {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(0);
 
-  const filters = [...Object.keys(cars[0])];
-  filters.splice(filters.indexOf("record"), 1);
-  filters.splice(filters.indexOf("id"), 1);
+  const filters = ["model", "department"];
   const values = filters.reduce((acc, filter) => {
     const arr = [];
+    let data = [];
+    if (filter === "model") {
+      data = models;
+    } else if (filter === "department") {
+      data = departments;
+    }
+
     cars.forEach((car) => {
-      if (!arr.includes(car[filter])) arr.push(car[filter]);
+      const element = data.find((el) => el.id === car[filter]);
+      if (!arr.includes(element)) {
+        arr.push(element);
+      }
     });
     return {
       ...acc,
@@ -152,8 +161,8 @@ export const SideMenu = observer(() => {
   };
 
   const items = departments.map((dep) => {
-    const itemList = currentCars.filter((car) => car.department === dep.name);
-    if (itemList.length === 0) return null;
+    const itemList = currentCars.filter((car) => car.department == dep.id);
+    //if (itemList.length === 0) return null;
 
     return (
       <CollapseItem
@@ -161,7 +170,7 @@ export const SideMenu = observer(() => {
         id={dep.id}
         title={dep.name}
         items={itemList}
-        show={dep.show}
+        show={itemList.length > 0}
       />
     );
   });

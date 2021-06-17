@@ -1,50 +1,18 @@
 import React from "react";
-import {
-  ListItem,
-  ListItemText,
-  Collapse,
-  Paper,
-  IconButton,
-  TextField,
-  makeStyles,
-} from "@material-ui/core";
-import {
-  ExpandLess,
-  ExpandMore,
-  Explore,
-  RotateLeft,
-} from "@material-ui/icons";
-import { v4 as uuidv4 } from "uuid";
+import { ListItem, ListItemText, Collapse, Paper } from "@material-ui/core";
+import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import axios from "axios";
 
 import { StoreContext } from "../../store/StoreContext";
-
-const useStyles = makeStyles((theme) => ({
-  textField: {
-    marginBottom: 5,
-    fontSize: 10,
-  },
-  container: {
-    display: "flex",
-    flexWrap: "wrap",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-around",
-  },
-  submitButton: {
-    marginTop: 5,
-  },
-}));
+import { IntervalsPickerForm } from "../Forms/IntervalsPickerForm";
 
 export const IntervalsForm = () => {
-  const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [startDate, setStartDate] = React.useState("");
-  const [endDate, setEndDate] = React.useState("");
+
   const {
     addToSearchHistory,
     showCars,
-    userStore: { userId },
+    userStore: { userId, token },
   } = React.useContext(StoreContext);
 
   const handleClick = () => {
@@ -58,15 +26,18 @@ export const IntervalsForm = () => {
       end_time: { value: endTime },
     } = event.target.elements;
     let idsQuery = showCars.reduce(
-      (acc, curr, i) => `${acc}&id=${curr.id}`,
+      (acc, curr, i) => `${acc}&car_id=${curr.id}`,
       ""
     );
     idsQuery = idsQuery.slice(1);
     const query = `${idsQuery}&start_time=${startTime}&end_time=${endTime}`;
     const cache = localStorage.getItem(query);
     if (cache == null) {
-      const url = `${process.env.REACT_APP_CARS_TRACKING}/?${query}`;
-      //const response = await axios.get(url);
+      const url = `${process.env.REACT_APP_CARS_TRACKING}tracking/records/?${query}`;
+      // const response = await axios
+      //   .get(url, { headers: { Authorization: `Token ${token}` } })
+      //   .then((resp) => console.log(resp))
+      //   .catch((e) => console.log(e));
       //  test response
       const pos = { lat: 51.55467836329367, lng: 10.54124053113658494 };
 
@@ -74,8 +45,8 @@ export const IntervalsForm = () => {
         const recs = [];
         for (let i = 0; i < 1000; i++) {
           recs.push({
-            lat: pos.lat + (Math.random()),
-            lng: pos.lng + (Math.random()),
+            lat: pos.lat + Math.random(),
+            lng: pos.lng + Math.random(),
           });
         }
         return {
@@ -106,7 +77,7 @@ export const IntervalsForm = () => {
         };
       });
       const data = {
-        id: uuidv4(),
+        id: Date.now(),
         ids: showCars.map((car) => car.uuid),
         records: results,
         startTime,
@@ -127,16 +98,6 @@ export const IntervalsForm = () => {
     // );
   };
 
-  const onChange = (event) => {
-    if (event.target.name === "start_time") setStartDate(event.target.value);
-    else if (event.target.name === "end_time") setEndDate(event.target.value);
-  };
-
-  const reset = () => {
-    setStartDate("");
-    setEndDate("");
-  };
-
   return (
     <Paper style={{ marginTop: 5 }}>
       <ListItem
@@ -151,73 +112,7 @@ export const IntervalsForm = () => {
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
       <Collapse in={open} timeout="auto" unmountOnExit>
-        <form className={classes.container} onSubmit={onSubmit}>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <TextField
-              label="Start date time"
-              type="datetime-local"
-              name="start_time"
-              className={classes.textField}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={onChange}
-              value={startDate}
-              InputProps={{
-                inputProps: {
-                  max: `${new Date(Date.now())
-                    .toISOString()
-                    .slice(0, 10)}T${new Date(Date.now())
-                    .toLocaleTimeString()
-                    .slice(0, 5)}`,
-                },
-              }}
-              required
-            />
-            <TextField
-              label="End date time"
-              type="datetime-local"
-              name="end_time"
-              className={classes.textField}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              value={endDate}
-              onChange={onChange}
-              disabled={startDate === ""}
-              InputProps={{
-                inputProps: {
-                  max: `${new Date(Date.now())
-                    .toISOString()
-                    .slice(0, 10)}T${new Date(Date.now())
-                    .toLocaleTimeString()
-                    .slice(0, 5)}`,
-                },
-              }}
-              required
-            />
-          </div>
-          <div>
-            <IconButton
-              className={classes.submitButton}
-              type="submit"
-              variant="contained"
-              color="secondary"
-              size="small"
-            >
-              <Explore />
-            </IconButton>
-            <IconButton
-              className={classes.submitButton}
-              variant="outlined"
-              color="secondary"
-              size="small"
-              onClick={reset}
-            >
-              <RotateLeft />
-            </IconButton>
-          </div>
-        </form>
+        <IntervalsPickerForm onSubmit={onSubmit} />
       </Collapse>
     </Paper>
   );

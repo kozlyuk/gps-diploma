@@ -78,7 +78,7 @@ export const Register = ({ classes, setupUserAndRedirect }) => {
         <TextField
           type="text"
           name="name"
-          label="Name-Surname"
+          label="Surname and Name"
           value={formik.values.name}
           onChange={formik.handleChange}
           error={formik.touched.name && Boolean(formik.errors.name)}

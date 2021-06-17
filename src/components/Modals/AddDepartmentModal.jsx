@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, Modal } from "@material-ui/core";
+import { makeStyles, Modal, Typography } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 import axios from "axios";
 
@@ -50,15 +50,32 @@ const useStyles = makeStyles((theme) => ({
 export const AddDepartmentModal = ({ show, onClose }) => {
   const classes = useStyles();
 
-  const { addDepartment } = React.useContext(StoreContext);
+  const {
+    addDepartment,
+    userStore: { token },
+  } = React.useContext(StoreContext);
 
-  const onSubmit = async (event) => {
-    event.preventDefault();
-    const name = event.target.elements.department_name.value;
-    event.target.reset();
+  const onSubmit = async (values) => {
+    const { company, departmentName: name } = values;
+
     onClose();
-    addDepartment({ id: Date.now(), name });
-    await axios.post(`${process.env.REACT_APP_DEPARTMENTS}/`, { name });
+    await axios
+      .post(
+        `${process.env.REACT_APP_DEPARTMENTS}`,
+        {
+          name,
+          company,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${token}`,
+          },
+        }
+      )
+      .then(({ data }) => {
+        addDepartment(data);
+      });
   };
 
   return (
@@ -70,10 +87,11 @@ export const AddDepartmentModal = ({ show, onClose }) => {
               <Close />
             </div>
           </div>
+          <Typography variant="h6">Add Department Modal</Typography>
           <div>
             <DepartmentForm
               onSubmit={onSubmit}
-              depName={""}
+              department={null}
               classes={classes}
             />
           </div>

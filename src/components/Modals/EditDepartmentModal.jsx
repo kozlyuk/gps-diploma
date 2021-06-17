@@ -1,6 +1,7 @@
 import React from "react";
-import { makeStyles, Modal } from "@material-ui/core";
+import { makeStyles, Modal, Typography } from "@material-ui/core";
 import { Close, Edit } from "@material-ui/icons";
+import axios from "axios";
 
 import { DepartmentForm } from "../Forms/DepartmentForm";
 import { StoreContext } from "../../store/StoreContext";
@@ -46,22 +47,40 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const EditDepartmentModal = ({departmentID, onClose}) => {
+export const EditDepartmentModal = ({ departmentID, onClose }) => {
   const classes = useStyles();
 
   const {
     departments,
     updateDepartment,
+    userStore: { token },
   } = React.useContext(StoreContext);
 
-  const onSubmit = async (event) => {
-    event.preventDefault();
-    const name = event.target.elements.department_name.value;
-    event.target.reset();
+  const dep = departments.find((dep) => dep.id === departmentID);
+
+  const onSubmit = async (values) => {
+    const { company, departmentName: name } = values;
     updateDepartment(departmentID, name);
-    //await axios.put(`${process.env.REACT_APP_DEPARTMENTS}/${departmentID}`, {id: departmentID, name})
+    if (dep.name == name && dep?.company === company) {
+      console.log("No changes");
+      onClose();
+      return;
+    }
+
+    await axios.put(
+      `${process.env.REACT_APP_DEPARTMENTS}${departmentID}/`,
+      {
+        company,
+        name,
+      },
+      {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      }
+    );
     onClose();
-  };  
+  };
 
   return (
     <div>
@@ -72,13 +91,11 @@ export const EditDepartmentModal = ({departmentID, onClose}) => {
               <Close />
             </div>
           </div>
+          <Typography variant="h6">Edit Department Modal</Typography>
           <div>
             <DepartmentForm
               onSubmit={onSubmit}
-              depName={
-                departments.find((dep) => dep.id === departmentID)
-                  ?.name ?? ""
-              }
+              department={dep}
               classes={classes}
               buttonTitle="Edit"
               endIcon={<Edit />}

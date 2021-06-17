@@ -1,5 +1,5 @@
 import React from "react";
-import { Marker, Popup, Tooltip, CircleMarker } from "react-leaflet";
+import { Marker, Popup, Tooltip } from "react-leaflet";
 import { Button } from "@material-ui/core";
 import * as Leaflet from "leaflet";
 
@@ -10,7 +10,14 @@ const imgSource =
 
 export const MarkerWrapper = ({ car }) => {
   const popup = React.useRef();
-  const position = [car.record.position.lat, car.record.position.lng];
+  let position = car.hasOwnProperty("record")
+    ? [car?.record?.position?.lat, car?.record?.position?.lng]
+    : null;
+
+  if (car.hasOwnProperty("last_position")) {
+    const divider = 10000000;
+    position = [car.last_position.latitude / divider, car.last_position.longitude / divider];
+  }
 
   const markerImageHtmlStyles = `
   width: 1.5rem;
@@ -29,17 +36,19 @@ export const MarkerWrapper = ({ car }) => {
     border-radius: 3rem 3rem 0;
     transform: rotate(45deg);
     border: 1px solid #FFFFFF`;
+    const img = `<img style="${markerImageHtmlStyles}" src="${imgSource}" alt="no image"/>`;
 
   const icon = Leaflet.divIcon({
     className: "",
     iconAnchor: [0, 24],
     tooltipAnchor: [11, -11],
     popupAnchor: [0, -11],
-    html: `<span style="${markerHtmlStyles}"><img style="${markerImageHtmlStyles}" src="${imgSource}" alt="no image"/></span>`,
+    html: `<span style="${markerHtmlStyles}"></span>`,
   });
 
   const {
-    modalStore: { setCarInfo },
+    departments,
+    modalStore: { setCarInfo, setCommandShowing },
   } = React.useContext(StoreContext);
 
   const modalClick = () => {
@@ -48,12 +57,23 @@ export const MarkerWrapper = ({ car }) => {
     popup.current._closeButton.click();
   };
 
+  const commandClick = () => {
+    setCommandShowing(true);
+    //  hide popup after open modal window
+    popup.current._closeButton.click();
+  };
+
+  if (!position) return null;
+
   return (
     <Marker position={position} opacity={1} icon={icon}>
-      <Tooltip>{`[${car.department}]:${car.id}`}</Tooltip>
+      <Tooltip>{`[${
+        departments.find((dep) => dep.id == car.department)?.name
+      }]:${car.number}`}</Tooltip>
       <Popup ref={popup}>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <Button onClick={modalClick}>Show more</Button>
+          <Button onClick={commandClick}>Send Command</Button>
         </div>
       </Popup>
     </Marker>

@@ -7,6 +7,7 @@ import { EditCarModal } from "./Modals/EditCarModal";
 import { AddCarModal } from "./Modals/AddCarModal";
 import { AddDepartmentModal } from "./Modals/AddDepartmentModal";
 import { StoreContext } from "../store/StoreContext";
+import { CommandModal } from "./Modals/CommandModal";
 
 export const Modals = observer(() => {
   const {
@@ -21,6 +22,8 @@ export const Modals = observer(() => {
       editingCarID,
       setEditingDepartmentID,
       editingDepartmentID,
+      commandShowing,
+      setCommandShowing,
     },
   } = React.useContext(StoreContext);
 
@@ -47,6 +50,10 @@ export const Modals = observer(() => {
       <AddCarModal
         show={addCarShowing}
         onClose={() => setAddCarShowing(false)}
+      />
+      <CommandModal
+        show={commandShowing}
+        onClose={() => setCommandShowing(false)}
       />
     </>
   );
