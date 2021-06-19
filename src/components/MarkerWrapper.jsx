@@ -9,16 +9,21 @@ const imgSource =
   "https://cdn.dribbble.com/users/1787323/screenshots/14677197/media/d699460e529ff1c026dce3931078ebcb.png";
 
 export const MarkerWrapper = ({ car }) => {
+  const {
+    departments,
+    precision,
+    modalStore: { setCarInfo, setCommandShowing },
+  } = React.useContext(StoreContext);
+
   const popup = React.useRef();
   let position = car.hasOwnProperty("record")
     ? [car?.record?.position?.lat, car?.record?.position?.lng]
     : null;
 
   if (car.hasOwnProperty("last_position")) {
-    const divider = 10000000;
     position = [
-      car.last_position.latitude / divider,
-      car.last_position.longitude / divider,
+      car.last_position.latitude / precision,
+      car.last_position.longitude / precision,
     ];
   }
 
@@ -55,11 +60,6 @@ export const MarkerWrapper = ({ car }) => {
     popupAnchor: [0, -11],
     html: `<span style="${wrapper}"><span style="${markerHtmlStyles}"></span></span>`,
   });
-
-  const {
-    departments,
-    modalStore: { setCarInfo, setCommandShowing },
-  } = React.useContext(StoreContext);
 
   const modalClick = () => {
     setCarInfo(car);
