@@ -35,10 +35,22 @@ const useStyles = makeStyles({
 
 export const TripInfo = () => {
   const classes = useStyles();
-  const { trips } = React.useContext(StoreContext);
+  const { trips, precision } = React.useContext(StoreContext);
   const { uuid } = useParams();
   const trip = trips.find((t) => t.id == uuid);
-  const positions = trip?.records?.map((rec) => rec.position);
+  const positions = trip?.records?.map((rec) => [
+    rec.latitude / precision,
+    rec.longitude / precision,
+  ]);
+
+  const maxSpeed = trip.records.reduce(
+    (acc, curr) => (acc > curr.speed ? acc : curr.speed),
+    0
+  );
+  const averageSpeed =
+    trip.records.reduce((acc, curr) => acc + curr.speed, 0) /
+    trip.records.length;
+
   return (
     <div className={classes.container}>
       <Breadcrumbs separator={<NavigateNext fontSize="small" />}>
@@ -65,13 +77,14 @@ export const TripInfo = () => {
         </MapContainer>
         <div className={classes.info}>
           <Typography align="center">{trip.name}</Typography>
+          <Typography align="center">Driver: {trip.driver}</Typography>
           <Typography align="center">
-            {new Date(trip.date).toLocaleString()}
+            Start: {new Date(trip.start_date).toLocaleString()} - End:{" "}
+            {new Date(trip.end_date).toLocaleString()}
           </Typography>
-          <Typography>
-            Fuel: {trip.records[0].fuel} -{" "}
-            {trip.records[trip.records.length - 1].fuel}
-          </Typography>
+          <Typography>Max speed: {maxSpeed}</Typography>
+          <Typography>Average speed: {averageSpeed.toFixed(1)} km/h</Typography>
+          <Typography>Errors: 0</Typography>
         </div>
       </div>
     </div>

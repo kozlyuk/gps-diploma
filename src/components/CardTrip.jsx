@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core";
 import { ExpandLess, ExpandMore, InfoOutlined } from "@material-ui/icons";
 import { MapContainer, TileLayer, Polyline, CircleMarker } from "react-leaflet";
+import { StoreContext } from "../store/StoreContext";
 
 const useStyles = makeStyles({
   map: {
@@ -27,7 +28,12 @@ export const CardTrip = ({ trip, onClick }) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
-  const positions = trip.records.map((rec) => rec.position);
+  const { precision } = React.useContext(StoreContext);
+
+  const positions = trip.records.map((rec) => [
+    rec.latitude / precision,
+    rec.longitude / precision,
+  ]);
 
   const handleOpen = () => {
     setOpen((prev) => !prev);
@@ -36,7 +42,9 @@ export const CardTrip = ({ trip, onClick }) => {
     <Card className={classes.card}>
       <CardHeader
         title={trip.name}
-        subheader={new Date(trip.date).toLocaleString()}
+        subheader={` ${new Date(trip.start_date).toLocaleString()} - ${new Date(
+          trip.end_date
+        ).toLocaleString()}`}
       />
       <CardActions disableSpacing>
         <IconButton onClick={onClick}>

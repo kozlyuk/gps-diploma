@@ -65,7 +65,7 @@ export const TripsList = () => {
     if (startDate === "" || endDate === "") setShowingTrips(trips);
     else if (startDate !== "" || endDate !== "")
       setShowingTrips(
-        trips.filter((trip) => trip.date >= startDate && trip.date <= endDate)
+        trips.filter((trip) => trip.start_date >= startDate && trip.end_date <= endDate)
       );
 
     event.target.reset();
