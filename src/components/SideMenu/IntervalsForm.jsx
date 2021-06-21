@@ -52,16 +52,7 @@ export const IntervalsForm = () => {
           return;
         })
         .catch((e) => console.log(e));
-      //  test response
     }
-
-    // const currentShowCarsIds = showCars.map((car) => car.uuid);
-
-    // if (cache.ids === currentShowCarsIds) return;
-
-    // const idsNotIncluded = currentShowCarsIds.map(
-    //   (car) => !cache.ids.includes(car.uuid)
-    // );
   };
 
   return (

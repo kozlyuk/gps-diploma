@@ -64,6 +64,13 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "#555",
     },
   },
+  successDialog: {
+    height: 150,
+    width: 300,
+    maxHeight: 150,
+    maxWidth: 300,
+    overflowY: "auto",
+  },
 }));
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -85,11 +92,15 @@ export const CommandModal = ({ show, onClose }) => {
       return;
     }
     console.log(elems);
-    //  print param name and value
-    for (let i = 3; i < elems.length - 1; i++)
-      console.log(elems[i].name, elems[i].value);
+    let elemsString = "";
 
-    setSuccessResponse("Command response here...");
+    //  print param name and value
+    for (let i = 3; i < elems.length - 1; i++) {
+      elemsString += ` ${elems[i].name}: ${elems[i].value};`;
+      console.log(elems[i].name, elems[i].value);
+    }
+
+    setSuccessResponse(elemsString);
     console.log("command submitted");
   };
 
@@ -99,6 +110,7 @@ export const CommandModal = ({ show, onClose }) => {
 
   const handleCloseSuccessDialog = () => {
     setSuccessResponse("");
+    onClose();
   };
 
   return (
@@ -138,8 +150,11 @@ export const CommandModal = ({ show, onClose }) => {
                 <DialogTitle style={{ color: "green" }}>
                   {"Success"}
                 </DialogTitle>
-                <DialogContent>
-                  <DialogContentText>{successResponse}</DialogContentText>
+                <DialogContent className={classes.successDialog}>
+                  <DialogContentText>
+                    Setted params: <br />
+                    {successResponse}
+                  </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                   <Button onClick={handleCloseSuccessDialog} color="primary">

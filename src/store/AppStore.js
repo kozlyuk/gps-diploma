@@ -182,49 +182,35 @@ class AppStore {
 
   loadData = async () => {
     const headers = { Authorization: `Token ${this.userStore.token}` };
-
     this._trips = mock.trips;
-    //this._cars = mock.cars;
-    //this._departments = mock.departments;
-    //this._models = mock.models;
-
     //  load cars
     await axios
       .get(`${process.env.REACT_APP_CARS}`, { headers: headers })
-      .then(({ data: dd }) => {
-        console.log(dd);
-        this._cars = [...dd];
+      .then(({ data }) => {
+        this._cars = [...data];
         this._currentCars = this._cars;
         this._showCars = this._cars.map((car) => car.id);
       });
     //  load departments
     await axios
       .get(`${process.env.REACT_APP_DEPARTMENTS}`, { headers: headers })
-      .then(({ data: dd }) => {
-        console.log(dd);
-        this._departments = [...dd.map((el) => ({ ...el, show: true }))];
+      .then(({ data }) => {
+        this._departments = [...data.map((el) => ({ ...el, show: true }))];
       });
-    //  load mpdels
+    //  load models
     await axios
       .get(`${process.env.REACT_APP_MODELS}`, { headers: headers })
-      .then(({ data: dd }) => {
-        console.log(dd);
-        this._models = [...dd];
+      .then(({ data }) => {
+        this._models = [...data];
       });
     //  load company
     await axios
       .get(`${process.env.REACT_APP_COMPANY}`, { headers: headers })
-      .then(({ data: dd }) => {
-        console.log(dd);
-        this._company = [...dd];
+      .then(({ data }) => {
+        this._company = [...data];
       });
-
     this._currentTrips = this._trips;
     this._showTrips = [];
-
-    console.log("loaded cars: ", this._cars);
-
-    //this._loading = false;
   };
 
   setLoading = (value) => {
