@@ -15,8 +15,9 @@ on:
 
 env:
   # TODO: Change variable to your image's name.
-  IMAGE_NAME: appart_front
-  DOCKER_REPO: kozlyuk/dimonline
+  IMAGE_NAME: frontend
+  DOCKER_REPO: kozlyuk/acmon
+  VERSION: latest
 
 jobs:
 
@@ -26,14 +27,14 @@ jobs:
     # Ensure test job passes before pushing image.
     # needs: test
 
-    runs-on: ubuntu-latest
+    runs-on: node:alpine
     if: github.event_name == 'push'
 
     steps:
       - uses: actions/checkout@v2
 
       - name: Build image
-        run: docker build ./appart-frontend/ --file Dockerfile --tag $DOCKER_REPO:$IMAGE_NAME  #-$(date +%s)
+        run: docker build ./ --file Dockerfile --tag $DOCKER_REPO:$IMAGE_NAME  #-$(date +%s)
 
       - name: Log into registry
         run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login docker.io -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
@@ -45,4 +46,4 @@ jobs:
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
           docker tag $IMAGE_NAME $IMAGE_ID  #:$VERSION
-          docker push $IMAGE_ID   #:$VERSION
+          docker push kozlyuk/acmon:latest
