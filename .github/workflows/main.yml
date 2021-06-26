@@ -45,4 +45,4 @@ jobs:
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
           docker tag $IMAGE_NAME:latest $IMAGE_ID  #:$VERSION
-          # docker push $IMAGE_ID #:$VERSION
+          docker push $IMAGE_ID #:$VERSION
