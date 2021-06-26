@@ -15,7 +15,7 @@ on:
 
 env:
   # TODO: Change variable to your image's name.
-  IMAGE_NAME: frontend
+  IMAGE_NAME: gps-diploma
   DOCKER_REPO: kozlyuk/acmon
 
 jobs:
