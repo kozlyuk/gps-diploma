@@ -24,8 +24,6 @@ export const CarForm = ({
   const [color, setColor] = React.useState(car === null ? "#000" : car.color);
   const { departments, models } = React.useContext(StoreContext);
 
-  console.log("car color: ", car);
-
   const validationSchema = yup.object({
     trackerIMEI: yup
       .string("Enter tracker IMEI")
@@ -63,7 +61,6 @@ export const CarForm = ({
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      //alert(JSON.stringify(values, null, 2));
       onSubmit({ ...values, color });
     },
   });

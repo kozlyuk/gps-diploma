@@ -6,6 +6,7 @@ import ModalsStore from "./ModalsStore";
 import UserStore from "./UserStore";
 
 class AppStore {
+  precision = 10000000;
   _cars = [];
   _trips = [];
   _departments = [];
@@ -100,8 +101,7 @@ class AppStore {
         })
         .then(({ data }) => {
           const index = this._cars.findIndex((car) => car.id == data.id);
-          if(index != -1)
-            this._cars[index] = data;
+          if (index != -1) this._cars[index] = data;
           this._showCars.unshift(carID);
         });
     }
@@ -182,49 +182,35 @@ class AppStore {
 
   loadData = async () => {
     const headers = { Authorization: `Token ${this.userStore.token}` };
-
     this._trips = mock.trips;
-    //this._cars = mock.cars;
-    //this._departments = mock.departments;
-    //this._models = mock.models;
-
     //  load cars
     await axios
       .get(`${process.env.REACT_APP_CARS}`, { headers: headers })
-      .then(({ data: dd }) => {
-        console.log(dd);
-        this._cars = [...dd];
+      .then(({ data }) => {
+        this._cars = [...data];
         this._currentCars = this._cars;
         this._showCars = this._cars.map((car) => car.id);
       });
     //  load departments
     await axios
       .get(`${process.env.REACT_APP_DEPARTMENTS}`, { headers: headers })
-      .then(({ data: dd }) => {
-        console.log(dd);
-        this._departments = [...dd.map((el) => ({ ...el, show: true }))];
+      .then(({ data }) => {
+        this._departments = [...data.map((el) => ({ ...el, show: true }))];
       });
-    //  load mpdels
+    //  load models
     await axios
       .get(`${process.env.REACT_APP_MODELS}`, { headers: headers })
-      .then(({ data: dd }) => {
-        console.log(dd);
-        this._models = [...dd];
+      .then(({ data }) => {
+        this._models = [...data];
       });
     //  load company
     await axios
       .get(`${process.env.REACT_APP_COMPANY}`, { headers: headers })
-      .then(({ data: dd }) => {
-        console.log(dd);
-        this._company = [...dd];
+      .then(({ data }) => {
+        this._company = [...data];
       });
-
     this._currentTrips = this._trips;
     this._showTrips = [];
-
-    console.log("loaded cars: ", this._cars);
-
-    //this._loading = false;
   };
 
   setLoading = (value) => {

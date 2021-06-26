@@ -33,69 +33,26 @@ export const IntervalsForm = () => {
     const query = `${idsQuery}&start_time=${startTime}&end_time=${endTime}`;
     const cache = localStorage.getItem(query);
     if (cache == null) {
-      const url = `${process.env.REACT_APP_CARS_TRACKING}tracking/records/?${query}`;
-      // const response = await axios
-      //   .get(url, { headers: { Authorization: `Token ${token}` } })
-      //   .then((resp) => console.log(resp))
-      //   .catch((e) => console.log(e));
-      //  test response
-      const pos = { lat: 51.55467836329367, lng: 10.54124053113658494 };
-
-      const results = showCars.map((car) => {
-        const recs = [];
-        for (let i = 0; i < 1000; i++) {
-          recs.push({
-            lat: pos.lat + Math.random(),
-            lng: pos.lng + Math.random(),
-          });
-        }
-        return {
-          id: car.id,
-          records: recs,
-          //[
-          //   {
-          //     lat: pos.lat + (Math.random() % 10),
-          //     lng: pos.lng + (Math.random() % 1),
-          //   },
-          //   {
-          //     lat: pos.lat + (Math.random() % 2),
-          //     lng: pos.lng + (Math.random() % 5),
-          //   },
-          //   {
-          //     lat: pos.lat + (Math.random() % 5),
-          //     lng: pos.lng + (Math.random() % 3),
-          //   },
-          //   {
-          //     lat: pos.lat + (Math.random() % 3),
-          //     lng: pos.lng + (Math.random() % 8),
-          //   },
-          //   {
-          //     lat: pos.lat + (Math.random() % 1),
-          //     lng: pos.lng + (Math.random() % 7),
-          //   },
-          // ],
-        };
-      });
-      const data = {
-        id: Date.now(),
-        ids: showCars.map((car) => car.uuid),
-        records: results,
-        startTime,
-        endTime,
-        userId,
-      };
-      addToSearchHistory(data);
-      localStorage.setItem(query, results);
-      return;
+      const url = `${process.env.REACT_APP_CARS_TRACKING}?${query}`;
+      const response = await axios
+        .get(url, { headers: { Authorization: `Token ${token}` } })
+        .then((resp) => {
+          console.log(resp);
+          const results = resp.data;
+          const data = {
+            id: Date.now(),
+            ids: showCars.map((car) => car.id),
+            records: results,
+            startTime,
+            endTime,
+            userId,
+          };
+          addToSearchHistory(data);
+          localStorage.setItem(query, results);
+          return;
+        })
+        .catch((e) => console.log(e));
     }
-
-    // const currentShowCarsIds = showCars.map((car) => car.uuid);
-
-    // if (cache.ids === currentShowCarsIds) return;
-
-    // const idsNotIncluded = currentShowCarsIds.map(
-    //   (car) => !cache.ids.includes(car.uuid)
-    // );
   };
 
   return (

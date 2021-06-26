@@ -23,7 +23,6 @@ export const Login = ({ classes, setupUserAndRedirect }) => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      //alert(JSON.stringify(values, null, 2));
       onSubmitLogin(values);
     },
   });
@@ -35,11 +34,11 @@ export const Login = ({ classes, setupUserAndRedirect }) => {
     //  send post to backend
     //  get data
     const user = {
-      id: "00349240923",
-      token: "327648263487326487263487632748632764872364786234",
+      id: "109894568165644478206",
+      token: "1e73e206c0071415e56d7c746ea177b13f3ed427",
       email,
-      phoneNumber: "+380970000000",
-      name: "Your Name Here",
+      phoneNumber: "0970000254",
+      name: "Name",
     };
     setupUserAndRedirect(user);
   };

@@ -156,7 +156,7 @@ export const SideMenu = observer(() => {
     if (startDate === "" || endDate === "") setCurrentTrips(trips);
     else if (startDate !== "" || endDate !== "")
       setCurrentTrips(
-        trips.filter((trip) => trip.date >= startDate && trip.date <= endDate)
+        trips.filter((trip) => trip.start_date >= startDate && trip.end_date <= endDate)
       );
   };
 
